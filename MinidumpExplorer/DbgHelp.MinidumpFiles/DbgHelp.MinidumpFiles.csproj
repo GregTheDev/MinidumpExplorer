@@ -47,7 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MiniDumpFile.cs" />
+    <Compile Include="MiniDumpLocationDescriptor.cs" />
+    <Compile Include="MiniDumpMemoryDescriptor.cs" />
     <Compile Include="MiniDumpModule.cs" />
+    <Compile Include="MiniDumpThread.cs" />
     <Compile Include="MiniDumpType.cs" />
     <Compile Include="Native\dbghelp.cs" />
     <Compile Include="Native\NativeMethods.cs" />
