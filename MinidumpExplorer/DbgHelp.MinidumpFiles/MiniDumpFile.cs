@@ -62,7 +62,11 @@ namespace DbgHelp.MinidumpFiles
             IntPtr streamPointer;
             uint streamSize;
 
-            moduleList = this.ReadStream<MINIDUMP_MODULE_LIST>(MINIDUMP_STREAM_TYPE.ModuleListStream, out streamPointer, out streamSize);
+            if (!this.ReadStream<MINIDUMP_MODULE_LIST>(MINIDUMP_STREAM_TYPE.ModuleListStream, out moduleList, out streamPointer, out streamSize))
+            {
+                return new MiniDumpModule[0];
+            }
+                
             //4 == skip the NumberOfModules field (4 bytes)
             MINIDUMP_MODULE[] modules = ReadArray<MINIDUMP_MODULE>(streamPointer + 4, (int) moduleList.NumberOfModules);
 
@@ -71,17 +75,18 @@ namespace DbgHelp.MinidumpFiles
             return returnList.ToArray();
         }
 
-        protected unsafe T ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead)
+        protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;
             uint streamSize;
 
-            return ReadStream<T>(streamToRead, out streamPointer, out streamSize);
+            return ReadStream<T>(streamToRead, out streamData, out streamPointer, out streamSize);
         }
 
-        protected unsafe T ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out IntPtr streamPointer, out uint streamSize)
+        protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData, out IntPtr streamPointer, out uint streamSize)
         {
             MINIDUMP_DIRECTORY directory = new MINIDUMP_DIRECTORY();
+            streamData = default(T);
             streamPointer = IntPtr.Zero;
             streamSize = 0;
 
@@ -95,15 +100,25 @@ namespace DbgHelp.MinidumpFiles
 
                 if (!NativeMethods.MiniDumpReadDumpStream((IntPtr)baseOfView, streamToRead, ref directory, ref streamPointer, ref streamSize))
                 {
-                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                    int lastError = Marshal.GetLastWin32Error();
+
+                    if (lastError == DbgHelpErrors.ERR_ELEMENT_NOT_FOUND)
+                    {
+                        return false;
+                    }
+                    else
+                        throw new Win32Exception(lastError);
                 }
+
+                streamData = (T)Marshal.PtrToStructure(streamPointer, typeof(T));
+
             }
             finally
             {
                 _mappedFileView.ReleasePointer();
             }
 
-            return (T)Marshal.PtrToStructure(streamPointer, typeof(T));
+            return true;
         }
 
         /// <summary>
