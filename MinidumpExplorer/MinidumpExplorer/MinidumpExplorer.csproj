@@ -105,6 +105,12 @@
     <Compile Include="Views\ModulesView.Designer.cs">
       <DependentUpon>ModulesView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ThreadListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ThreadListView.Designer.cs">
+      <DependentUpon>ThreadListView.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Dialogs\AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ModulesView.resx">
       <DependentUpon>ModulesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ThreadListView.resx">
+      <DependentUpon>ThreadListView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">

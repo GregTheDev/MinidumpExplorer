@@ -34,7 +34,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Memory (coming soon)", 3, 3);
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Threads (coming soon)", 1, 1);
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
@@ -97,7 +97,7 @@
             treeNode3.Name = "Node1";
             treeNode3.SelectedImageIndex = 1;
             treeNode3.Tag = "Threads";
-            treeNode3.Text = "Threads (coming soon)";
+            treeNode3.Text = "Threads";
             treeNode4.ImageIndex = 0;
             treeNode4.Name = "Node0";
             treeNode4.Text = "<No minidump loaded>";
@@ -187,7 +187,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 

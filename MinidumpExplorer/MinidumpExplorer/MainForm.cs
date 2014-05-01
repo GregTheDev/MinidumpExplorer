@@ -33,18 +33,26 @@ namespace MinidumpExplorer
                 return;
 
             UserControl viewToDisplay = null;
+            int numberOfItems = 0;
 
             switch ((string)e.Node.Tag)
             {
                 case "Modules":
-                    viewToDisplay = new ModulesView(this._miniDumpFile.ReadModuleList());
+                    MiniDumpModule[] moduleData = this._miniDumpFile.ReadModuleList();
+                    numberOfItems = moduleData.Length;
+                    viewToDisplay = new ModulesView(moduleData);
                     break;
                 case "Threads":
+                    MiniDumpThread[] threadData = this._miniDumpFile.ReadThreadList();
+                    numberOfItems = threadData.Length;
+                    viewToDisplay = new ThreadListView(threadData);
                     break;
             }
 
             if (viewToDisplay != null)
             {
+                e.Node.Text += " (" + numberOfItems + " items)";
+
                 if (this.splitContainer1.Panel2.Controls.Count > 0) this.splitContainer1.Panel2.Controls.RemoveAt(0);
 
                 viewToDisplay.Dock = DockStyle.Fill;
