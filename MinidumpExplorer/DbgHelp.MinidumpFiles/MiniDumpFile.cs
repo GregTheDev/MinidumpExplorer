@@ -94,6 +94,25 @@ namespace DbgHelp.MinidumpFiles
             return returnList.ToArray();
         }
 
+        public MiniDumpMemoryDescriptor[] ReadMemoryList()
+        {
+            MINIDUMP_MEMORY_LIST memoryList;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_MEMORY_LIST>(MINIDUMP_STREAM_TYPE.MemoryListStream, out memoryList, out streamPointer, out streamSize))
+            {
+                return new MiniDumpMemoryDescriptor[0];
+            }
+
+            // 4 == skip the NumberOfMemoryRanges field (4 bytes)
+            MINIDUMP_MEMORY_DESCRIPTOR[] modules = ReadArray<MINIDUMP_MEMORY_DESCRIPTOR>(streamPointer + 4, (int)memoryList.NumberOfMemoryRanges);
+
+            List<MiniDumpMemoryDescriptor> returnList = new List<MiniDumpMemoryDescriptor>(modules.Select(x => new MiniDumpMemoryDescriptor(x)));
+
+            return returnList.ToArray();
+        }
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;

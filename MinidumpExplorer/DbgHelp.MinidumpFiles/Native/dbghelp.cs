@@ -138,6 +138,19 @@ namespace DbgHelp.MinidumpFiles.Native
         public MINIDUMP_LOCATION_DESCRIPTOR ThreadContext;
     }
 
+    /*
+        typedef struct _MINIDUMP_MEMORY_LIST {
+            ULONG32 NumberOfMemoryRanges;
+            MINIDUMP_MEMORY_DESCRIPTOR MemoryRanges [0];
+        } MINIDUMP_MEMORY_LIST, *PMINIDUMP_MEMORY_LIST;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_MEMORY_LIST
+    {
+        public UInt32 NumberOfMemoryRanges;
+        public IntPtr MemoryRanges; // MINIDUMP_MEMORY_DESCRIPTOR[]
+    }
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,
