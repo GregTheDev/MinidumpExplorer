@@ -111,4 +111,10 @@ namespace DbgHelp.MinidumpFiles.Native
         HandleOperationListStream = 18,
         LastReservedStream = 0xffff
     }
+
+    // Error codes
+    internal class DbgHelpErrors
+    {
+        public const int ERR_ELEMENT_NOT_FOUND = 1168;
+    }
 }
