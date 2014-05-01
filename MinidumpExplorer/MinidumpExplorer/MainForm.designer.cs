@@ -32,7 +32,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Memory (coming soon)", 3, 3);
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Memory", 3, 3);
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
@@ -87,7 +87,8 @@
             treeNode1.ImageIndex = 3;
             treeNode1.Name = "Node0";
             treeNode1.SelectedImageIndex = 3;
-            treeNode1.Text = "Memory (coming soon)";
+            treeNode1.Tag = "Memory";
+            treeNode1.Text = "Memory";
             treeNode2.ImageIndex = 2;
             treeNode2.Name = "Node2";
             treeNode2.SelectedImageIndex = 2;

@@ -47,6 +47,11 @@ namespace MinidumpExplorer
                     numberOfItems = threadData.Length;
                     viewToDisplay = new ThreadListView(threadData);
                     break;
+                case "Memory":
+                    MiniDumpMemoryDescriptor[] memoryData = this._miniDumpFile.ReadMemoryList();
+                    numberOfItems = memoryData.Length;
+                    viewToDisplay = new MemoryListView(memoryData);
+                    break;
             }
 
             if (viewToDisplay != null)
