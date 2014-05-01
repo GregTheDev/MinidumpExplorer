@@ -75,6 +75,25 @@ namespace DbgHelp.MinidumpFiles
             return returnList.ToArray();
         }
 
+        public MiniDumpThread[] ReadThreadList()
+        {
+            MINIDUMP_THREAD_LIST threadList;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_THREAD_LIST>(MINIDUMP_STREAM_TYPE.ThreadListStream, out threadList, out streamPointer, out streamSize))
+            {
+                return new MiniDumpThread[0];
+            }
+
+            // 4 == skip the NumberOfThreads field (4 bytes)
+            MINIDUMP_THREAD[] threads = ReadArray<MINIDUMP_THREAD>(streamPointer + 4, (int)threadList.NumberOfThreads);
+
+            List<MiniDumpThread> returnList = new List<MiniDumpThread>(threads.Select(x => new MiniDumpThread(x)));
+
+            return returnList.ToArray();
+        }
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;

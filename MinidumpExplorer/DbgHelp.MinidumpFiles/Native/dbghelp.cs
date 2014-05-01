@@ -88,6 +88,56 @@ namespace DbgHelp.MinidumpFiles.Native
         public char[] Buffer;
     }
 
+
+    /*
+        typedef struct _MINIDUMP_MEMORY_DESCRIPTOR {
+            ULONG64 StartOfMemoryRange;
+            MINIDUMP_LOCATION_DESCRIPTOR Memory;
+        } MINIDUMP_MEMORY_DESCRIPTOR, *PMINIDUMP_MEMORY_DESCRIPTOR;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_MEMORY_DESCRIPTOR
+    {
+        public UInt64 StartOfMemoryRange;
+        public MINIDUMP_LOCATION_DESCRIPTOR Memory;
+    }
+
+    /*
+        typedef struct _MINIDUMP_THREAD_LIST {  
+            ULONG32 NumberOfThreads;
+            MINIDUMP_THREAD Threads [0];
+        } MINIDUMP_THREAD_LIST,
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_THREAD_LIST
+    {
+        public UInt32 NumberOfThreads;
+        public IntPtr Threads; // MINIDUMP_THREAD[] 
+    }
+
+    /*
+        typedef struct _MINIDUMP_THREAD {  
+            ULONG32 ThreadId;
+            ULONG32 SuspendCount;
+            ULONG32 PriorityClass;
+            ULONG32 Priority;
+            ULONG64 Teb;
+            MINIDUMP_MEMORY_DESCRIPTOR Stack;
+            MINIDUMP_LOCATION_DESCRIPTOR ThreadContext;
+        } MINIDUMP_THREAD,
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_THREAD
+    {
+        public UInt32 ThreadId;
+        public UInt32 SuspendCount;
+        public UInt32 PriorityClass;
+        public UInt32 Priority;
+        public UInt64 Teb;
+        public MINIDUMP_MEMORY_DESCRIPTOR Stack;
+        public MINIDUMP_LOCATION_DESCRIPTOR ThreadContext;
+    }
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,
