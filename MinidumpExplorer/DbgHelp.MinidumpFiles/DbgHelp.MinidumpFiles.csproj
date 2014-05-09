@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MiniDumpFile.cs" />
+    <Compile Include="MiniDumpHandleDescriptor.cs" />
+    <Compile Include="MiniDumpHandleObjectInformation.cs" />
+    <Compile Include="MiniDumpHandleObjectInformationType.cs" />
     <Compile Include="MiniDumpLocationDescriptor.cs" />
     <Compile Include="MiniDumpMemoryDescriptor.cs" />
     <Compile Include="MiniDumpModule.cs" />

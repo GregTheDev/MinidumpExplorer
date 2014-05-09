@@ -151,6 +151,91 @@ namespace DbgHelp.MinidumpFiles.Native
         public IntPtr MemoryRanges; // MINIDUMP_MEMORY_DESCRIPTOR[]
     }
 
+    /*
+        typedef struct _MINIDUMP_HANDLE_DATA_STREAM {  
+            ULONG32 SizeOfHeader;  
+            ULONG32 SizeOfDescriptor;  
+            ULONG32 NumberOfDescriptors;  
+            ULONG32 Reserved;
+        } MINIDUMP_HANDLE_DATA_STREAM,
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_HANDLE_DATA_STREAM
+    {
+        public UInt32 SizeOfHeader;
+        public UInt32 SizeOfDescriptor;
+        public UInt32 NumberOfDescriptors;
+        public UInt32 Reserved;
+    }
+
+
+    /*
+        typedef struct _MINIDUMP_HANDLE_DESCRIPTOR {  
+            ULONG64 Handle;  
+            RVA TypeNameRva;  
+            RVA ObjectNameRva;  
+            ULONG32 Attributes;  
+            ULONG32 GrantedAccess;  
+            ULONG32 HandleCount;  
+            ULONG32 PointerCount;
+        } MINIDUMP_HANDLE_DESCRIPTOR,
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_HANDLE_DESCRIPTOR
+    {
+        public UInt64 Handle;
+        public uint TypeNameRva;
+        public uint ObjectNameRva;
+        public UInt32 Attributes;
+        public UInt32 GrantedAccess;
+        public UInt32 HandleCount;
+        public UInt32 PointerCount;
+    }
+
+    /*
+        typedef struct _MINIDUMP_HANDLE_DESCRIPTOR_2 {  
+            ULONG64 Handle;  
+            RVA TypeNameRva;  
+            RVA ObjectNameRva;  
+            ULONG32 Attributes;  
+            ULONG32 GrantedAccess;  
+            ULONG32 HandleCount;  
+            ULONG32 PointerCount;  
+            RVA ObjectInfoRva;  
+            ULONG32 Reserved0;
+        } MINIDUMP_HANDLE_DESCRIPTOR_2
+    */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_HANDLE_DESCRIPTOR_2
+    {
+        public UInt64 Handle;
+        public uint TypeNameRva;
+        public uint ObjectNameRva;
+        public UInt32 Attributes;
+        public UInt32 GrantedAccess;
+        public UInt32 HandleCount;
+        public UInt32 PointerCount;
+        public uint ObjectInfoRva;
+        public UInt32 Reserved0;
+    }
+
+    /*
+    typedef struct _MINIDUMP_HANDLE_OBJECT_INFORMATION {
+        RVA NextInfoRva;
+        ULONG32 InfoType;
+        ULONG32 SizeOfInfo;
+        // Raw information follows.
+    } MINIDUMP_HANDLE_OBJECT_INFORMATION;
+    */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_HANDLE_OBJECT_INFORMATION
+    {
+        public uint NextInfoRva;
+        public UInt32 InfoType;
+        public UInt32 SizeOfInfo;
+        // Raw information follows.
+    }
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,

@@ -113,6 +113,41 @@ namespace DbgHelp.MinidumpFiles
             return returnList.ToArray();
         }
 
+        public MiniDumpHandleDescriptor[] ReadHandleData()
+        {
+            MINIDUMP_HANDLE_DATA_STREAM handleData;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_HANDLE_DATA_STREAM>(MINIDUMP_STREAM_TYPE.HandleDataStream, out handleData, out streamPointer, out streamSize))
+            {
+                return new MiniDumpHandleDescriptor[0];
+            }
+
+            // Advance the stream pointer past the header
+            streamPointer = streamPointer + (int) handleData.SizeOfHeader;
+
+            List<MiniDumpHandleDescriptor> returnList;
+
+            // Now read the handles
+            if (handleData.SizeOfDescriptor == Marshal.SizeOf(typeof(MINIDUMP_HANDLE_DESCRIPTOR)))
+            {
+                MINIDUMP_HANDLE_DESCRIPTOR[] handles = ReadArray<MINIDUMP_HANDLE_DESCRIPTOR>(streamPointer, (int) handleData.NumberOfDescriptors);
+
+                returnList = new List<MiniDumpHandleDescriptor>(handles.Select(x => new MiniDumpHandleDescriptor(x, this)));
+            }
+            else if (handleData.SizeOfDescriptor == Marshal.SizeOf(typeof(MINIDUMP_HANDLE_DESCRIPTOR_2)))
+            {
+                MINIDUMP_HANDLE_DESCRIPTOR_2[] handles = ReadArray<MINIDUMP_HANDLE_DESCRIPTOR_2>(streamPointer, (int) handleData.NumberOfDescriptors);
+
+                returnList = new List<MiniDumpHandleDescriptor>(handles.Select(x => new MiniDumpHandleDescriptor(x, this)));
+            }
+            else
+                throw new Exception("Unexpected 'SizeOfDescriptor' when reading HandleDataStream. The unexpected value was: '" + handleData.SizeOfDescriptor + "'");
+
+            return returnList.ToArray();
+        }
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;
@@ -211,6 +246,28 @@ namespace DbgHelp.MinidumpFiles
 
                 // Read and marshal the string
                 return Marshal.PtrToStringUni(positionToReadFrom, len);
+            }
+            finally
+            {
+                _mappedFileView.ReleasePointer();
+            }
+        }
+
+        protected internal unsafe T ReadStructure<T>(uint rva) where T: struct
+        {
+            try
+            {
+                byte* baseOfView = null;
+
+                _mappedFileView.AcquirePointer(ref baseOfView);
+
+                IntPtr positionToReadFrom = new IntPtr(baseOfView + rva);
+
+                T readStructure = default(T);
+
+                readStructure = _mappedFileView.Read<T>((ulong) positionToReadFrom);
+
+                return readStructure;
             }
             finally
             {
