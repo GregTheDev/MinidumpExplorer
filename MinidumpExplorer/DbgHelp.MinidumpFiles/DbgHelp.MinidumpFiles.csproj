@@ -51,6 +51,8 @@
     <Compile Include="MiniDumpHandleObjectInformation.cs" />
     <Compile Include="MiniDumpHandleObjectInformationType.cs" />
     <Compile Include="MiniDumpLocationDescriptor.cs" />
+    <Compile Include="MiniDumpMemory64Stream.cs" />
+    <Compile Include="MiniDumpMemoryDescriptor64.cs" />
     <Compile Include="MiniDumpMemoryDescriptor.cs" />
     <Compile Include="MiniDumpModule.cs" />
     <Compile Include="MiniDumpThread.cs" />
