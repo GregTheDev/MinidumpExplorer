@@ -34,19 +34,22 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Handles", 4, 4);
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Memory", 3, 3);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Memory64", 3, 3);
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
-            treeNode4});
+            treeNode4,
+            treeNode5});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.treeViewImageList = new System.Windows.Forms.ImageList(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +59,6 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -96,21 +98,26 @@
             treeNode2.SelectedImageIndex = 3;
             treeNode2.Tag = "Memory";
             treeNode2.Text = "Memory";
-            treeNode3.ImageIndex = 2;
-            treeNode3.Name = "Node2";
-            treeNode3.SelectedImageIndex = 2;
-            treeNode3.Tag = "Modules";
-            treeNode3.Text = "Modules";
-            treeNode4.ImageIndex = 1;
-            treeNode4.Name = "Node1";
-            treeNode4.SelectedImageIndex = 1;
-            treeNode4.Tag = "Threads";
-            treeNode4.Text = "Threads";
-            treeNode5.ImageIndex = 0;
-            treeNode5.Name = "Node0";
-            treeNode5.Text = "<No minidump loaded>";
+            treeNode3.ImageIndex = 3;
+            treeNode3.Name = "Node0";
+            treeNode3.SelectedImageIndex = 3;
+            treeNode3.Tag = "Memory64";
+            treeNode3.Text = "Memory64";
+            treeNode4.ImageIndex = 2;
+            treeNode4.Name = "Node2";
+            treeNode4.SelectedImageIndex = 2;
+            treeNode4.Tag = "Modules";
+            treeNode4.Text = "Modules";
+            treeNode5.ImageIndex = 1;
+            treeNode5.Name = "Node1";
+            treeNode5.SelectedImageIndex = 1;
+            treeNode5.Tag = "Threads";
+            treeNode5.Text = "Threads";
+            treeNode6.ImageIndex = 0;
+            treeNode6.Name = "Node0";
+            treeNode6.Text = "<No minidump loaded>";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            treeNode6});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(238, 705);
@@ -149,6 +156,14 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = global::MinidumpExplorer.Properties.Resources.Open_6529;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -214,14 +229,6 @@
             // 
             this.openFileDialog1.Filter = "Dump files|*.dmp;*.hdmp|All files|*.*";
             this.openFileDialog1.Title = "Open Minidump File";
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Image = global::MinidumpExplorer.Properties.Resources.Open_6529;
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.openToolStripMenuItem.Text = "&Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // MainForm
             // 

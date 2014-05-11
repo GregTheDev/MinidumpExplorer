@@ -57,6 +57,11 @@ namespace MinidumpExplorer
                     numberOfItems = memoryData.Length;
                     viewToDisplay = new MemoryListView(memoryData);
                     break;
+                case "Memory64":
+                    MiniDumpMemory64Stream memory64Data = this._miniDumpFile.ReadMemory64List();
+                    numberOfItems = memory64Data.MemoryRanges.Length;
+                    viewToDisplay = new MemoryList64View(memory64Data.MemoryRanges);
+                    break;
             }
 
             if (viewToDisplay != null)
