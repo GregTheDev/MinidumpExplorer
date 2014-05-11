@@ -37,6 +37,11 @@ namespace MinidumpExplorer
 
             switch ((string)e.Node.Tag)
             {
+                case "Handles":
+                    MiniDumpHandleDescriptor[] handleData = this._miniDumpFile.ReadHandleData();
+                    numberOfItems = handleData.Length;
+                    viewToDisplay = new HandleDataView(handleData);
+                    break;
                 case "Modules":
                     MiniDumpModule[] moduleData = this._miniDumpFile.ReadModuleList();
                     numberOfItems = moduleData.Length;
