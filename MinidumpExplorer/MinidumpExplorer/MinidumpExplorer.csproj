@@ -105,6 +105,12 @@
     <Compile Include="Views\MemoryListView.designer.cs">
       <DependentUpon>MemoryListView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\HandleDataView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\HandleDataView.designer.cs">
+      <DependentUpon>HandleDataView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\ModulesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -151,6 +157,9 @@
     <EmbeddedResource Include="Views\MemoryListView.resx">
       <DependentUpon>MemoryListView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\HandleDataView.resx">
+      <DependentUpon>HandleDataView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\ModulesView.resx">
       <DependentUpon>ModulesView.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,6 +187,7 @@
     <Content Include="Images\AppIcon\Visualpharm-Icons8-Metro-Style-Folders-Burn.ico" />
     <Content Include="Images\Steams\ActiveDocumentHost_6234.png" />
     <Content Include="Images\Steams\Assembly_6212.png" />
+    <Content Include="Images\Steams\Map_624.png" />
     <Content Include="Images\Steams\MemoryWindow_6537.png" />
     <Content Include="Images\Steams\thread_16xLG.png" />
     <Content Include="Resources\Open_6529.png" />
