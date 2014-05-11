@@ -113,6 +113,29 @@ namespace DbgHelp.MinidumpFiles
             return returnList.ToArray();
         }
 
+        public MiniDumpMemory64Stream ReadMemory64List()
+        {
+            MINIDUMP_MEMORY64_LIST memoryList;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_MEMORY64_LIST>(MINIDUMP_STREAM_TYPE.Memory64ListStream, out memoryList, out streamPointer, out streamSize))
+            {
+                return new MiniDumpMemory64Stream();
+            }
+
+            // 4 == skip the NumberOfMemoryRanges field (4 bytes) and BaseRva field
+            streamPointer += 8 + 8;
+            MINIDUMP_MEMORY_DESCRIPTOR64[] memoryDescriptors = ReadArray<MINIDUMP_MEMORY_DESCRIPTOR64>(streamPointer, (int)memoryList.NumberOfMemoryRanges);
+
+            // TODO: stop using List<> and just for a for...do loop, the List<> is a waste of resources
+            List<MiniDumpMemoryDescriptor64> memoryRanges = new List<MiniDumpMemoryDescriptor64>(memoryDescriptors.Select(x => new MiniDumpMemoryDescriptor64(x)));
+
+            MiniDumpMemory64Stream returnData = new MiniDumpMemory64Stream(memoryList.BaseRva, memoryRanges.ToArray());
+
+            return returnData;
+        }
+
         public MiniDumpHandleDescriptor[] ReadHandleData()
         {
             MINIDUMP_HANDLE_DATA_STREAM handleData;

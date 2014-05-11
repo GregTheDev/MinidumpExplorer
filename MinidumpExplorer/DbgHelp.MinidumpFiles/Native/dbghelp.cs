@@ -236,6 +236,34 @@ namespace DbgHelp.MinidumpFiles.Native
         // Raw information follows.
     }
 
+    /*
+    typedef struct _MINIDUMP_MEMORY_DESCRIPTOR64 {
+        ULONG64 StartOfMemoryRange;
+        ULONG64 DataSize;
+    } MINIDUMP_MEMORY_DESCRIPTOR64, *PMINIDUMP_MEMORY_DESCRIPTOR64;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_MEMORY_DESCRIPTOR64
+    {
+        public UInt64 StartOfMemoryRange;
+        public UInt64 DataSize;
+    }
+
+    /*
+    typedef struct _MINIDUMP_MEMORY64_LIST {
+        ULONG64 NumberOfMemoryRanges;
+        RVA64 BaseRva; // == ULONG64
+        MINIDUMP_MEMORY_DESCRIPTOR64 MemoryRanges [0];
+    } MINIDUMP_MEMORY64_LIST, *PMINIDUMP_MEMORY64_LIST;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_MEMORY64_LIST
+    {
+        public UInt64 NumberOfMemoryRanges;
+        public UInt64 BaseRva;
+        public IntPtr MemoryRanges; // MINIDUMP_MEMORY_DESCRIPTOR64[]
+    }
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,
