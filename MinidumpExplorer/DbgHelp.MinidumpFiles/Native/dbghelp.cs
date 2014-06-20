@@ -264,6 +264,98 @@ namespace DbgHelp.MinidumpFiles.Native
         public IntPtr MemoryRanges; // MINIDUMP_MEMORY_DESCRIPTOR64[]
     }
 
+    /*
+    typedef struct _MINIDUMP_SYSTEM_INFO {
+      USHORT  ProcessorArchitecture;
+      USHORT  ProcessorLevel;
+      USHORT  ProcessorRevision;
+      union {
+        USHORT Reserved0;
+        struct {
+          UCHAR NumberOfProcessors;
+          UCHAR ProductType;
+        };
+      };
+      ULONG32 MajorVersion;
+      ULONG32 MinorVersion;
+      ULONG32 BuildNumber;
+      ULONG32 PlatformId;
+      RVA     CSDVersionRva;
+      union {
+        ULONG32 Reserved1;
+        struct {
+          USHORT SuiteMask;
+          USHORT Reserved2;
+        };
+      };
+      union {
+        struct {
+          ULONG32 VendorId[3];
+          ULONG32 VersionInformation;
+          ULONG32 FeatureInformation;
+          ULONG32 AMDExtendedCpuFeatures;
+        } X86CpuInfo;
+        struct {
+          ULONG64 ProcessorFeatures[2];
+        } OtherCpuInfo;
+      } Cpu;
+    } MINIDUMP_SYSTEM_INFO, *PMINIDUMP_SYSTEM_INFO;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct MINIDUMP_SYSTEM_INFO
+    {
+        public ushort ProcessorArchitecture;
+        public ushort ProcessorLevel;
+        public ushort ProcessorRevision;
+        public byte NumberOfProcessors;
+        public byte ProductType;
+        public UInt32 MajorVersion;
+        public UInt32 MinorVersion;
+        public UInt32 BuildNumber;
+        public UInt32 PlatformId;
+        public uint CSDVersionRva;
+        public ushort SuiteMask;
+        public ushort Reserved2;
+        public CPU_INFORMATION Cpu;
+    }
+
+    /*
+    typedef union _CPU_INFORMATION {
+        struct {
+            ULONG32 VendorId [ 3 ];
+            ULONG32 VersionInformation;
+            ULONG32 FeatureInformation;
+            ULONG32 AMDExtendedCpuFeatures;
+
+        } X86CpuInfo;
+
+        struct {
+            ULONG64 ProcessorFeatures [ 2 ];
+        } OtherCpuInfo;
+
+    } CPU_INFORMATION, *PCPU_INFORMATION; */
+
+    [StructLayout(LayoutKind.Explicit)]
+    public unsafe struct CPU_INFORMATION
+    {
+        // OtherCpuInfo
+        [FieldOffset(0)]
+        public fixed ulong ProcessorFeatures[2];
+        // X86CpuInfo
+        // Official VendorId is 3 * 32bit long's (EAX, EBX and ECX).
+        // It actually stores a 12 byte ASCII string though, so it's easier for us
+        // to treat it as a 12 byte array instead.
+        //public fixed UInt32 VendorId[3];
+        [FieldOffset(0)]
+        public fixed byte VendorId[12];
+        [FieldOffset(12)]
+        public UInt32 VersionInformation;
+        [FieldOffset(16)]
+        public UInt32 FeatureInformation;
+        [FieldOffset(20)]
+        public UInt32 AMDExtendedCpuFeatures;       
+    }
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,

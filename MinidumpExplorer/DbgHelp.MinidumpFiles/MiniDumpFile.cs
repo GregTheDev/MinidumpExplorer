@@ -171,6 +171,24 @@ namespace DbgHelp.MinidumpFiles
             return returnList.ToArray();
         }
 
+        /// <summary>
+        /// Reads the MINIDUMP_STREAM_TYPE.SystemInfoStream.
+        /// </summary>
+        /// <returns><see cref="MiniDumpSystemInfoStream"/> containing general system information or null if stream data is not present.</returns>
+        public MiniDumpSystemInfoStream ReadSystemInfo()
+        {
+            MINIDUMP_SYSTEM_INFO systemInfo;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_SYSTEM_INFO>(MINIDUMP_STREAM_TYPE.SystemInfoStream, out systemInfo, out streamPointer, out streamSize))
+            {
+                return null;
+            }
+
+            return new MiniDumpSystemInfoStream(systemInfo, this);
+        }
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;

@@ -54,6 +54,24 @@ namespace DbgHelp.MinidumpFiles.Native
         public const uint VFT2_FONT_RASTER = 0x00000001;
         public const uint VFT2_FONT_TRUETYPE = 0x00000003;
         public const uint VFT2_FONT_VECTOR = 0x00000002;
+
+        // Used by MINIDUMP_SYSTEM_INFO.SuiteMask
+        public const ushort VER_SUITE_SMALLBUSINESS = 0x00000001;
+        public const ushort VER_SUITE_ENTERPRISE = 0x00000002;
+        public const ushort VER_SUITE_BACKOFFICE = 0x00000004;
+        public const ushort VER_SUITE_COMMUNICATIONS = 0x00000008;
+        public const ushort VER_SUITE_TERMINAL = 0x00000010;
+        public const ushort VER_SUITE_SMALLBUSINESS_RESTRICTED = 0x00000020;
+        public const ushort VER_SUITE_EMBEDDEDNT = 0x00000040;
+        public const ushort VER_SUITE_DATACENTER = 0x00000080;
+        public const ushort VER_SUITE_SINGLEUSERTS = 0x00000100;
+        public const ushort VER_SUITE_PERSONAL = 0x00000200;
+        public const ushort VER_SUITE_BLADE = 0x00000400;
+        public const ushort VER_SUITE_EMBEDDED_RESTRICTED = 0x00000800;
+        public const ushort VER_SUITE_SECURITY_APPLIANCE = 0x00001000;
+        public const ushort VER_SUITE_STORAGE_SERVER = 0x00002000;
+        public const ushort VER_SUITE_COMPUTE_SERVER = 0x00004000;
+        public const ushort VER_SUITE_WH_SERVER = 0x00008000;
     }
 
     // http://www.pinvoke.net/default.aspx/Enums/PageProtection.html

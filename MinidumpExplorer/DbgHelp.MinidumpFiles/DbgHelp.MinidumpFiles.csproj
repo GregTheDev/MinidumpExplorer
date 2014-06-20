@@ -55,6 +55,7 @@
     <Compile Include="MiniDumpMemoryDescriptor64.cs" />
     <Compile Include="MiniDumpMemoryDescriptor.cs" />
     <Compile Include="MiniDumpModule.cs" />
+    <Compile Include="MiniDumpSystemInfoStream.cs" />
     <Compile Include="MiniDumpThread.cs" />
     <Compile Include="MiniDumpType.cs" />
     <Compile Include="Native\dbghelp.cs" />
