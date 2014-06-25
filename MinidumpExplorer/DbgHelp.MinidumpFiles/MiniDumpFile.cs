@@ -189,6 +189,34 @@ namespace DbgHelp.MinidumpFiles
             return new MiniDumpSystemInfoStream(systemInfo, this);
         }
 
+        /// <summary>
+        /// Reads the MINIDUMP_STREAM_TYPE.ThreadInfoListStream.
+        /// </summary>
+        /// <returns><see cref="MiniDumpThreadInfo"/>[] containing thread state information or empty array if stream data is not present.</returns>
+        public MiniDumpThreadInfo[] ReadThreadInfoList()
+        {
+            MINIDUMP_THREAD_INFO_LIST threadInfoList;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_THREAD_INFO_LIST>(MINIDUMP_STREAM_TYPE.ThreadInfoListStream, out threadInfoList, out streamPointer, out streamSize))
+            {
+                return new MiniDumpThreadInfo[0];
+            }
+
+            // Advance the stream pointer past the header
+            streamPointer += (int)threadInfoList.SizeOfHeader;
+
+            List<MiniDumpThreadInfo> returnList;
+
+            // Now read the threads
+            MINIDUMP_THREAD_INFO[] threadInfos = ReadArray<MINIDUMP_THREAD_INFO>(streamPointer, (int)threadInfoList.NumberOfEntries);
+
+            returnList = new List<MiniDumpThreadInfo>(threadInfos.Select(x => new MiniDumpThreadInfo(x)));
+
+            return returnList.ToArray();
+        }
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;

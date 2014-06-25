@@ -38,12 +38,20 @@ namespace DbgHelp.MinidumpFiles
         public MiniDumpProcessorArchitecture ProcessorArchitecture { get { return (MiniDumpProcessorArchitecture)_systemInfo.ProcessorArchitecture; } }
         
         /// <summary>
-        /// The system's architecture-dependent processor level.
+        /// The system's architecture-dependent processor level. This should be used only for display purposes.
         /// </summary>
         /// <remarks>
-        /// If <see cref="ProcessorArchitecture"/> is PROCESSOR_ARCHITECTURE_INTEL, ProcessorLevel can be one of the specified values.
+        /// If <see cref="ProcessorArchitecture"/> is PROCESSOR_ARCHITECTURE_INTEL, ProcessorLevel can be one of one of the following values.
+        /// <list type="table">
+        /// <listheader><term>Value</term><description>Meaning</description></listheader>
+        /// <item><term>3</term><description>Intel 80386</description></item>
+        /// <item><term>4</term><description>Intel 80486</description></item>
+        /// <item><term>5</term><description>Intel Pentium</description></item>
+        /// <item><term>6</term><description>Intel Pentium Pro or Pentium II</description></item>
+        /// </list>
+        /// If <see cref="ProcessorArchitecture"/> is PROCESSOR_ARCHITECTURE_IA64, ProcessorLevel is set to 1.
         /// </remarks>
-        public MiniDumpProcessorLevel ProcessorLevel { get { return (MiniDumpProcessorLevel)_systemInfo.ProcessorLevel; } }
+        public ushort ProcessorLevel { get { return _systemInfo.ProcessorLevel; } }
 
         /// <summary>
         /// The architecture-dependent processor revision.
@@ -299,29 +307,6 @@ namespace DbgHelp.MinidumpFiles
         /// Unknown processor
         /// </summary>
         PROCESSOR_ARCHITECTURE_UNKNOWN = 0xfff
-    }
-
-    /// <summary>
-    /// The system's architecture-dependent processor level.
-    /// </summary>
-    public enum MiniDumpProcessorLevel 
-    {
-        /// <summary>
-        /// Intel 80386
-        /// </summary>
-        Intel_80386 = 3,
-        /// <summary>
-        /// Intel 80486
-        /// </summary>
-        Intel_80486 = 4,
-        /// <summary>
-        /// Intel Pentium
-        /// </summary>
-        Intel_Pentium = 5,
-        /// <summary>
-        /// Intel Pentium Pro or Pentium II
-        /// </summary>
-        Intel_Pentium_Pro_or_Pentium_II = 6
     }
 
     /// <summary>
