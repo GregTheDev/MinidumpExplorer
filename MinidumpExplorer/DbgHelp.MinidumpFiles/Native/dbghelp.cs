@@ -356,6 +356,51 @@ namespace DbgHelp.MinidumpFiles.Native
         public UInt32 AMDExtendedCpuFeatures;       
     }
 
+    /*
+typedef struct _MINIDUMP_THREAD_INFO_LIST {
+  ULONG SizeOfHeader;
+  ULONG SizeOfEntry;
+  ULONG NumberOfEntries;
+} MINIDUMP_THREAD_INFO_LIST, *PMINIDUMP_THREAD_INFO_LIST;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct MINIDUMP_THREAD_INFO_LIST
+    {
+        public UInt32 SizeOfHeader;
+        public UInt32 SizeOfEntry;
+        public UInt32 NumberOfEntries;
+    }
+
+    /*
+    typedef struct _MINIDUMP_THREAD_INFO {
+      ULONG32 ThreadId;
+      ULONG32 DumpFlags;
+      ULONG32 DumpError;
+      ULONG32 ExitStatus;
+      ULONG64 CreateTime;
+      ULONG64 ExitTime;
+      ULONG64 KernelTime;
+      ULONG64 UserTime;
+      ULONG64 StartAddress;
+      ULONG64 Affinity;
+    } MINIDUMP_THREAD_INFO, *PMINIDUMP_THREAD_INFO;
+     */
+
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct MINIDUMP_THREAD_INFO
+    {
+        public UInt32 ThreadId;
+        public UInt32 DumpFlags;
+        public UInt32 DumpError;
+        public UInt32 ExitStatus;
+        public UInt64 CreateTime;
+        public UInt64 ExitTime;
+        public UInt64 KernelTime;
+        public UInt64 UserTime;
+        public UInt64 StartAddress;
+        public UInt64 Affinity;
+    }
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,

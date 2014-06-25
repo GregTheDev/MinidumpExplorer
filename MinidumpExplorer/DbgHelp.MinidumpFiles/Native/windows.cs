@@ -72,6 +72,8 @@ namespace DbgHelp.MinidumpFiles.Native
         public const ushort VER_SUITE_STORAGE_SERVER = 0x00002000;
         public const ushort VER_SUITE_COMPUTE_SERVER = 0x00004000;
         public const ushort VER_SUITE_WH_SERVER = 0x00008000;
+
+        public const uint STILL_ACTIVE = 259;
     }
 
     // http://www.pinvoke.net/default.aspx/Enums/PageProtection.html
