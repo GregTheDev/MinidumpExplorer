@@ -36,13 +36,17 @@
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Memory", 3, 3);
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Memory64", 3, 3);
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("SystemInfo");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("ThreadInfo", 1, 1);
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
             treeNode4,
-            treeNode5});
+            treeNode5,
+            treeNode6,
+            treeNode7});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -108,16 +112,26 @@
             treeNode4.SelectedImageIndex = 2;
             treeNode4.Tag = "Modules";
             treeNode4.Text = "Modules";
-            treeNode5.ImageIndex = 1;
-            treeNode5.Name = "Node1";
-            treeNode5.SelectedImageIndex = 1;
-            treeNode5.Tag = "Threads";
-            treeNode5.Text = "Threads";
-            treeNode6.ImageIndex = 0;
-            treeNode6.Name = "Node0";
-            treeNode6.Text = "<No minidump loaded>";
+            treeNode5.ImageIndex = 5;
+            treeNode5.Name = "Node0";
+            treeNode5.SelectedImageKey = "DialogID_6220_16x.png";
+            treeNode5.Tag = "SystemInfo";
+            treeNode5.Text = "SystemInfo";
+            treeNode6.ImageIndex = 1;
+            treeNode6.Name = "Node1";
+            treeNode6.SelectedImageIndex = 1;
+            treeNode6.Tag = "Threads";
+            treeNode6.Text = "Threads";
+            treeNode7.ImageIndex = 1;
+            treeNode7.Name = "Node0";
+            treeNode7.SelectedImageIndex = 1;
+            treeNode7.Tag = "ThreadInfo";
+            treeNode7.Text = "ThreadInfo";
+            treeNode8.ImageIndex = 0;
+            treeNode8.Name = "Node0";
+            treeNode8.Text = "<No minidump loaded>";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6});
+            treeNode8});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(238, 705);
@@ -133,6 +147,7 @@
             this.treeViewImageList.Images.SetKeyName(2, "Assembly_6212.png");
             this.treeViewImageList.Images.SetKeyName(3, "MemoryWindow_6537.png");
             this.treeViewImageList.Images.SetKeyName(4, "Map_624.png");
+            this.treeViewImageList.Images.SetKeyName(5, "DialogID_6220_16x.png");
             // 
             // menuStrip1
             // 

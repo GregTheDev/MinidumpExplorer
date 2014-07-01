@@ -52,6 +52,11 @@ namespace MinidumpExplorer
                     numberOfItems = threadData.Length;
                     viewToDisplay = new ThreadListView(threadData);
                     break;
+                case "ThreadInfo":
+                    MiniDumpThreadInfo[] threadInfoData = this._miniDumpFile.ReadThreadInfoList();
+                    numberOfItems = threadInfoData.Length;
+                    viewToDisplay = new ThreadInfoListView(threadInfoData);
+                    break;
                 case "Memory":
                     MiniDumpMemoryDescriptor[] memoryData = this._miniDumpFile.ReadMemoryList();
                     numberOfItems = memoryData.Length;
@@ -61,6 +66,13 @@ namespace MinidumpExplorer
                     MiniDumpMemory64Stream memory64Data = this._miniDumpFile.ReadMemory64List();
                     numberOfItems = memory64Data.MemoryRanges.Length;
                     viewToDisplay = new MemoryList64View(memory64Data.MemoryRanges);
+                    break;
+                case "SystemInfo":
+                    this._miniDumpFile.ReadSystemInfo();
+
+                    MiniDumpSystemInfoStream systemInfo = this._miniDumpFile.ReadSystemInfo();
+                    numberOfItems = 1;
+                    viewToDisplay = new SystemInfoView(systemInfo);
                     break;
             }
 
