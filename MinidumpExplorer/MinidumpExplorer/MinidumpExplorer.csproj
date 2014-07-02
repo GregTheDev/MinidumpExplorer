@@ -129,6 +129,12 @@
     <Compile Include="Views\ModulesView.Designer.cs">
       <DependentUpon>ModulesView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExceptionStreamView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ExceptionStreamView.Designer.cs">
+      <DependentUpon>ExceptionStreamView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\ThreadInfoListView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -187,6 +193,9 @@
     <EmbeddedResource Include="Views\ModulesView.resx">
       <DependentUpon>ModulesView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ExceptionStreamView.resx">
+      <DependentUpon>ExceptionStreamView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\ThreadInfoListView.resx">
       <DependentUpon>ThreadInfoListView.cs</DependentUpon>
     </EmbeddedResource>
@@ -215,6 +224,7 @@
     <Content Include="Images\Steams\ActiveDocumentHost_6234.png" />
     <Content Include="Images\Steams\Assembly_6212.png" />
     <Content Include="Images\Steams\DialogID_6220_16x.png" />
+    <Content Include="Images\Steams\Exception.png" />
     <Content Include="Images\Steams\Map_624.png" />
     <Content Include="Images\Steams\MemoryWindow_6537.png" />
     <Content Include="Images\Steams\thread_16xLG.png" />

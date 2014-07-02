@@ -68,17 +68,20 @@ namespace MinidumpExplorer
                     viewToDisplay = new MemoryList64View(memory64Data.MemoryRanges);
                     break;
                 case "SystemInfo":
-                    this._miniDumpFile.ReadSystemInfo();
-
                     MiniDumpSystemInfoStream systemInfo = this._miniDumpFile.ReadSystemInfo();
                     numberOfItems = 1;
                     viewToDisplay = new SystemInfoView(systemInfo);
+                    break;
+                case "Exception":
+                    MiniDumpExceptionStream exceptionStream = this._miniDumpFile.ReadExceptionStream();
+                    numberOfItems = 1;
+                    viewToDisplay = new ExceptionStreamView(exceptionStream);
                     break;
             }
 
             if (viewToDisplay != null)
             {
-                e.Node.Text += " (" + numberOfItems + " items)";
+                e.Node.Text += " (" + numberOfItems + (numberOfItems == 1 ? " item" : " items" ) + ")";
 
                 if (this.splitContainer1.Panel2.Controls.Count > 0) this.splitContainer1.Panel2.Controls.RemoveAt(0);
 

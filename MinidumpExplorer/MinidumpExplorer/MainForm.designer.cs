@@ -32,21 +32,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Handles", 4, 4);
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Memory", 3, 3);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Memory64", 3, 3);
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("SystemInfo");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("ThreadInfo", 1, 1);
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Exception", 6, 6);
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Handles", 4, 4);
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Memory", 3, 3);
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Memory64", 3, 3);
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("SystemInfo");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("ThreadInfo", 1, 1);
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
             treeNode4,
             treeNode5,
             treeNode6,
-            treeNode7});
+            treeNode7,
+            treeNode8});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -92,46 +94,51 @@
             this.treeView1.ImageList = this.treeViewImageList;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.ImageIndex = 4;
+            treeNode1.ImageIndex = 6;
             treeNode1.Name = "Node0";
-            treeNode1.SelectedImageIndex = 4;
-            treeNode1.Tag = "Handles";
-            treeNode1.Text = "Handles";
-            treeNode2.ImageIndex = 3;
+            treeNode1.SelectedImageIndex = 6;
+            treeNode1.Tag = "Exception";
+            treeNode1.Text = "Exception";
+            treeNode2.ImageIndex = 4;
             treeNode2.Name = "Node0";
-            treeNode2.SelectedImageIndex = 3;
-            treeNode2.Tag = "Memory";
-            treeNode2.Text = "Memory";
+            treeNode2.SelectedImageIndex = 4;
+            treeNode2.Tag = "Handles";
+            treeNode2.Text = "Handles";
             treeNode3.ImageIndex = 3;
             treeNode3.Name = "Node0";
             treeNode3.SelectedImageIndex = 3;
-            treeNode3.Tag = "Memory64";
-            treeNode3.Text = "Memory64";
-            treeNode4.ImageIndex = 2;
-            treeNode4.Name = "Node2";
-            treeNode4.SelectedImageIndex = 2;
-            treeNode4.Tag = "Modules";
-            treeNode4.Text = "Modules";
-            treeNode5.ImageIndex = 5;
-            treeNode5.Name = "Node0";
-            treeNode5.SelectedImageKey = "DialogID_6220_16x.png";
-            treeNode5.Tag = "SystemInfo";
-            treeNode5.Text = "SystemInfo";
-            treeNode6.ImageIndex = 1;
-            treeNode6.Name = "Node1";
-            treeNode6.SelectedImageIndex = 1;
-            treeNode6.Tag = "Threads";
-            treeNode6.Text = "Threads";
+            treeNode3.Tag = "Memory";
+            treeNode3.Text = "Memory";
+            treeNode4.ImageIndex = 3;
+            treeNode4.Name = "Node0";
+            treeNode4.SelectedImageIndex = 3;
+            treeNode4.Tag = "Memory64";
+            treeNode4.Text = "Memory64";
+            treeNode5.ImageIndex = 2;
+            treeNode5.Name = "Node2";
+            treeNode5.SelectedImageIndex = 2;
+            treeNode5.Tag = "Modules";
+            treeNode5.Text = "Modules";
+            treeNode6.ImageIndex = 5;
+            treeNode6.Name = "Node0";
+            treeNode6.SelectedImageKey = "DialogID_6220_16x.png";
+            treeNode6.Tag = "SystemInfo";
+            treeNode6.Text = "SystemInfo";
             treeNode7.ImageIndex = 1;
-            treeNode7.Name = "Node0";
+            treeNode7.Name = "Node1";
             treeNode7.SelectedImageIndex = 1;
-            treeNode7.Tag = "ThreadInfo";
-            treeNode7.Text = "ThreadInfo";
-            treeNode8.ImageIndex = 0;
+            treeNode7.Tag = "Threads";
+            treeNode7.Text = "Threads";
+            treeNode8.ImageIndex = 1;
             treeNode8.Name = "Node0";
-            treeNode8.Text = "<No minidump loaded>";
+            treeNode8.SelectedImageIndex = 1;
+            treeNode8.Tag = "ThreadInfo";
+            treeNode8.Text = "ThreadInfo";
+            treeNode9.ImageIndex = 0;
+            treeNode9.Name = "Node0";
+            treeNode9.Text = "<No minidump loaded>";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode8});
+            treeNode9});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(238, 705);
@@ -148,6 +155,7 @@
             this.treeViewImageList.Images.SetKeyName(3, "MemoryWindow_6537.png");
             this.treeViewImageList.Images.SetKeyName(4, "Map_624.png");
             this.treeViewImageList.Images.SetKeyName(5, "DialogID_6220_16x.png");
+            this.treeViewImageList.Images.SetKeyName(6, "Exception.png");
             // 
             // menuStrip1
             // 
