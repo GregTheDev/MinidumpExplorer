@@ -217,6 +217,24 @@ namespace DbgHelp.MinidumpFiles
             return returnList.ToArray();
         }
 
+        /// <summary>
+        /// Reads the MINIDUMP_STREAM_TYPE.ExceptionStream.
+        /// </summary>
+        /// <returns><see cref="MiniDumpExceptionStream"/> containing exception information or null if stream data is not present.</returns>
+        public MiniDumpExceptionStream ReadExceptionStream()
+        {
+            MINIDUMP_EXCEPTION_STREAM exceptionStream;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_EXCEPTION_STREAM>(MINIDUMP_STREAM_TYPE.ExceptionStream, out exceptionStream, out streamPointer, out streamSize))
+            {
+                return null;
+            }
+
+            return new MiniDumpExceptionStream(exceptionStream, this);
+        }
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;

@@ -74,6 +74,10 @@ namespace DbgHelp.MinidumpFiles.Native
         public const ushort VER_SUITE_WH_SERVER = 0x00008000;
 
         public const uint STILL_ACTIVE = 259;
+
+        public const int EXCEPTION_MAXIMUM_PARAMETERS = 15; // maximum number of exception parameters
+
+
     }
 
     // http://www.pinvoke.net/default.aspx/Enums/PageProtection.html

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MiniDumpException.cs" />
     <Compile Include="MiniDumpFile.cs" />
     <Compile Include="MiniDumpHandleDescriptor.cs" />
     <Compile Include="MiniDumpHandleObjectInformation.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="MiniDumpMemoryDescriptor64.cs" />
     <Compile Include="MiniDumpMemoryDescriptor.cs" />
     <Compile Include="MiniDumpModule.cs" />
+    <Compile Include="MiniDumpExceptionStream.cs" />
     <Compile Include="MiniDumpSystemInfoStream.cs" />
     <Compile Include="MiniDumpThreadInfo.cs" />
     <Compile Include="MiniDumpThread.cs" />
