@@ -302,7 +302,7 @@ namespace DbgHelp.MinidumpFiles.Native
     } MINIDUMP_SYSTEM_INFO, *PMINIDUMP_SYSTEM_INFO;
      */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct MINIDUMP_SYSTEM_INFO
+    internal struct MINIDUMP_SYSTEM_INFO
     {
         public ushort ProcessorArchitecture;
         public ushort ProcessorLevel;
@@ -336,7 +336,7 @@ namespace DbgHelp.MinidumpFiles.Native
     } CPU_INFORMATION, *PCPU_INFORMATION; */
 
     [StructLayout(LayoutKind.Explicit)]
-    public unsafe struct CPU_INFORMATION
+    internal unsafe struct CPU_INFORMATION
     {
         // OtherCpuInfo
         [FieldOffset(0)]
@@ -364,7 +364,7 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
 } MINIDUMP_THREAD_INFO_LIST, *PMINIDUMP_THREAD_INFO_LIST;
      */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct MINIDUMP_THREAD_INFO_LIST
+    internal struct MINIDUMP_THREAD_INFO_LIST
     {
         public UInt32 SizeOfHeader;
         public UInt32 SizeOfEntry;
@@ -387,7 +387,7 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
      */
 
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct MINIDUMP_THREAD_INFO
+    internal struct MINIDUMP_THREAD_INFO
     {
         public UInt32 ThreadId;
         public UInt32 DumpFlags;
@@ -399,6 +399,47 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
         public UInt64 UserTime;
         public UInt64 StartAddress;
         public UInt64 Affinity;
+    }
+
+    /*
+    typedef struct MINIDUMP_EXCEPTION_STREAM {
+        ULONG32 ThreadId;
+        ULONG32  __alignment;
+        MINIDUMP_EXCEPTION ExceptionRecord;
+        MINIDUMP_LOCATION_DESCRIPTOR ThreadContext;
+    } MINIDUMP_EXCEPTION_STREAM, *PMINIDUMP_EXCEPTION_STREAM;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_EXCEPTION_STREAM
+    {
+        public UInt32 ThreadId;
+        public UInt32 __alignment;
+        public MINIDUMP_EXCEPTION ExceptionRecord;
+        public MINIDUMP_LOCATION_DESCRIPTOR ThreadContext;
+    }
+
+    /*
+    typedef struct _MINIDUMP_EXCEPTION  {
+        ULONG32 ExceptionCode;
+        ULONG32 ExceptionFlags;
+        ULONG64 ExceptionRecord;
+        ULONG64 ExceptionAddress;
+        ULONG32 NumberParameters;
+        ULONG32 __unusedAlignment;
+        ULONG64 ExceptionInformation [ EXCEPTION_MAXIMUM_PARAMETERS ];
+    } MINIDUMP_EXCEPTION, *PMINIDUMP_EXCEPTION;
+     */
+
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public unsafe struct MINIDUMP_EXCEPTION
+    {
+        public UInt32 ExceptionCode;
+        public UInt32 ExceptionFlags;
+        public UInt64 ExceptionRecord;
+        public UInt64 ExceptionAddress;
+        public UInt32 NumberParameters;
+        public UInt32 __unusedAlignment;
+        public fixed UInt64 ExceptionInformation [windows.EXCEPTION_MAXIMUM_PARAMETERS];
     }
 
     public enum MINIDUMP_STREAM_TYPE : uint
