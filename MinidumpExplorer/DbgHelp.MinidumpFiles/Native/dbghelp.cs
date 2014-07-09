@@ -442,6 +442,49 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
         public fixed UInt64 ExceptionInformation [windows.EXCEPTION_MAXIMUM_PARAMETERS];
     }
 
+    /*
+    typedef struct _MINIDUMP_MEMORY_INFO_LIST {
+        ULONG SizeOfHeader;
+        ULONG SizeOfEntry;
+        ULONG64 NumberOfEntries;
+    } MINIDUMP_MEMORY_INFO_LIST, *PMINIDUMP_MEMORY_INFO_LIST;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_MEMORY_INFO_LIST
+    {
+        public uint SizeOfHeader;
+        public uint SizeOfEntry;
+        public UInt64 NumberOfEntries;
+    }
+
+
+    /*
+    typedef struct _MINIDUMP_MEMORY_INFO {
+        ULONG64 BaseAddress;
+        ULONG64 AllocationBase;
+        ULONG32 AllocationProtect;
+        ULONG32 __alignment1;
+        ULONG64 RegionSize;
+        ULONG32 State;
+        ULONG32 Protect;
+        ULONG32 Type;
+        ULONG32 __alignment2;
+    } MINIDUMP_MEMORY_INFO, *PMINIDUMP_MEMORY_INFO;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public unsafe struct MINIDUMP_MEMORY_INFO
+    {
+        public UInt64 BaseAddress;
+        public UInt64 AllocationBase;
+        public UInt32 AllocationProtect;
+        public UInt32 __alignment1;
+        public UInt64 RegionSize;
+        public UInt32 State;
+        public UInt32 Protect;
+        public UInt32 Type;
+        public UInt32 __alignment2;
+    }
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,

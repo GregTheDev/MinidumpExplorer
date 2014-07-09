@@ -235,6 +235,26 @@ namespace DbgHelp.MinidumpFiles
             return new MiniDumpExceptionStream(exceptionStream, this);
         }
 
+        public MiniDumpMemoryInfoStream ReadMemoryInfoList()
+        {
+            MINIDUMP_MEMORY_INFO_LIST memoryInfoList;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_MEMORY_INFO_LIST>(MINIDUMP_STREAM_TYPE.MemoryInfoListStream, out memoryInfoList, out streamPointer, out streamSize))
+            {
+                return null;
+            }
+
+            // Advance the stream pointer past the header
+            streamPointer += (int)memoryInfoList.SizeOfHeader;
+
+            // Now read the region information
+            MINIDUMP_MEMORY_INFO[] memoryInfos = ReadArray<MINIDUMP_MEMORY_INFO>(streamPointer, (int)memoryInfoList.NumberOfEntries);
+
+            return new MiniDumpMemoryInfoStream(memoryInfoList, memoryInfos);
+        }
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;
