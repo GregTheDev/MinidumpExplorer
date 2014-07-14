@@ -99,6 +99,12 @@
     <Compile Include="Views\BaseViewControl.Designer.cs">
       <DependentUpon>BaseViewControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\MemoryInfoView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MemoryInfoView.designer.cs">
+      <DependentUpon>MemoryInfoView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SystemInfoView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -177,6 +183,9 @@
     </Compile>
     <EmbeddedResource Include="Views\BaseViewControl.resx">
       <DependentUpon>BaseViewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MemoryInfoView.resx">
+      <DependentUpon>MemoryInfoView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SystemInfoView.resx">
       <DependentUpon>SystemInfoView.cs</DependentUpon>
