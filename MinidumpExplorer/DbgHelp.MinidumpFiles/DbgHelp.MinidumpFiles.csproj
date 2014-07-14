@@ -57,6 +57,7 @@
     <Compile Include="MiniDumpMemory64Stream.cs" />
     <Compile Include="MiniDumpMemoryDescriptor64.cs" />
     <Compile Include="MiniDumpMemoryDescriptor.cs" />
+    <Compile Include="MiniDumpMiscInfo.cs" />
     <Compile Include="MiniDumpModule.cs" />
     <Compile Include="MiniDumpExceptionStream.cs" />
     <Compile Include="MiniDumpSystemInfoStream.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="MiniDumpType.cs" />
     <Compile Include="Native\dbghelp.cs" />
     <Compile Include="Native\NativeMethods.cs" />
+    <Compile Include="Native\timezoneapi.cs" />
     <Compile Include="Native\windows.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
