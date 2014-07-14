@@ -472,7 +472,7 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
     } MINIDUMP_MEMORY_INFO, *PMINIDUMP_MEMORY_INFO;
      */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public unsafe struct MINIDUMP_MEMORY_INFO
+    internal unsafe struct MINIDUMP_MEMORY_INFO
     {
         public UInt64 BaseAddress;
         public UInt64 AllocationBase;
@@ -483,6 +483,147 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
         public UInt32 Protect;
         public UInt32 Type;
         public UInt32 __alignment2;
+    }
+
+    /*
+
+    typedef struct _MINIDUMP_MISC_INFO {
+        ULONG32 SizeOfInfo;
+        ULONG32 Flags1;
+        ULONG32 ProcessId;
+        ULONG32 ProcessCreateTime;
+        ULONG32 ProcessUserTime;
+        ULONG32 ProcessKernelTime;
+    } MINIDUMP_MISC_INFO, *PMINIDUMP_MISC_INFO;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_MISC_INFO // XXX untested
+    {
+        public UInt32 SizeOfInfo;
+        public UInt32 Flags1;
+        public UInt32 ProcessId;
+        public UInt32 ProcessCreateTime;
+        public UInt32 ProcessUserTime;
+        public UInt32 ProcessKernelTime;
+    }
+
+    /*
+    typedef struct _MINIDUMP_MISC_INFO_2 {
+        ULONG32 SizeOfInfo;
+        ULONG32 Flags1;
+        ULONG32 ProcessId;
+        ULONG32 ProcessCreateTime;
+        ULONG32 ProcessUserTime;
+        ULONG32 ProcessKernelTime;
+        ULONG32 ProcessorMaxMhz;
+        ULONG32 ProcessorCurrentMhz;
+        ULONG32 ProcessorMhzLimit;
+        ULONG32 ProcessorMaxIdleState;
+        ULONG32 ProcessorCurrentIdleState;
+    } MINIDUMP_MISC_INFO_2, *PMINIDUMP_MISC_INFO_2;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_MISC_INFO_2 // XXX untested
+    {
+        public UInt32 SizeOfInfo;
+        public UInt32 Flags1;
+        public UInt32 ProcessId;
+        public UInt32 ProcessCreateTime;
+        public UInt32 ProcessUserTime;
+        public UInt32 ProcessKernelTime;
+        public UInt32 ProcessorMaxMhz;
+        public UInt32 ProcessorCurrentMhz;
+        public UInt32 ProcessorMhzLimit;
+        public UInt32 ProcessorMaxIdleState;
+        public UInt32 ProcessorCurrentIdleState;
+    }
+
+    /*
+    typedef struct _MINIDUMP_MISC_INFO_3 {
+        ULONG32 SizeOfInfo;
+        ULONG32 Flags1;
+        ULONG32 ProcessId;
+        ULONG32 ProcessCreateTime;
+        ULONG32 ProcessUserTime;
+        ULONG32 ProcessKernelTime;
+        ULONG32 ProcessorMaxMhz;
+        ULONG32 ProcessorCurrentMhz;
+        ULONG32 ProcessorMhzLimit;
+        ULONG32 ProcessorMaxIdleState;
+        ULONG32 ProcessorCurrentIdleState;
+        ULONG32 ProcessIntegrityLevel;
+        ULONG32 ProcessExecuteFlags;
+        ULONG32 ProtectedProcess;
+        ULONG32 TimeZoneId;
+        TIME_ZONE_INFORMATION TimeZone;
+    } MINIDUMP_MISC_INFO_3, *PMINIDUMP_MISC_INFO_3;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_MISC_INFO_3 // XXX untested
+    {
+        public UInt32 SizeOfInfo;
+        public UInt32 Flags1;
+        public UInt32 ProcessId;
+        public UInt32 ProcessCreateTime;
+        public UInt32 ProcessUserTime;
+        public UInt32 ProcessKernelTime;
+        public UInt32 ProcessorMaxMhz;
+        public UInt32 ProcessorCurrentMhz;
+        public UInt32 ProcessorMhzLimit;
+        public UInt32 ProcessorMaxIdleState;
+        public UInt32 ProcessorCurrentIdleState;
+        public UInt32 ProcessIntegrityLevel;
+        public UInt32 ProcessExecuteFlags;
+        public UInt32 ProtectedProcess;
+        public UInt32 TimeZoneId;
+        public TIME_ZONE_INFORMATION TimeZone;
+    }
+
+    /*
+    typedef struct _MINIDUMP_MISC_INFO_4 {
+        ULONG32 SizeOfInfo;
+        ULONG32 Flags1;
+        ULONG32 ProcessId;
+        ULONG32 ProcessCreateTime;
+        ULONG32 ProcessUserTime;
+        ULONG32 ProcessKernelTime;
+        ULONG32 ProcessorMaxMhz;
+        ULONG32 ProcessorCurrentMhz;
+        ULONG32 ProcessorMhzLimit;
+        ULONG32 ProcessorMaxIdleState;
+        ULONG32 ProcessorCurrentIdleState;
+        ULONG32 ProcessIntegrityLevel;
+        ULONG32 ProcessExecuteFlags;
+        ULONG32 ProtectedProcess;
+        ULONG32 TimeZoneId;
+        TIME_ZONE_INFORMATION TimeZone;
+        WCHAR   BuildString[MAX_PATH];
+        WCHAR   DbgBldStr[40];
+    } MINIDUMP_MISC_INFO_4, *PMINIDUMP_MISC_INFO_4;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_MISC_INFO_4 // XXX untested
+    {
+        public UInt32 SizeOfInfo;
+        public UInt32 Flags1;
+        public UInt32 ProcessId;
+        public UInt32 ProcessCreateTime;
+        public UInt32 ProcessUserTime;
+        public UInt32 ProcessKernelTime;
+        public UInt32 ProcessorMaxMhz;
+        public UInt32 ProcessorCurrentMhz;
+        public UInt32 ProcessorMhzLimit;
+        public UInt32 ProcessorMaxIdleState;
+        public UInt32 ProcessorCurrentIdleState;
+        public UInt32 ProcessIntegrityLevel;
+        public UInt32 ProcessExecuteFlags;
+        public UInt32 ProtectedProcess;
+        public UInt32 TimeZoneId;
+        public TIME_ZONE_INFORMATION TimeZone;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst=windows.MAX_PATH)]
+        public string BuildString; // WCHAR   BuildString[MAX_PATH];
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst=windows.MAX_PATH)]
+        public string DbgBldStr; // WCHAR   DbgBldStr[40];
     }
 
     public enum MINIDUMP_STREAM_TYPE : uint

@@ -73,11 +73,11 @@ namespace DbgHelp.MinidumpFiles.Native
         public const ushort VER_SUITE_COMPUTE_SERVER = 0x00004000;
         public const ushort VER_SUITE_WH_SERVER = 0x00008000;
 
-        public const uint STILL_ACTIVE = 259;
+        public const ushort STILL_ACTIVE = 259;
 
-        public const int EXCEPTION_MAXIMUM_PARAMETERS = 15; // maximum number of exception parameters
+        public const ushort EXCEPTION_MAXIMUM_PARAMETERS = 15; // maximum number of exception parameters
 
-
+        public const ushort MAX_PATH = 260;
     }
 
     // http://www.pinvoke.net/default.aspx/Enums/PageProtection.html
@@ -143,5 +143,28 @@ namespace DbgHelp.MinidumpFiles.Native
         public uint State;
         public uint Protect;
         public uint Type;
+    }
+
+    /*
+    typedef struct _SYSTEMTIME {
+        WORD wYear;
+        WORD wMonth;
+        WORD wDayOfWeek;
+        WORD wDay;
+        WORD wHour;
+        WORD wMinute;
+        WORD wSecond;
+        WORD wMilliseconds;
+    } SYSTEMTIME, *PSYSTEMTIME, *LPSYSTEMTIME; */
+    internal struct SYSTEMTIME  // XXX untested
+    {
+        public ushort wYear;
+        public ushort wMonth;
+        public ushort wDayOfWeek;
+        public ushort wDay;
+        public ushort wHour;
+        public ushort wMinute;
+        public ushort wSecond;
+        public ushort wMilliseconds;
     }
 }
