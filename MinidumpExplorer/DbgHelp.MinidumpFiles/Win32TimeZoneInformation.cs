@@ -1,0 +1,108 @@
+﻿using DbgHelp.MinidumpFiles.Native;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DbgHelp.MinidumpFiles
+{
+    /// <summary>
+    /// Specifies settings for a time zone.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// See http://msdn.microsoft.com/en-us/library/windows/desktop/ms725481%28v=vs.85%29.aspx for additional information.
+    /// </para>
+    /// <para>
+    /// This class represents similar information to that contained in <see cref="System.TimeZoneInfo"/>. <see cref="System.TimeZoneInfo"/> does not 
+    /// provide an easy (and public) way to be instantiated with the information available in TIME_ZONE_INFORMATION. As a 
+    /// result Win32TimeZoneInformation was created as a wrapper for TIME_ZONE_INFORMATION instead of reusing <see cref="System.TimeZoneInfo"/>.
+    /// </para>
+    /// </remarks>
+    public class Win32TimeZoneInformation
+    {
+        private TIME_ZONE_INFORMATION _timeZoneInformation;
+        private DateTime _standardDate;
+        private DateTime _daylightDate;
+
+        internal Win32TimeZoneInformation(TIME_ZONE_INFORMATION timeZoneInformation)
+        {
+            _timeZoneInformation = timeZoneInformation;
+
+            if (timeZoneInformation.StandardDate.wMonth == 0)
+            {
+                _standardDate = DateTime.MinValue;
+            }
+            else
+            {
+                _standardDate = new DateTime(timeZoneInformation.StandardDate.wYear, timeZoneInformation.StandardDate.wMonth, timeZoneInformation.StandardDate.wDay,
+                    timeZoneInformation.StandardDate.wHour, timeZoneInformation.StandardDate.wMinute, timeZoneInformation.StandardDate.wSecond, timeZoneInformation.StandardDate.wMilliseconds);
+            }
+
+            if (timeZoneInformation.DaylightDate.wMonth == 0)
+            {
+                _daylightDate = DateTime.MinValue;
+            }
+            else
+            {
+                _daylightDate = new DateTime(timeZoneInformation.DaylightDate.wYear, timeZoneInformation.DaylightDate.wMonth, timeZoneInformation.DaylightDate.wDay,
+                    timeZoneInformation.DaylightDate.wHour, timeZoneInformation.DaylightDate.wMinute, timeZoneInformation.DaylightDate.wSecond, timeZoneInformation.DaylightDate.wMilliseconds);
+            }
+        }
+
+        /// <summary>
+        /// The current bias for local time translation on this computer, in minutes.
+        /// </summary>
+        /// <remarks>
+        /// The bias is the difference, in minutes, between Coordinated Universal Time (UTC) and local time. All translations between UTC and 
+        /// local time are based on the following formula:
+        /// <para>
+        /// UTC = local time + bias
+        /// </para>
+        /// <para>
+        /// This member is required.
+        /// </para>
+        public int Bias { get { return _timeZoneInformation.Bias; } }
+        /// <summary>
+        /// A description for standard time. For example, "EST" could indicate Eastern Standard Time. The string will be returned unchanged by the GetTimeZoneInformation function. This string can be empty.
+        /// </summary>
+        public string StandardName { get { return _timeZoneInformation.StandardName; } }
+        /// <summary>
+        /// A <see cref="System.DateTime"/> that contains a date and local time when the transition from daylight saving time to standard time occurs on this operating system. 
+        /// If the time zone does not support daylight saving time the value will be DateTime.MinValue. If this date is specified, the DaylightDate member of this class must will be specified. 
+        /// </summary>
+        public DateTime StandardDate { get { return _standardDate; } }
+        /// <summary>
+        /// The bias value to be used during local time translations that occur during standard time. 
+        /// </summary>
+        /// <remarks>
+        /// This value is added to the value of the Bias member to form the bias used during standard time. In most time zones, the value of this member is zero.
+        /// </remarks>
+        public int StandardBias { get { return _timeZoneInformation.StandardBias; } }
+        /// <summary>
+        /// A description for daylight saving time. For example, "PDT" could indicate Pacific Daylight Time.
+        /// </summary>
+        /// <remarks>
+        ///  The string will be returned unchanged by the GetTimeZoneInformation function. This string can be empty.
+        ///  </remarks>
+        public string DaylightName { get { return _timeZoneInformation.DaylightName; } }
+        /// <summary>
+        /// A <see cref="System.DateTime"/> structure that contains a date and local time when the transition from standard time to daylight saving time occurs on this operating system. 
+        /// If the time zone does not support daylight saving time the value will be DateTime.MinValue. If this date is specified, the StandardDate member in this class must also be specified. 
+        /// </summary>
+        public DateTime DaylightDate { get { return _daylightDate; } }
+        /// <summary>
+        /// The bias value to be used during local time translations that occur during daylight saving time.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This member is ignored if a value for the DaylightDate member is not supplied.
+        /// </para>
+        /// <para>
+        /// This value is added to the value of the Bias member to form the bias used during daylight saving time. In most time zones, the value of this member is –60.
+        /// </para>
+        /// </remarks>
+        public int DaylightBias { get { return _timeZoneInformation.DaylightBias; } }
+    }
+}

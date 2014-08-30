@@ -497,7 +497,7 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
     } MINIDUMP_MISC_INFO, *PMINIDUMP_MISC_INFO;
      */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    internal struct MINIDUMP_MISC_INFO // XXX untested
+    internal struct MINIDUMP_MISC_INFO
     {
         public UInt32 SizeOfInfo;
         public UInt32 Flags1;
@@ -523,7 +523,7 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
     } MINIDUMP_MISC_INFO_2, *PMINIDUMP_MISC_INFO_2;
      */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    internal struct MINIDUMP_MISC_INFO_2 // XXX untested
+    internal struct MINIDUMP_MISC_INFO_2
     {
         public UInt32 SizeOfInfo;
         public UInt32 Flags1;
@@ -536,6 +536,18 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
         public UInt32 ProcessorMhzLimit;
         public UInt32 ProcessorMaxIdleState;
         public UInt32 ProcessorCurrentIdleState;
+
+        public static explicit operator MINIDUMP_MISC_INFO(MINIDUMP_MISC_INFO_2 miscInfo2)
+        {
+            return new MINIDUMP_MISC_INFO()
+            {
+                SizeOfInfo = miscInfo2.SizeOfInfo,
+                Flags1 = miscInfo2.Flags1,
+                ProcessId = miscInfo2.ProcessId,
+                ProcessCreateTime = miscInfo2.ProcessCreateTime,
+                ProcessUserTime = miscInfo2.ProcessUserTime
+            };
+        }
     }
 
     /*
@@ -559,7 +571,7 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
     } MINIDUMP_MISC_INFO_3, *PMINIDUMP_MISC_INFO_3;
      */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    internal struct MINIDUMP_MISC_INFO_3 // XXX untested
+    internal struct MINIDUMP_MISC_INFO_3
     {
         public UInt32 SizeOfInfo;
         public UInt32 Flags1;
@@ -577,6 +589,24 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
         public UInt32 ProtectedProcess;
         public UInt32 TimeZoneId;
         public TIME_ZONE_INFORMATION TimeZone;
+
+        public static explicit operator MINIDUMP_MISC_INFO_2(MINIDUMP_MISC_INFO_3 miscInfo3)
+        {
+            return new MINIDUMP_MISC_INFO_2()
+            {
+                SizeOfInfo = miscInfo3.SizeOfInfo,
+                Flags1 = miscInfo3.Flags1,
+                ProcessId = miscInfo3.ProcessId,
+                ProcessCreateTime = miscInfo3.ProcessCreateTime,
+                ProcessUserTime = miscInfo3.ProcessUserTime,
+                ProcessKernelTime = miscInfo3.ProcessUserTime,
+                ProcessorMaxMhz = miscInfo3.ProcessorMaxMhz,
+                ProcessorCurrentMhz = miscInfo3.ProcessorCurrentMhz,
+                ProcessorMhzLimit = miscInfo3.ProcessorMhzLimit,
+                ProcessorMaxIdleState = miscInfo3.ProcessorMaxIdleState,
+                ProcessorCurrentIdleState = miscInfo3.ProcessorCurrentIdleState
+            };
+        }
     }
 
     /*
@@ -601,8 +631,8 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
         WCHAR   DbgBldStr[40];
     } MINIDUMP_MISC_INFO_4, *PMINIDUMP_MISC_INFO_4;
      */
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    internal struct MINIDUMP_MISC_INFO_4 // XXX untested
+    [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
+    internal struct MINIDUMP_MISC_INFO_4
     {
         public UInt32 SizeOfInfo;
         public UInt32 Flags1;
@@ -622,8 +652,31 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
         public TIME_ZONE_INFORMATION TimeZone;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst=windows.MAX_PATH)]
         public string BuildString; // WCHAR   BuildString[MAX_PATH];
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst=windows.MAX_PATH)]
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst=40)]
         public string DbgBldStr; // WCHAR   DbgBldStr[40];
+
+        public static explicit operator MINIDUMP_MISC_INFO_3(MINIDUMP_MISC_INFO_4 miscInfo4)
+        {
+            return new MINIDUMP_MISC_INFO_3()
+            {
+                SizeOfInfo = miscInfo4.SizeOfInfo,
+                Flags1 = miscInfo4.Flags1,
+                ProcessId = miscInfo4.ProcessId,
+                ProcessCreateTime = miscInfo4.ProcessCreateTime,
+                ProcessUserTime = miscInfo4.ProcessUserTime,
+                ProcessKernelTime = miscInfo4.ProcessUserTime,
+                ProcessorMaxMhz = miscInfo4.ProcessorMaxMhz,
+                ProcessorCurrentMhz = miscInfo4.ProcessorCurrentMhz,
+                ProcessorMhzLimit = miscInfo4.ProcessorMhzLimit,
+                ProcessorMaxIdleState = miscInfo4.ProcessorMaxIdleState,
+                ProcessorCurrentIdleState = miscInfo4.ProcessorCurrentIdleState,
+                ProcessIntegrityLevel = miscInfo4.ProcessIntegrityLevel,
+                ProcessExecuteFlags = miscInfo4.ProcessExecuteFlags,
+                ProtectedProcess = miscInfo4.ProtectedProcess,
+                TimeZoneId = miscInfo4.TimeZoneId,
+                TimeZone = miscInfo4.TimeZone
+            };
+        }
     }
 
     public enum MINIDUMP_STREAM_TYPE : uint

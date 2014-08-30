@@ -254,11 +254,13 @@ namespace DbgHelp.MinidumpFiles
 
             return new MiniDumpMemoryInfoStream(memoryInfoList, memoryInfos);
         }
-/*
-        public void ReadMiscInfo()
-        {
-            throw new NotImplementedException("ReadMiscInfo is still in development");
 
+        /// <summary>
+        /// Reads the MINIDUMP_STREAM_TYPE.MiscInfoStream stream.
+        /// </summary>
+        /// <returns><see cref="MiniDumpMiscInfo"/> containing miscellaneous information or null if stream data is not present.</returns>
+        public MiniDumpMiscInfo ReadMiscInfo()
+        {
             // We can't use Marshal.SizeOf() on the locally defined MINIDUMP_MISC_INFO* interop structures
             // as MINIDUMP_MISC_INFO_3 & MINIDUMP_MISC_INFO_4 have strings which obviously don't have a 
             // size until after marshalled. Unless we switch to fixed byte[] if the marshalling doesn't
@@ -278,7 +280,7 @@ namespace DbgHelp.MinidumpFiles
 
             if (!this.ReadStream<MINIDUMP_MISC_INFO>(MINIDUMP_STREAM_TYPE.MiscInfoStream, out miscInfo, out streamPointer, out streamSize))
             {
-                return; // null;
+                return null;
             }
 
             MiniDumpMiscInfo retVal;
@@ -290,29 +292,29 @@ namespace DbgHelp.MinidumpFiles
             else if (miscInfo.SizeOfInfo == SIZEOF_INFO_2)
             {
                 miscInfo2 = (MINIDUMP_MISC_INFO_2) Marshal.PtrToStructure(streamPointer, typeof(MINIDUMP_MISC_INFO_2));
+
+                retVal = new MiniDumpMiscInfo2(miscInfo2);
             }
             else if (miscInfo.SizeOfInfo == SIZEOF_INFO_3)
             {
                 miscInfo3 = (MINIDUMP_MISC_INFO_3)Marshal.PtrToStructure(streamPointer, typeof(MINIDUMP_MISC_INFO_3));
+
+                retVal = new MiniDumpMiscInfo3(miscInfo3);
             }
             else if (miscInfo.SizeOfInfo == SIZEOF_INFO_4)
             {
                 miscInfo4 = (MINIDUMP_MISC_INFO_4)Marshal.PtrToStructure(streamPointer, typeof(MINIDUMP_MISC_INFO_4));
+
+                retVal = new MiniDumpMiscInfo4(miscInfo4);
             }
             else
             {
-                throw new InvalidOperationException("Data returned from reading MiscInfoStream has an unrecognised SizeOfInfo field.");
+                throw new InvalidOperationException("Data returned from reading MiscInfoStream has an unrecognised SizeOfInfo field: " + miscInfo.SizeOfInfo + " bytes");
             }
 
-            //// Advance the stream pointer past the header
-            //streamPointer += (int)memoryInfoList.SizeOfHeader;
-
-            //// Now read the region information
-            //MINIDUMP_MEMORY_INFO[] memoryInfos = ReadArray<MINIDUMP_MEMORY_INFO>(streamPointer, (int)memoryInfoList.NumberOfEntries);
-
-            //return new MiniDumpMemoryInfoStream(memoryInfoList, memoryInfos);
+            return retVal;
         }
-*/
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;

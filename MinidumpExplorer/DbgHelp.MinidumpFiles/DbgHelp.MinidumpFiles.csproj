@@ -69,6 +69,7 @@
     <Compile Include="Native\timezoneapi.cs" />
     <Compile Include="Native\windows.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Win32TimeZoneInformation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

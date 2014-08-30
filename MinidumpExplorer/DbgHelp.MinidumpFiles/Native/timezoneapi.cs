@@ -19,7 +19,7 @@ namespace DbgHelp.MinidumpFiles.Native
     } TIME_ZONE_INFORMATION, *PTIME_ZONE_INFORMATION, *LPTIME_ZONE_INFORMATION;
      */
     [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet=CharSet.Unicode)]
-    internal struct TIME_ZONE_INFORMATION  // XXX untested
+    internal struct TIME_ZONE_INFORMATION
     {
         public int Bias;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst=32)]
