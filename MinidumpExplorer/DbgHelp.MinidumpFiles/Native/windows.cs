@@ -156,7 +156,7 @@ namespace DbgHelp.MinidumpFiles.Native
         WORD wSecond;
         WORD wMilliseconds;
     } SYSTEMTIME, *PSYSTEMTIME, *LPSYSTEMTIME; */
-    internal struct SYSTEMTIME  // XXX untested
+    internal struct SYSTEMTIME
     {
         public ushort wYear;
         public ushort wMonth;
