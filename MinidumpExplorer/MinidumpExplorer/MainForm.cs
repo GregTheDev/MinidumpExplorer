@@ -72,6 +72,11 @@ namespace MinidumpExplorer
                     numberOfItems = memoryInfo.Entries.Length;
                     viewToDisplay = new MemoryInfoView(memoryInfo);
                     break;
+                case "MiscInfo":
+                    MiniDumpMiscInfo miscInfo = this._miniDumpFile.ReadMiscInfo();
+                    numberOfItems = 1;
+                    viewToDisplay = new MiscInfoView(miscInfo);
+                    break;
                 case "SystemInfo":
                     MiniDumpSystemInfoStream systemInfo = this._miniDumpFile.ReadSystemInfo();
                     numberOfItems = 1;
