@@ -111,6 +111,12 @@
     <Compile Include="Views\MiscInfoView.designer.cs">
       <DependentUpon>MiscInfoView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\UnloadedModulesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UnloadedModulesView.Designer.cs">
+      <DependentUpon>UnloadedModulesView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SystemInfoView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -195,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MiscInfoView.resx">
       <DependentUpon>MiscInfoView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UnloadedModulesView.resx">
+      <DependentUpon>UnloadedModulesView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SystemInfoView.resx">
       <DependentUpon>SystemInfoView.cs</DependentUpon>
