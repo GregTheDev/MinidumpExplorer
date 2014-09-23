@@ -87,6 +87,11 @@ namespace MinidumpExplorer
                     numberOfItems = 1;
                     viewToDisplay = new ExceptionStreamView(exceptionStream);
                     break;
+                case "UnloadedModules":
+                    MiniDumpUnloadedModulesStream unloadedModulesStream = this._miniDumpFile.ReadUnloadedModuleList();
+                    numberOfItems = (int) unloadedModulesStream.NumberOfEntries;
+                    viewToDisplay = new UnloadedModulesView(unloadedModulesStream);
+                    break;
             }
 
             if (viewToDisplay != null)
