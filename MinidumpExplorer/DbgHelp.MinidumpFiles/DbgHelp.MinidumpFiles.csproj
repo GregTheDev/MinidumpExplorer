@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formatters.cs" />
     <Compile Include="MiniDumpMemoryInfo.cs" />
     <Compile Include="MiniDumpException.cs" />
     <Compile Include="MiniDumpMemoryInfoStream.cs" />
@@ -64,6 +65,8 @@
     <Compile Include="MiniDumpThreadInfo.cs" />
     <Compile Include="MiniDumpThread.cs" />
     <Compile Include="MiniDumpType.cs" />
+    <Compile Include="MiniDumpUnloadedModule.cs" />
+    <Compile Include="MiniDumpUnloadedModulesStream.cs" />
     <Compile Include="Native\dbghelp.cs" />
     <Compile Include="Native\NativeMethods.cs" />
     <Compile Include="Native\timezoneapi.cs" />

@@ -315,6 +315,30 @@ namespace DbgHelp.MinidumpFiles
             return retVal;
         }
 
+        /// <summary>
+        /// Reads the MINIDUMP_STREAM_TYPE.UnloadedModuleListStream stream.
+        /// </summary>
+        /// <returns><see cref="MiniDumpUnloadedModulesStream"/> containing unloaded module information. If stream data was not present <see cref="MiniDumpUnloadedModulesStream.NumberOfEntries"/> will be 0 (all other fields are undefined).</returns>
+        public MiniDumpUnloadedModulesStream ReadUnloadedModuleList()
+        {
+            MINIDUMP_UNLOADED_MODULE_LIST unloadedModuleList;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_UNLOADED_MODULE_LIST>(MINIDUMP_STREAM_TYPE.UnloadedModuleListStream, out unloadedModuleList, out streamPointer, out streamSize))
+            {
+                return new MiniDumpUnloadedModulesStream(); // Return empty result
+            }
+
+            // Advance the stream pointer past the header
+            streamPointer += (int)unloadedModuleList.SizeOfHeader;
+
+            // Now read the information
+            MINIDUMP_UNLOADED_MODULE[] unloadedModules = ReadArray<MINIDUMP_UNLOADED_MODULE>(streamPointer, (int)unloadedModuleList.NumberOfEntries);
+
+            return new MiniDumpUnloadedModulesStream(unloadedModuleList, unloadedModules, this);
+        }
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;

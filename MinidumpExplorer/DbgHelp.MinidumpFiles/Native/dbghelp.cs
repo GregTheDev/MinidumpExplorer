@@ -457,7 +457,6 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
         public UInt64 NumberOfEntries;
     }
 
-
     /*
     typedef struct _MINIDUMP_MEMORY_INFO {
         ULONG64 BaseAddress;
@@ -677,6 +676,40 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
                 TimeZone = miscInfo4.TimeZone
             };
         }
+    }
+
+    /*
+typedef struct _MINIDUMP_UNLOADED_MODULE_LIST {
+    ULONG32 SizeOfHeader;
+    ULONG32 SizeOfEntry;
+    ULONG32 NumberOfEntries;
+} MINIDUMP_UNLOADED_MODULE_LIST, *PMINIDUMP_UNLOADED_MODULE_LIST;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_UNLOADED_MODULE_LIST
+    {
+        public UInt32 SizeOfHeader;
+        public UInt32 SizeOfEntry;
+        public UInt32 NumberOfEntries;
+    }
+
+    /*
+typedef struct _MINIDUMP_UNLOADED_MODULE {
+    ULONG64 BaseOfImage;
+    ULONG32 SizeOfImage;
+    ULONG32 CheckSum;
+    ULONG32 TimeDateStamp;
+    RVA ModuleNameRva;
+} MINIDUMP_UNLOADED_MODULE, *PMINIDUMP_UNLOADED_MODULE;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_UNLOADED_MODULE
+    {
+        public UInt64 BaseOfImage;
+        public UInt32 SizeOfImage;
+        public UInt32 CheckSum;
+        public UInt32 TimeDateStamp;
+        public uint ModuleNameRva;
     }
 
     public enum MINIDUMP_STREAM_TYPE : uint
