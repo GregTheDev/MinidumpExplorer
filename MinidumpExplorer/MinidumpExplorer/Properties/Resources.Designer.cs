@@ -63,6 +63,26 @@ namespace MinidumpExplorer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bird_blue_32 {
+            get {
+                object obj = ResourceManager.GetObject("bird_blue_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap InBug_30px_R {
+            get {
+                object obj = ResourceManager.GetObject("InBug-30px-R", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Open_6529 {
             get {
                 object obj = ResourceManager.GetObject("Open_6529", resourceCulture);
