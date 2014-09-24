@@ -248,6 +248,11 @@
     <Content Include="Images\AppIcon\MiniDumpExplorer.ico" />
     <Content Include="Images\AppIcon\Saki-NuoveXT-2-Folder-document-open.ico" />
     <Content Include="Images\AppIcon\Visualpharm-Icons8-Metro-Style-Folders-Burn.ico" />
+    <Content Include="Images\Social\bird_blue_16.png" />
+    <Content Include="Images\Social\bird_blue_32.png" />
+    <Content Include="Images\Social\bird_blue_48.png" />
+    <Content Include="Images\Social\InBug-30px-R.png" />
+    <Content Include="Images\Social\InBug-60px-R.png" />
     <Content Include="Images\Steams\ActiveDocumentHost_6234.png" />
     <Content Include="Images\Steams\Assembly_6212.png" />
     <Content Include="Images\Steams\DialogID_6220_16x.png" />

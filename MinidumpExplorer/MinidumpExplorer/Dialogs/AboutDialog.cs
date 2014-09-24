@@ -18,7 +18,7 @@ namespace MinidumpExplorer.Dialogs
             this.labelProductName.Text = AssemblyProduct;
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
-            this.labelCompanyName.Text = AssemblyCompany;
+            //this.labelCompanyName.Text = AssemblyCompany;
             //this.textBoxDescription.Text = AssemblyDescription;
         }
 
@@ -105,6 +105,16 @@ namespace MinidumpExplorer.Dialogs
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start((sender as LinkLabel).Text);
+        }
+
+        private void picTwitter_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://twitter.com/greg_nagel");
+        }
+
+        private void picLinkedin_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.linkedin.com/pub/greg-nagel/22/a33/105");
         }
     }
 }
