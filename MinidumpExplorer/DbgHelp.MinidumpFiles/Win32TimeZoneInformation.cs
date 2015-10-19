@@ -20,35 +20,21 @@ namespace DbgHelp.MinidumpFiles
     /// result Win32TimeZoneInformation was created as a wrapper for TIME_ZONE_INFORMATION instead of reusing <see cref="System.TimeZoneInfo"/>.
     /// </para>
     /// </remarks>
-    public class Win32TimeZoneInformation
+    public sealed class Win32TimeZoneInformation
     {
         private TIME_ZONE_INFORMATION _timeZoneInformation;
-        private DateTime _standardDate;
-        private DateTime _daylightDate;
+        private Win32SystemTime _standardDate;
+        private Win32SystemTime _daylightDate;
 
         internal Win32TimeZoneInformation(TIME_ZONE_INFORMATION timeZoneInformation)
         {
             _timeZoneInformation = timeZoneInformation;
 
-            if (timeZoneInformation.StandardDate.wMonth == 0)
-            {
-                _standardDate = DateTime.MinValue;
-            }
-            else
-            {
-                _standardDate = new DateTime(timeZoneInformation.StandardDate.wYear, timeZoneInformation.StandardDate.wMonth, timeZoneInformation.StandardDate.wDay,
-                    timeZoneInformation.StandardDate.wHour, timeZoneInformation.StandardDate.wMinute, timeZoneInformation.StandardDate.wSecond, timeZoneInformation.StandardDate.wMilliseconds);
-            }
-
-            if (timeZoneInformation.DaylightDate.wMonth == 0)
-            {
-                _daylightDate = DateTime.MinValue;
-            }
-            else
-            {
-                _daylightDate = new DateTime(timeZoneInformation.DaylightDate.wYear, timeZoneInformation.DaylightDate.wMonth, timeZoneInformation.DaylightDate.wDay,
-                    timeZoneInformation.DaylightDate.wHour, timeZoneInformation.DaylightDate.wMinute, timeZoneInformation.DaylightDate.wSecond, timeZoneInformation.DaylightDate.wMilliseconds);
-            }
+            // StandardDate & DaylightDate are not simple date/time structures. They actually encode a relative
+            // or absolute date/time when the switch to/from daylight savings occurs (if the timezone even
+            // supports day light savings). As such don't try and convert them to System.DateTime's.
+            _standardDate = new Win32SystemTime(_timeZoneInformation.StandardDate);
+            _daylightDate = new Win32SystemTime(_timeZoneInformation.DaylightDate);
         }
 
         /// <summary>
@@ -68,11 +54,15 @@ namespace DbgHelp.MinidumpFiles
         /// A description for standard time. For example, "EST" could indicate Eastern Standard Time. The string will be returned unchanged by the GetTimeZoneInformation function. This string can be empty.
         /// </summary>
         public string StandardName { get { return _timeZoneInformation.StandardName; } }
+
         /// <summary>
-        /// A <see cref="System.DateTime"/> that contains a date and local time when the transition from daylight saving time to standard time occurs on this operating system. 
-        /// If the time zone does not support daylight saving time the value will be DateTime.MinValue. If this date is specified, the DaylightDate member of this class must will be specified. 
+        /// A <see cref="DbgHelp.MinidumpFiles.Win32SystemTime"/> that contains a date and local time when the transition from daylight saving time to standard time occurs on this operating system. 
         /// </summary>
-        public DateTime StandardDate { get { return _standardDate; } }
+        /// <remarks>
+        /// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms725481%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396 for details on how to decode this value.
+        /// </remarks>
+        public Win32SystemTime StandardDate { get { return _standardDate; } }
+
         /// <summary>
         /// The bias value to be used during local time translations that occur during standard time. 
         /// </summary>
@@ -87,11 +77,15 @@ namespace DbgHelp.MinidumpFiles
         ///  The string will be returned unchanged by the GetTimeZoneInformation function. This string can be empty.
         ///  </remarks>
         public string DaylightName { get { return _timeZoneInformation.DaylightName; } }
+
         /// <summary>
-        /// A <see cref="System.DateTime"/> structure that contains a date and local time when the transition from standard time to daylight saving time occurs on this operating system. 
-        /// If the time zone does not support daylight saving time the value will be DateTime.MinValue. If this date is specified, the StandardDate member in this class must also be specified. 
+        /// A <see cref="DbgHelp.MinidumpFiles.Win32SystemTime"/> that contains a date and local time when the transition from standard time to daylight saving time occurs on this operating system. 
         /// </summary>
-        public DateTime DaylightDate { get { return _daylightDate; } }
+        /// <remarks>
+        /// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms725481%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396 for details on how to decode this value.
+        /// </remarks>
+        public Win32SystemTime DaylightDate { get { return _daylightDate; } }
+        
         /// <summary>
         /// The bias value to be used during local time translations that occur during daylight saving time.
         /// </summary>

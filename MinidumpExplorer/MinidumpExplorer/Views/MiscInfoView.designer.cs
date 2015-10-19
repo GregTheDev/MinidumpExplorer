@@ -40,7 +40,7 @@
             this.columnHeader2});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
-            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(805, 432);
@@ -50,13 +50,13 @@
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "";
+            this.columnHeader1.Text = "Field";
             this.columnHeader1.Width = 223;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "";
-            this.columnHeader2.Width = 308;
+            this.columnHeader2.Text = "Value";
+            this.columnHeader2.Width = 508;
             // 
             // MiscInfoView
             // 
