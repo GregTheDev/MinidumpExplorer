@@ -118,20 +118,10 @@ namespace MinidumpExplorer.Views
                 AddInfoNode("TimeZoneId", miscInfo3.TimeZoneId.ToString());
                 AddInfoNode("TimeZone.Bias", miscInfo3.TimeZone.Bias.ToString());
                 AddInfoNode("TimeZone.StandardName", miscInfo3.TimeZone.StandardName);
-
-                if (miscInfo3.TimeZone.StandardDate == DateTime.MinValue)
-                    AddInfoNode("TimeZone.StandardDate", "Daylight saving time not supported for this time zone");
-                else
-                    AddInfoNode("TimeZone.StandardDate", miscInfo3.TimeZone.StandardDate.ToString());
-
+                AddInfoNode("TimeZone.StandardDate", miscInfo3.TimeZone.StandardDate.ToString());
                 AddInfoNode("TimeZone.StandardBias", miscInfo3.TimeZone.StandardBias.ToString());
                 AddInfoNode("TimeZone.DaylightName", miscInfo3.TimeZone.DaylightName);
-
-                if (miscInfo3.TimeZone.DaylightDate == DateTime.MinValue)
-                    AddInfoNode("TimeZone.DaylightDate", miscInfo3.TimeZone.DaylightDate.ToString());
-                else
-                    AddInfoNode("TimeZone.DaylightDate", "Daylight saving time not supported for this time zone");
-
+                AddInfoNode("TimeZone.DaylightDate", miscInfo3.TimeZone.DaylightDate.ToString());
                 AddInfoNode("TimeZone.DaylightBias", miscInfo3.TimeZone.DaylightBias.ToString());
             }
             else
