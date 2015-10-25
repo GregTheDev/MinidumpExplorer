@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DbgHelp.MinidumpFiles
 {
     /// <summary>
-    /// Contains a list of memory regions.
+    /// Contains a list of memory region information.
     /// </summary>
     public class MiniDumpMemoryInfoStream
     {

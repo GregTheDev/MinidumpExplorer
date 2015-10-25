@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DbgHelp.MinidumpFiles
 {
     /// <summary>
-    /// Contains exception information.
+    /// Describes a region of memory.
     /// </summary>
     public class MiniDumpMemoryInfo
     {
