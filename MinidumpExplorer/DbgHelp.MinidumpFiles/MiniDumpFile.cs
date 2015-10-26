@@ -106,9 +106,9 @@ namespace DbgHelp.MinidumpFiles
             }
 
             // 4 == skip the NumberOfMemoryRanges field (4 bytes)
-            MINIDUMP_MEMORY_DESCRIPTOR[] modules = ReadArray<MINIDUMP_MEMORY_DESCRIPTOR>(streamPointer + 4, (int)memoryList.NumberOfMemoryRanges);
+            MINIDUMP_MEMORY_DESCRIPTOR[] memoryDescriptors = ReadArray<MINIDUMP_MEMORY_DESCRIPTOR>(streamPointer + 4, (int)memoryList.NumberOfMemoryRanges);
 
-            List<MiniDumpMemoryDescriptor> returnList = new List<MiniDumpMemoryDescriptor>(modules.Select(x => new MiniDumpMemoryDescriptor(x)));
+            List<MiniDumpMemoryDescriptor> returnList = new List<MiniDumpMemoryDescriptor>(memoryDescriptors.Select(x => new MiniDumpMemoryDescriptor(x)));
 
             return returnList.ToArray();
         }
