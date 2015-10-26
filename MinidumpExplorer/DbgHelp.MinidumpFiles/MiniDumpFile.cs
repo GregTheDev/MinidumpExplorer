@@ -283,7 +283,7 @@ namespace DbgHelp.MinidumpFiles
                 return null;
             }
 
-            MiniDumpMiscInfo retVal;
+            MiniDumpMiscInfo retVal = null;
 
             if (miscInfo.SizeOfInfo == SIZEOF_INFO_1)
             {
@@ -301,15 +301,20 @@ namespace DbgHelp.MinidumpFiles
 
                 retVal = new MiniDumpMiscInfo3(miscInfo3);
             }
-            else if (miscInfo.SizeOfInfo == SIZEOF_INFO_4)
+            else if (miscInfo.SizeOfInfo >= SIZEOF_INFO_4)
             {
                 miscInfo4 = (MINIDUMP_MISC_INFO_4)Marshal.PtrToStructure(streamPointer, typeof(MINIDUMP_MISC_INFO_4));
 
                 retVal = new MiniDumpMiscInfo4(miscInfo4);
             }
-            else
+
+            // GN, 25 Oct 2015.
+            // Code used to throw an exception when SizeOfInfo didn't match any known sizes. Decided that this
+            // condition should not be a error condition: additional versions of MISC_INFO could be added at any
+            // time and a new version should not caused the call to fail e.g. Windows 10 added MISC_INFO_5.
+            if (miscInfo.SizeOfInfo > SIZEOF_INFO_4)
             {
-                throw new InvalidOperationException("Data returned from reading MiscInfoStream has an unrecognised SizeOfInfo field: " + miscInfo.SizeOfInfo + " bytes");
+                System.Diagnostics.Debug.WriteLine("Data returned from reading MiscInfoStream has an unrecognised SizeOfInfo field: " + miscInfo.SizeOfInfo + " bytes. Maybe a new MINIDUMP_MISC_INFO_? structure has been added?");
             }
 
             return retVal;
