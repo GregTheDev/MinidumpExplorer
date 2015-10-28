@@ -18,6 +18,8 @@ namespace MinidumpExplorer.Dialogs
 {
     public partial class MinidumpCaptureDialog : Form
     {
+        public const int E_ACCESSDENIED = -2147467259; // Access denied (0x80070005). 
+
         private const int TP_PROCESS_LIST = 0;
         private const int TP_MINIDUMP_OPTIONS = 1;
         private const int TP_SAVE_LOCATION = 2;
@@ -140,7 +142,25 @@ namespace MinidumpExplorer.Dialogs
             #endregion
 
             CaptureArguments captureArguments = new CaptureArguments();
-            captureArguments.ProcessHandle = this.TargetProcess.Handle;
+
+            // Remote process might be running with admin rights
+            try
+            {
+                captureArguments.ProcessHandle = TargetProcess.Handle;
+            }
+            catch (Win32Exception w32ex)
+            {
+                if (w32ex.HResult == E_ACCESSDENIED) // access denied
+                {
+                    MessageBox.Show("'" + TargetProcess.ProcessName + "' is running with elevated privileges, please restart Minidump Explorer with elevated privileges and try again.",
+                        "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                throw;
+            }
+
             captureArguments.ProcessId = this.TargetProcess.Id;
             captureArguments.FilePath = this.txtSaveLocation.Text;
             captureArguments.MiniDumpType = this.MiniDumpType;
