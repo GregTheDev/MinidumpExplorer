@@ -137,12 +137,14 @@ namespace MinidumpExplorer
 
         private void OpenNewSession(string filePath)
         {
+            ResetTree();
             CloseExistingSession();
 
             _miniDumpFile = MiniDumpFile.OpenExisting(filePath);
 
             this.treeView1.Nodes[0].Text = Path.GetFileName(filePath);
             this.treeView1.Nodes[0].ToolTipText = filePath;
+            this.treeView1.SelectedNode = treeView1.Nodes[0];
         }
 
         private void CloseExistingSession()
@@ -152,6 +154,15 @@ namespace MinidumpExplorer
             if (_miniDumpFile != null) _miniDumpFile.Dispose();
 
             this.treeView1.Nodes[0].Text = "<No minidump loaded>";
+        }
+
+        private void ResetTree()
+        {
+            // TODO: Not pretty, but it'll do for now.
+            foreach (TreeNode node in treeView1.Nodes[0].Nodes)
+            {
+                node.Text = (string)node.Tag;
+            }
         }
 
         private void captureMinidumpToolStripMenuItem_Click(object sender, EventArgs e)
