@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +17,8 @@ namespace MinidumpExplorer
 {
     public partial class MainForm : Form
     {
+        private readonly string[] ALLOWED_DROP_EXTENSIONS = { ".hdmp", ".dmp" };
+
         private MiniDumpFile _miniDumpFile;
 
         public MainForm()
@@ -106,14 +110,14 @@ namespace MinidumpExplorer
                 case "UnloadedModules":
                     nodeText = "UnloadedModules";
                     MiniDumpUnloadedModulesStream unloadedModulesStream = this._miniDumpFile.ReadUnloadedModuleList();
-                    numberOfItems = (int) unloadedModulesStream.NumberOfEntries;
+                    numberOfItems = (int)unloadedModulesStream.NumberOfEntries;
                     viewToDisplay = new UnloadedModulesView(unloadedModulesStream);
                     break;
             }
 
             if (viewToDisplay != null)
             {
-                e.Node.Text = nodeText + " (" + numberOfItems + (numberOfItems == 1 ? " item" : " items" ) + ")";
+                e.Node.Text = nodeText + " (" + numberOfItems + (numberOfItems == 1 ? " item" : " items") + ")";
 
                 if (this.splitContainer1.Panel2.Controls.Count > 0) this.splitContainer1.Panel2.Controls.RemoveAt(0);
 
@@ -127,13 +131,18 @@ namespace MinidumpExplorer
         {
             if (this.openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                CloseExistingSession();
-
-                _miniDumpFile = MiniDumpFile.OpenExisting(this.openFileDialog1.FileName);
-
-                this.treeView1.Nodes[0].Text = this.openFileDialog1.SafeFileName;
-                this.treeView1.Nodes[0].ToolTipText = this.openFileDialog1.FileName;
+                OpenNewSession(this.openFileDialog1.FileName);
             }
+        }
+
+        private void OpenNewSession(string filePath)
+        {
+            CloseExistingSession();
+
+            _miniDumpFile = MiniDumpFile.OpenExisting(filePath);
+
+            this.treeView1.Nodes[0].Text = Path.GetFileName(filePath);
+            this.treeView1.Nodes[0].ToolTipText = filePath;
         }
 
         private void CloseExistingSession()
@@ -161,6 +170,38 @@ namespace MinidumpExplorer
         {
             AboutDialog aboutDialog = new AboutDialog();
             aboutDialog.ShowDialog();
+        }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+
+                if (s.Length != 1)
+                {
+                    e.Effect = DragDropEffects.None;
+                }
+                else
+                {
+                    string fileExtension = System.IO.Path.GetExtension(s[0]);
+                    string matchingExtension = ALLOWED_DROP_EXTENSIONS.Where(x => String.Compare(x, fileExtension, true) == 0).FirstOrDefault();
+
+                    if (matchingExtension != null)
+                        e.Effect = DragDropEffects.All;
+                    else
+                        e.Effect = DragDropEffects.None;
+                }
+            }
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+
+            OpenNewSession(s[0]);
         }
     }
 }
