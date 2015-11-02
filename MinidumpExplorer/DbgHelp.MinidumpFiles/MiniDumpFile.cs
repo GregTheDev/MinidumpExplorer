@@ -3,6 +3,7 @@ using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -30,7 +31,10 @@ namespace DbgHelp.MinidumpFiles
         /// <returns></returns>
         public static MiniDumpFile OpenExisting(string path)
         {
-            MemoryMappedFile minidumpMappedFile = MemoryMappedFile.CreateFromFile(path, System.IO.FileMode.Open);
+            // MemoryMappedFile will close the FileStream when it gets Disposed.
+            FileStream fileStream = File.Open(path, System.IO.FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            MemoryMappedFile minidumpMappedFile = MemoryMappedFile.CreateFromFile(fileStream, Path.GetFileName(path), 0, MemoryMappedFileAccess.Read, null, HandleInheritability.None, false);
 
             SafeMemoryMappedViewHandle mappedFileView = NativeMethods.MapViewOfFile(minidumpMappedFile.SafeMemoryMappedFileHandle, NativeMethods.FILE_MAP_READ, 0, 0, IntPtr.Zero);
 
