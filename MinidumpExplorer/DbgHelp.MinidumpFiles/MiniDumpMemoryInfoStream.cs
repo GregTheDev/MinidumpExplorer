@@ -16,6 +16,16 @@ namespace DbgHelp.MinidumpFiles
         private MINIDUMP_MEMORY_INFO_LIST _memoryInfoList;
         private List<MiniDumpMemoryInfo> _memoryInfoEntries;
 
+        internal MiniDumpMemoryInfoStream()
+        {
+            _memoryInfoList = new MINIDUMP_MEMORY_INFO_LIST();
+            _memoryInfoList.NumberOfEntries = 0;
+            _memoryInfoList.SizeOfEntry = 0;
+            _memoryInfoList.SizeOfHeader = 0;
+
+            _memoryInfoEntries = new List<MiniDumpMemoryInfo>();
+        }
+
         internal MiniDumpMemoryInfoStream(MINIDUMP_MEMORY_INFO_LIST memoryInfoList, MINIDUMP_MEMORY_INFO[] memoryInfoEntries)
         {
             _memoryInfoList = memoryInfoList;

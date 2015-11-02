@@ -247,7 +247,7 @@ namespace DbgHelp.MinidumpFiles
 
             if (!this.ReadStream<MINIDUMP_MEMORY_INFO_LIST>(MINIDUMP_STREAM_TYPE.MemoryInfoListStream, out memoryInfoList, out streamPointer, out streamSize))
             {
-                return null;
+                return new MiniDumpMemoryInfoStream();
             }
 
             // Advance the stream pointer past the header
