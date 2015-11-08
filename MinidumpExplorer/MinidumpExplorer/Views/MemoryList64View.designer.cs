@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listView1 = new System.Windows.Forms.ListView();
             this.startColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.endColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.dataSizeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.listViewContextMenu1 = new MinidumpExplorer.Controls.ListViewContextMenu(this.components);
             this.SuspendLayout();
             // 
             // listView1
@@ -40,6 +42,7 @@
             this.startColumnHeader,
             this.endColumnHeader,
             this.dataSizeHeader});
+            this.listView1.ContextMenuStrip = this.listViewContextMenu1;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
@@ -67,12 +70,17 @@
             this.dataSizeHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.dataSizeHeader.Width = 111;
             // 
-            // MemoryListView
+            // listViewContextMenu1
+            // 
+            this.listViewContextMenu1.Name = "listViewContextMenu1";
+            this.listViewContextMenu1.Size = new System.Drawing.Size(103, 26);
+            // 
+            // MemoryList64View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.listView1);
-            this.Name = "MemoryListView";
+            this.Name = "MemoryList64View";
             this.Size = new System.Drawing.Size(919, 334);
             this.ResumeLayout(false);
 
@@ -84,6 +92,6 @@
         private System.Windows.Forms.ColumnHeader startColumnHeader;
         private System.Windows.Forms.ColumnHeader endColumnHeader;
         private System.Windows.Forms.ColumnHeader dataSizeHeader;
-
+        private Controls.ListViewContextMenu listViewContextMenu1;
     }
 }
