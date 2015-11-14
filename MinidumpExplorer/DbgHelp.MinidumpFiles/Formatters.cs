@@ -25,7 +25,7 @@ namespace DbgHelp.MinidumpFiles
 
         public static string FormatAsMemoryAddress(UInt64 address)
         {
-            return String.Concat("0x", address.ToString("X8"));
+            return String.Concat("0x", address.ToString("x8"));
         }
     }
 }

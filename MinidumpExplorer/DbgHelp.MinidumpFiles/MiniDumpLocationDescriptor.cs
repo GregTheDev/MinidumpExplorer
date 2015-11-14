@@ -17,7 +17,7 @@ namespace DbgHelp.MinidumpFiles
         }
 
         public uint DataSize { get { return _locationDescriptor.DataSize; } }
-        public string DataSizeFormatted { get { return String.Concat("0x", this.DataSize.ToString("X8")); } }
+        public string DataSizeFormatted { get { return String.Concat("0x", this.DataSize.ToString("x8")); } }
         public string DataSizePretty
         {
             get

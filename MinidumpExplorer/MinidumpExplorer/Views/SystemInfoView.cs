@@ -43,7 +43,7 @@ namespace MinidumpExplorer.Views
             else
                 AddGroupedNode("ProcessorLevel", systemInfo.ProcessorLevel.ToString(), LVG_SYSTEM_INFO);
             
-            AddGroupedNode("ProcessorRevision", String.Format("0x{0:X8}", systemInfo.ProcessorRevision), LVG_SYSTEM_INFO);
+            AddGroupedNode("ProcessorRevision", String.Format("0x{0:x8}", systemInfo.ProcessorRevision), LVG_SYSTEM_INFO);
             AddGroupedNode("NumberOfProcessors", systemInfo.NumberOfProcessors.ToString(), LVG_SYSTEM_INFO);
             AddGroupedNode("ProductType", systemInfo.ProductType.ToString(), LVG_SYSTEM_INFO);
             AddGroupedNode("MajorVersion", systemInfo.MajorVersion.ToString(), LVG_SYSTEM_INFO);
@@ -69,20 +69,20 @@ namespace MinidumpExplorer.Views
             if (systemInfo.ProcessorArchitecture == MiniDumpProcessorArchitecture.PROCESSOR_ARCHITECTURE_INTEL)
             {
                 AddGroupedNode("VendorId", systemInfo.CpuInfoX86.VendorId, LVG_CPU_INFO);
-                AddGroupedNode("VersionInformation", String.Format("0x{0:X8}", systemInfo.CpuInfoX86.VersionInformation), LVG_CPU_INFO);
+                AddGroupedNode("VersionInformation", String.Format("0x{0:x8}", systemInfo.CpuInfoX86.VersionInformation), LVG_CPU_INFO);
                 AddGroupedNode("FeatureInformation",
-                    String.Format("0x{0:X8} ({1})", systemInfo.CpuInfoX86.FeatureInformation, Convert.ToString(systemInfo.CpuInfoX86.FeatureInformation, 2)), 
+                    String.Format("0x{0:x8} ({1})", systemInfo.CpuInfoX86.FeatureInformation, Convert.ToString(systemInfo.CpuInfoX86.FeatureInformation, 2)), 
                     LVG_CPU_INFO);
 
                 if (systemInfo.CpuInfoX86.VendorId == "AuthenticAMD")
-                    AddGroupedNode("AMDExtendedCpuFeatures ", String.Format("0x{0:X8}", systemInfo.CpuInfoX86.AMDExtendedCpuFeatures), LVG_CPU_INFO);
+                    AddGroupedNode("AMDExtendedCpuFeatures ", String.Format("0x{0:x8}", systemInfo.CpuInfoX86.AMDExtendedCpuFeatures), LVG_CPU_INFO);
             }
             else
             {
                 AddGroupedNode("ProcessorFeatures ", 
-                    String.Format("0x{0:X8}", systemInfo.CpuInfoOther.ProcessorFeatures[0]) + 
+                    String.Format("0x{0:x8}", systemInfo.CpuInfoOther.ProcessorFeatures[0]) + 
                     " " +
-                    String.Format("0x{0:X8}", systemInfo.CpuInfoOther.ProcessorFeatures[1]), LVG_CPU_INFO);
+                    String.Format("0x{0:x8}", systemInfo.CpuInfoOther.ProcessorFeatures[1]), LVG_CPU_INFO);
             }
         }
 

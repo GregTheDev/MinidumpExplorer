@@ -17,11 +17,11 @@ namespace DbgHelp.MinidumpFiles
         }
 
         public UInt64 StartOfMemoryRange { get { return _memoryDescriptor.StartOfMemoryRange; } }
-        public string StartOfMemoryRangeFormatted { get { return String.Concat("0x", _memoryDescriptor.StartOfMemoryRange.ToString("X8")); } }
+        public string StartOfMemoryRangeFormatted { get { return String.Concat("0x", _memoryDescriptor.StartOfMemoryRange.ToString("x8")); } }
         public UInt64 EndOfMemoryRange { get { return _memoryDescriptor.StartOfMemoryRange + _memoryDescriptor.DataSize - 1; } }
-        public string EndOfMemoryRangeFormatted { get { return String.Concat("0x", EndOfMemoryRange.ToString("X8")); } }
+        public string EndOfMemoryRangeFormatted { get { return String.Concat("0x", EndOfMemoryRange.ToString("x8")); } }
         public UInt64 DataSize { get { return _memoryDescriptor.DataSize; } }
-        public string DataSizeFormatted { get { return String.Concat("0x", this.DataSize.ToString("X8")); } }
+        public string DataSizeFormatted { get { return String.Concat("0x", this.DataSize.ToString("x8")); } }
         public string DataSizePretty
         {
             get

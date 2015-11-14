@@ -54,7 +54,7 @@ namespace DbgHelp.MinidumpFiles
         /// </summary>
         public string BaseOfImageFormatted
         {
-            get { return String.Concat("0x", _module.BaseOfImage.ToString("X8")); }
+            get { return String.Concat("0x", _module.BaseOfImage.ToString("x8")); }
         }
 
         /// <summary>
