@@ -348,6 +348,26 @@ namespace DbgHelp.MinidumpFiles
             return new MiniDumpUnloadedModulesStream(unloadedModuleList, unloadedModules, this);
         }
 
+        public unsafe void CopyMemoryFromOffset(ulong rva, IntPtr destination, uint size)
+        {
+            try
+            {
+                byte* baseOfView = null;
+
+                _mappedFileView.AcquirePointer(ref baseOfView);
+
+                IntPtr readAddress = new IntPtr(baseOfView + rva);
+
+                windows.RtlMoveMemory(destination, readAddress, new IntPtr(size));
+            }
+            finally
+            {
+                _mappedFileView.ReleasePointer();
+            }
+
+            return;
+        }
+
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
         {
             IntPtr streamPointer;
