@@ -33,11 +33,11 @@ namespace MinidumpExplorer.Views
             {
                 foreach (MiniDumpThread thread in threadList)
                 {
-                    ListViewItem newItem = new ListViewItem("0x" + thread.ThreadId.ToString("X8") + " (" + thread.ThreadId + ")");
+                    ListViewItem newItem = new ListViewItem("0x" + thread.ThreadId.ToString("x8") + " (" + thread.ThreadId + ")");
                     newItem.SubItems.Add(thread.SuspendCount.ToString());
                     newItem.SubItems.Add(thread.PriorityClass.ToString());
                     newItem.SubItems.Add(thread.Priority.ToString());
-                    newItem.SubItems.Add("0x" + thread.Teb.ToString("X8"));
+                    newItem.SubItems.Add("0x" + thread.Teb.ToString("x8"));
                     newItem.SubItems.Add(thread.Stack.StartOfMemoryRangeFormatted + " (" + thread.Stack.Memory.DataSizePretty + ")");
                     newItem.SubItems.Add(thread.ThreadContext.DataSize + " bytes");
 

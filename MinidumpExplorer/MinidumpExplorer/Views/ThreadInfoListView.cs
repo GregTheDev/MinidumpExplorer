@@ -33,9 +33,9 @@ namespace MinidumpExplorer.Views
             {
                 foreach (MiniDumpThreadInfo thread in _threadInfoList)
                 {
-                    ListViewItem newItem = new ListViewItem("0x" + thread.ThreadId.ToString("X8") + " (" + thread.ThreadId + ")");
+                    ListViewItem newItem = new ListViewItem("0x" + thread.ThreadId.ToString("x8") + " (" + thread.ThreadId + ")");
                     newItem.SubItems.Add(thread.DumpFlags.ToString());
-                    newItem.SubItems.Add("0x" + thread.DumpError.ToString("X8"));
+                    newItem.SubItems.Add("0x" + thread.DumpError.ToString("x8"));
                     newItem.SubItems.Add((thread.ExitStatus == MiniDumpThreadInfo.STILL_ACTIVE) ? "STILL_ACTIVE" : thread.ExitStatus.ToString());
                     newItem.SubItems.Add(thread.CreateTime.ToString());
 
@@ -46,7 +46,7 @@ namespace MinidumpExplorer.Views
 
                     newItem.SubItems.Add(FormattedTimeSpan(thread.KernelTime));
                     newItem.SubItems.Add(FormattedTimeSpan(thread.UserTime));
-                    newItem.SubItems.Add("0x" + thread.StartAddress.ToString("X8"));
+                    newItem.SubItems.Add("0x" + thread.StartAddress.ToString("x8"));
                     newItem.SubItems.Add(thread.Affinity.ToString());
 
                     newItem.Tag = thread;

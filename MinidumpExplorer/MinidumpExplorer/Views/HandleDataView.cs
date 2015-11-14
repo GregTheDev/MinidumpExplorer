@@ -22,7 +22,7 @@ namespace MinidumpExplorer.Views
         {
             foreach (MiniDumpHandleDescriptor handle in handles)
             {
-                ListViewItem newItem = new ListViewItem("0x" + handle.HandleId.ToString("X8"));
+                ListViewItem newItem = new ListViewItem("0x" + handle.HandleId.ToString("x8"));
                 newItem.SubItems.Add(handle.TypeName);
                 newItem.SubItems.Add(handle.ObjectName);
 
