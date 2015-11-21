@@ -6,6 +6,9 @@ namespace DbgHelp.MinidumpFiles.Native
 {
     internal class windows
     {
+        [DllImport("kernel32.dll")]
+        public static extern void RtlMoveMemory(IntPtr destination, IntPtr source, IntPtr numberBytes);
+
         // http://msdn.microsoft.com/en-us/library/ms646997%28v=vs.85%29.aspx
         public const uint VS_FF_DEBUG = 0x00000001;
         public const uint VS_FF_INFOINFERRED = 0x00000010;
