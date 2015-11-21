@@ -712,6 +712,25 @@ typedef struct _MINIDUMP_UNLOADED_MODULE {
         public uint ModuleNameRva;
     }
 
+    /*
+typedef struct _MINIDUMP_HANDLE_OPERATION_LIST {
+  ULONG32 SizeOfHeader;
+  ULONG32 SizeOfEntry;
+  ULONG32 NumberOfEntries;
+  ULONG32 Reserved;
+} MINIDUMP_HANDLE_OPERATION_LIST, *PMINIDUMP_HANDLE_OPERATION_LIST;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_HANDLE_OPERATION_LIST
+    {
+        public UInt32 SizeOfHeader;
+        public UInt32 SizeOfEntry;
+        public UInt32 NumberOfEntries;
+        public UInt32 Reserved;
+    }
+
+
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,
