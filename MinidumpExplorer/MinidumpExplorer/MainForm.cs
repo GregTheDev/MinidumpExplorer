@@ -1,16 +1,12 @@
 ﻿using DbgHelp.MinidumpFiles;
 using MinidumpExplorer.Dialogs;
+using MinidumpExplorer.Utilities;
 using MinidumpExplorer.Views;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MinidumpExplorer
@@ -28,8 +24,52 @@ namespace MinidumpExplorer
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.treeView1.ExpandAll();
+            treeView1.ExpandAll();
+
+            UpdateCheck();
         }
+
+        #region New version checks
+
+        private void UpdateCheck()
+        {
+            BackgroundWorker updateWorker = new BackgroundWorker();
+            updateWorker.DoWork += UpdateWorker_DoWork;
+            updateWorker.RunWorkerCompleted += UpdateWorker_RunWorkerCompleted;
+            updateWorker.RunWorkerAsync(Properties.Settings.Default.ReleasesFeedUrl);
+        }
+
+        private void UpdateWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            UpdateChecker updateChecker = new UpdateChecker();
+
+            e.Result = updateChecker.CheckForUpdates((string)e.Argument);
+        }
+
+        private void UpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Result != null)
+            {
+                ToolStripLabel updateLabel = new ToolStripLabel()
+                {
+                    Text = "New version available",
+                    IsLink = true,
+                    Tag = e.Result,
+                    Alignment = ToolStripItemAlignment.Right
+                };
+
+                updateLabel.Click += UpdateLabel_Click;
+
+                menuStrip1.Items.Add(updateLabel);
+            }
+        }
+
+        private void UpdateLabel_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start((string)(sender as ToolStripItem).Tag);
+        }
+
+        #endregion
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
