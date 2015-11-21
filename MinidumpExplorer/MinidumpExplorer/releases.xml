@@ -1,16 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title type="text">Minidump Explorer</title>
-  <id>https://minidumps.codeplex.com/releases</id>
-  <updated>2015-11-14T00:00:00Z</updated>
-  <author>
-    <name>Greg Nagel</name>
-  </author>
-  <entry>
-    <id>https://minidumps.codeplex.com/releases/131630</id>
-    <title type="text">0.4.0.0</title>
-    <updated>2015-11-14T00:00:00Z</updated>
-    <link href="https://minidumps.codeplex.com/releases/view/131630" />
-    <category term="Stable" />
-  </entry>
+    <title type="text">Minidump Explorer</title>
+    <id>https://minidumps.codeplex.com/releases</id>
+    <updated>2015-11-21T00:00:00Z</updated>
+    <author>
+      <name>Greg Nagel</name>
+    </author>
+  
+    <!-- V 0.5 -->
+    <entry>     
+      <id>https://minidumps.codeplex.com/releases/view/131631</id>
+      <title type="text">0.5.0.0</title>
+      <updated>2015-11-21T00:00:00Z</updated>
+      <link href="https://minidumps.codeplex.com/releases/view/131631" />
+      <category term="Stable" />
+      <content type="text">
+      </content>
+    </entry>
+  
+    <!-- V 0.4 -->    
+    <entry>
+      <id>https://minidumps.codeplex.com/releases/131630</id>
+      <title type="text">0.4.0.0</title>
+      <updated>2015-11-14T00:00:00Z</updated>
+      <link href="https://minidumps.codeplex.com/releases/view/131630" />
+      <category term="Stable" />
+      <content type="text">
+      </content>
+    </entry>
 </feed>
