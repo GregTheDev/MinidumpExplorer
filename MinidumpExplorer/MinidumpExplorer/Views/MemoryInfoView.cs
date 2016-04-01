@@ -17,18 +17,13 @@ namespace MinidumpExplorer.Views
     public partial class MemoryInfoView : BaseViewControl
     {
         private MiniDumpMemoryInfoStream _memoryInfoStream;
-        private ListViewColumnSorter lvwColumnSorter;
         private List<ListViewItem> _originalItems;
 
         public MemoryInfoView()
         {
             InitializeComponent();
 
-            lvwColumnSorter = new ListViewColumnSorter();
-            lvwColumnSorter.Order = SortOrder.Ascending;
-
             listView1.SetHeaderDropdown(2, true);
-            this.listView1.ListViewItemSorter = lvwColumnSorter;
             this.listView1.HeaderDropdown += ListView1_HeaderDropdown;
         }
 
@@ -143,32 +138,6 @@ namespace MinidumpExplorer.Views
 
                 listView1.Items.AddRange(_originalItems.ToArray());
             }
-        }
-
-        private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            // Determine if clicked column is already the column that is being sorted.
-            if (e.Column == lvwColumnSorter.SortColumn)
-            {
-                // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
-            }
-            else
-            {
-                // Set the column number that is to be sorted; default to ascending.
-                lvwColumnSorter.SortColumn = e.Column;
-                lvwColumnSorter.Order = SortOrder.Ascending;
-            }
-
-            // Perform the sort with these new sort options.
-            this.listView1.Sort();
         }
     }
 }

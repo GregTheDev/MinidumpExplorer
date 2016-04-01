@@ -99,6 +99,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\ListViewSubItemEx.cs" />
+    <Compile Include="Controls\MinidumpListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\ToolStripCheckBoxMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
