@@ -23,74 +23,7 @@ namespace MinidumpExplorer.Views
         {
             InitializeComponent();
 
-            listView1.SetHeaderDropdown(2, true);
-            this.listView1.HeaderDropdown += ListView1_HeaderDropdown;
-        }
-
-        private void ListView1_HeaderDropdown(object sender, ListViewEx.HeaderDropdownArgs e)
-        {
-            ContextMenuStrip lala = new ContextMenuStrip();
-
-            var distinctValues = _originalItems
-                .Select(item => item.SubItems[e.Column].Text)
-                .Distinct();
-
-            foreach (var item in distinctValues)
-            {
-                ToolStripCheckBoxMenuItem newItem = new ToolStripCheckBoxMenuItem(String.IsNullOrEmpty(item) ? "(blank)" : item);
-                newItem.Click += NewItem_Click1;
-                lala.Items.Add(newItem);
-            }
-
-            lala.Closing += Lala_Closing;
-
-            Rectangle columnHeader = listView1.GetHeaderRect(e.Column);
-            Rectangle splitButtonRect = listView1.GetSplitButtonRect(e.Column);
-            Point lele = new Point(columnHeader.Right - splitButtonRect.Width, columnHeader.Bottom);
-
-            lala.Show(listView1, lele);
-
-        }
-
-        private void NewItem_Click1(object sender, EventArgs e)
-        {
-            ToolStripCheckBoxMenuItem menuItem = (ToolStripCheckBoxMenuItem)sender;
-
-            // This line creates an array containing the text of all
-            // menu items inside a context menu that are checked.
-            var selectedFilters = menuItem.Owner.Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Text).ToArray();
-
-            listView1.SuspendLayout();
-
-            try
-            {
-                // This line says look at the master list of items and select any item where 
-                // the text of the 3rd column (item.SubItems[2].Text) matches one of the
-                // entries that were checked in the context menu.
-                var itemsToAdd = _originalItems.Where(item => Array.IndexOf(selectedFilters, item.SubItems[2].Text) >= 0);
-
-                listView1.Items.Clear();
-                listView1.Items.AddRange(itemsToAdd.ToArray());
-            }
-            finally
-            {
-                listView1.ResumeLayout();
-            }
-        }
-
-        private void NewItem_Click(object sender, EventArgs e)
-        {
-            ToolStripCheckBoxMenuItem menuItem = (ToolStripCheckBoxMenuItem)sender;
-
-            menuItem.Checked = !menuItem.Checked;
-
-            System.Diagnostics.Debug.WriteLine(menuItem.ToString() + ".Checked = " + menuItem.Checked);
-        }
-
-        private void Lala_Closing(object sender, ToolStripDropDownClosingEventArgs e)
-        {
-            if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
-                e.Cancel = true;
+            listView1.SetFilteringForColumn(2, true);
         }
 
         public MemoryInfoView(MiniDumpMemoryInfoStream memoryInfoStream)
@@ -104,7 +37,7 @@ namespace MinidumpExplorer.Views
             }
             else
             {
-                _originalItems = new List<ListViewItem>();
+                List<ListViewItem> listItems = new List<ListViewItem>();
 
                 foreach (MiniDumpMemoryInfo memoryInfo in _memoryInfoStream.Entries)
                 {
@@ -132,11 +65,10 @@ namespace MinidumpExplorer.Views
                         newItem.SubItems.Add(new ListViewSubItemEx(newItem, memoryInfo.Type.ToString(), memoryInfo.Type));
                     }
 
-                    //this.listView1.Items.Add(newItem);
-                    _originalItems.Add(newItem);
+                    listItems.Add(newItem);
                 }
 
-                listView1.Items.AddRange(_originalItems.ToArray());
+                listView1.AddItemsForFiltering(listItems);
             }
         }
     }
