@@ -21,7 +21,7 @@ namespace MinidumpExplorer.Controls
         }
         public event EventHandler<HeaderDropdownArgs> HeaderDropdown;
 
-        public void SetHeaderDropdown(int column, bool enable)
+        protected void SetHeaderDropdown(int column, bool enable)
         {
             if (column < 0 || column >= this.Columns.Count)
                 throw new ArgumentOutOfRangeException("column");
