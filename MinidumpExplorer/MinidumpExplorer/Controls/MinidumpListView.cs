@@ -76,6 +76,7 @@ namespace MinidumpExplorer.Controls
 
             // Perform the sort with these new sort options.
             this.Sort();
+            this.SetSortIcon(e.Column, _lvwColumnSorter.Order);
 
             base.OnColumnClick(e);
         }
