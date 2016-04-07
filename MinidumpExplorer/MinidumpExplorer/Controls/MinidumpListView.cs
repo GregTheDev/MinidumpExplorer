@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -114,21 +115,26 @@ namespace MinidumpExplorer.Controls
         {
             ToolStripCheckBoxMenuItem menuItem = (ToolStripCheckBoxMenuItem)sender;
 
-            // This line creates an array containing the text of all
-            // menu items inside a context menu that are checked.
-            var selectedFilters = menuItem.Owner.Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Text).ToArray();
+            IEnumerable<ListViewItem> items = null;
+
+            foreach (var fitlerOption in _filterMenus)
+            {
+                var selectedFiltersForThisColumn = fitlerOption.Value.Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Text).ToArray();
+
+                if (selectedFiltersForThisColumn.Length == 0) continue;
+
+                if (items == null)
+                    items = _originalItems.Where(item => Array.IndexOf(selectedFiltersForThisColumn, item.SubItems[fitlerOption.Key].Text) >= 0);
+                else
+                    items = items.Where(item => Array.IndexOf(selectedFiltersForThisColumn, item.SubItems[fitlerOption.Key].Text) >= 0);
+            }
 
             this.SuspendLayout();
 
             try
             {
-                // This line says look at the master list of items and select any item where 
-                // the text of the 3rd column (item.SubItems[2].Text) matches one of the
-                // entries that were checked in the context menu.
-                var itemsToAdd = _originalItems.Where(item => Array.IndexOf(selectedFilters, item.SubItems[2].Text) >= 0);
-
                 this.Items.Clear();
-                this.Items.AddRange(itemsToAdd.ToArray());
+                this.Items.AddRange(items.ToArray());
             }
             finally
             {

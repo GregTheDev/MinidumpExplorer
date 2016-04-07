@@ -17,13 +17,22 @@ namespace MinidumpExplorer.Views
     public partial class MemoryInfoView : BaseViewControl
     {
         private MiniDumpMemoryInfoStream _memoryInfoStream;
-        private List<ListViewItem> _originalItems;
+        private const int COL_BASE_ADDRESS = 0;
+        private const int COL_ALLOCATION_BASE = 1;
+        private const int COL_ALLOCATION_PROTECT = 2;
+        private const int COL_REGION_SIZE = 3;
+        private const int COL_STATE = 4;
+        private const int COL_PROTECT = 5;
+        private const int COL_TYPE = 6;
 
         public MemoryInfoView()
         {
             InitializeComponent();
 
-            listView1.SetFilteringForColumn(2, true);
+            listView1.SetFilteringForColumn(COL_ALLOCATION_PROTECT, true);
+            listView1.SetFilteringForColumn(COL_STATE, true);
+            listView1.SetFilteringForColumn(COL_PROTECT, true);
+            listView1.SetFilteringForColumn(COL_TYPE, true);
         }
 
         public MemoryInfoView(MiniDumpMemoryInfoStream memoryInfoStream)
