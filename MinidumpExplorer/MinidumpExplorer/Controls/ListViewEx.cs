@@ -83,55 +83,38 @@ namespace MinidumpExplorer.Controls
             return new Rectangle(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
         }
 
-        // From http://stackoverflow.com/questions/254129/how-to-i-display-a-sort-arrow-in-the-header-of-a-list-view-column-using-c
-        public void SetSortIcon(int columnIndex, SortOrder order)
+        protected void EnableSplitButtonOnColumnHeader(int column, bool enable)
         {
+            HDITEM headerItem = new HDITEM();
+            headerItem.mask = HDITEM.Mask.Format;
+
             IntPtr columnHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
-            for (int columnNumber = 0; columnNumber <= this.Columns.Count - 1; columnNumber++)
-            {
-                var columnPtr = new IntPtr(columnNumber);
-                var item = new HDITEM
-                {
-                    mask = HDITEM.Mask.Format
-                };
+            SendMessage(columnHeader, HDM_GETITEM, (IntPtr)column, ref headerItem);
 
-                if (SendMessage(columnHeader, HDM_GETITEM, columnPtr, ref item) == IntPtr.Zero)
-                {
-                    throw new Win32Exception();
-                }
+            if (enable)
+                headerItem.fmt |= HDITEM.Format.SplitButton;
+            else
+                headerItem.fmt &= ~HDITEM.Format.SplitButton;
 
-                if (order != SortOrder.None && columnNumber == columnIndex)
-                {
-                    switch (order)
-                    {
-                        case SortOrder.Ascending:
-                            item.fmt &= ~HDITEM.Format.SortDown;
-                            item.fmt |= HDITEM.Format.SortUp;
-                            break;
-                        case SortOrder.Descending:
-                            item.fmt &= ~HDITEM.Format.SortUp;
-                            item.fmt |= HDITEM.Format.SortDown;
-                            break;
-                    }
-                }
-                else
-                {
-                    item.fmt &= ~HDITEM.Format.SortDown & ~HDITEM.Format.SortUp;
-                }
-
-                if (SendMessage(columnHeader, HDM_SETITEM, columnPtr, ref item) == IntPtr.Zero)
-                {
-                    throw new Win32Exception();
-                }
-            }
+            IntPtr res = SendMessage(columnHeader, HDM_SETITEM, (IntPtr)column, ref headerItem);
         }
 
-        private void EnableSplitButtonOnColumnHeader(int column, bool enable)
+        protected void SetImageOnColumnHeader(int column, int imageIndex)
         {
-            LVCOLUMN lvc = new LVCOLUMN();
-            lvc.mask = LVCF_FMT;
-            lvc.fmt = enable ? LVCFMT_SPLITBUTTON : 0;
-            IntPtr res = SendMessage(this.Handle, LVM_SETCOLUMN, (IntPtr)column, ref lvc);
+            HDITEM headerItem = new HDITEM();
+            headerItem.mask = HDITEM.Mask.Format | HDITEM.Mask.Image;
+
+            IntPtr columnHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+            SendMessage(columnHeader, HDM_GETITEM, (IntPtr)column, ref headerItem);
+
+            headerItem.iImage = imageIndex;
+
+            if (imageIndex >= 0)
+                headerItem.fmt |= HDITEM.Format.Image;
+            else
+                headerItem.fmt &= ~HDITEM.Format.Image;
+
+            IntPtr res = SendMessage(columnHeader, HDM_SETITEM, (IntPtr)column, ref headerItem);
         }
 
         protected override void WndProc(ref Message m)
@@ -162,8 +145,11 @@ namespace MinidumpExplorer.Controls
         [DllImport("user32.dll")]
         private static extern IntPtr SetParent(IntPtr hWnd, IntPtr hParent);
 
-        private const int LVM_SETCOLUMN = 0x1000 + 96;
+        private const int LVM_FIRST = 0x1000;
+        private const int LVM_GETCOLUMN = LVM_FIRST + 95;
+        private const int LVM_SETCOLUMN = LVM_FIRST + 96;
         private const int LVCF_FMT = 1;
+        private const int LVCFMT_IMAGE = 2048; // 0x800
         private const int LVCFMT_SPLITBUTTON = 0x1000000;
         private const int WM_NOTIFY = 0x204e;
         private const int LVN_COLUMNDROPDOWN = -100 - 64;
@@ -173,8 +159,13 @@ namespace MinidumpExplorer.Controls
         private const int HDM_GETITEMDROPDOWNRECT = HDM_FIRST + 25;
         private const int HDM_GETITEM = HDM_FIRST + 11;
         private const int HDM_SETITEM = HDM_FIRST + 12;
+        private const int HDF_SPLITBUTTON = 0x1000000;
+        private const int BCSIF_GLYPH = 0x0001;
+        private const int BCSIF_IMAGE = 0x0002;
+        private const int BCSIF_STYLE = 0x0004;
+        private const int BCSIF_SIZE = 0x0008;
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+                [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct LVCOLUMN
         {
             public uint mask;
@@ -247,14 +238,34 @@ namespace MinidumpExplorer.Controls
             public enum Mask
             {
                 Format = 0x4,       // HDI_FORMAT
+                Image = 0x0020,     // HDI_IMAGE
             };
 
             [Flags]
             public enum Format
             {
-                SortDown = 0x200,   // HDF_SORTDOWN
-                SortUp = 0x400,     // HDF_SORTUP
+                None = 0x0,
+                SortDown = 0x200,       // HDF_SORTDOWN
+                SortUp = 0x400,         // HDF_SORTUP
+                Image = 0x0800,         // HDF_IMAGE
+                SplitButton = 0x1000000 // HDF_SPLITBUTTON
             };
         };
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SIZE
+        {
+            public int cx;
+            public int cy;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct BUTTON_SPLITINFO
+        {
+            public uint mask;
+            public IntPtr himlGlyph; // HIMAGELIST
+            public uint uSplitStyle;
+            public SIZE size;
+        }
     }
 }

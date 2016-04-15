@@ -15,6 +15,13 @@ namespace MinidumpExplorer.Controls
         private ListViewColumnSorter _lvwColumnSorter;
         private List<ListViewItem> _originalItems;
         private Dictionary<int, ContextMenuStrip> _filterMenus;
+        private ImageList _smallImages;
+
+        private const int IMG_ASC = 0;
+        private const int IMG_DESC = 1;
+        private const int IMG_FLTR_ASC = 2;
+        private const int IMG_FLTR_DESC = 3;
+        private const int IMG_FLTR = 4;
 
         public MinidumpListView()
             : base ()
@@ -23,6 +30,14 @@ namespace MinidumpExplorer.Controls
             _lvwColumnSorter.Order = SortOrder.Ascending;
 
             _filterMenus = new Dictionary<int, ContextMenuStrip>();
+
+            _smallImages = new ImageList();
+            _smallImages.Images.Add(Properties.Resources.asc);
+            _smallImages.Images.Add(Properties.Resources.desc);
+            _smallImages.Images.Add(Properties.Resources.fltr_asc);
+            _smallImages.Images.Add(Properties.Resources.fltr_desc);
+            _smallImages.Images.Add(Properties.Resources.fltr);
+            this.SmallImageList = _smallImages;
 
             this.ListViewItemSorter = _lvwColumnSorter;
             this.HeaderDropdown += DisplayColumnHeaderDropdown;
@@ -70,14 +85,20 @@ namespace MinidumpExplorer.Controls
             }
             else
             {
+                int originalColumn = _lvwColumnSorter.SortColumn;
+
                 // Set the column number that is to be sorted; default to ascending.
                 _lvwColumnSorter.SortColumn = e.Column;
                 _lvwColumnSorter.Order = SortOrder.Ascending;
+
+                // Remove previous sort icon
+                UpdateColumnImage(originalColumn);
             }
 
             // Perform the sort with these new sort options.
             this.Sort();
-            this.SetSortIcon(e.Column, _lvwColumnSorter.Order);
+            //this.SetSortIcon(e.Column, _lvwColumnSorter.Order);
+            UpdateColumnImage(e.Column);
 
             base.OnColumnClick(e);
         }
@@ -117,16 +138,27 @@ namespace MinidumpExplorer.Controls
 
             IEnumerable<ListViewItem> items = null;
 
-            foreach (var fitlerOption in _filterMenus)
+            foreach (var filterOption in _filterMenus)
             {
-                var selectedFiltersForThisColumn = fitlerOption.Value.Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Text).ToArray();
+                var selectedFiltersForThisColumn = filterOption.Value.Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Text).ToArray();
 
-                if (selectedFiltersForThisColumn.Length == 0) continue;
+                if (selectedFiltersForThisColumn.Length == 0)
+                {
+                    //this.Columns[fitlerOption.Key].ImageIndex = -1;
+                    //SetImageOnColumnHeader(filterOption.Key, false);
+                    UpdateColumnImage(filterOption.Key, false);
+
+                    continue;
+                }
+
+                //this.Columns[fitlerOption.Key].ImageIndex = 0;
+                //SetImageOnColumnHeader(filterOption.Key, true);
+                UpdateColumnImage(filterOption.Key, true);
 
                 if (items == null)
-                    items = _originalItems.Where(item => Array.IndexOf(selectedFiltersForThisColumn, item.SubItems[fitlerOption.Key].Text) >= 0);
+                    items = _originalItems.Where(item => Array.IndexOf(selectedFiltersForThisColumn, item.SubItems[filterOption.Key].Text) >= 0);
                 else
-                    items = items.Where(item => Array.IndexOf(selectedFiltersForThisColumn, item.SubItems[fitlerOption.Key].Text) >= 0);
+                    items = items.Where(item => Array.IndexOf(selectedFiltersForThisColumn, item.SubItems[filterOption.Key].Text) >= 0);
             }
 
             this.SuspendLayout();
@@ -134,11 +166,43 @@ namespace MinidumpExplorer.Controls
             try
             {
                 this.Items.Clear();
-                this.Items.AddRange(items.ToArray());
+                this.Items.AddRange((items == null) ? _originalItems.ToArray() : items.ToArray());
             }
             finally
             {
                 this.ResumeLayout();
+            }
+        }
+
+        private void UpdateColumnImage(int column)
+        {
+            if (_filterMenus.ContainsKey(column))
+            {
+                var firstFilterForThisColumn = _filterMenus[column].Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Text).FirstOrDefault();
+
+                UpdateColumnImage(column, firstFilterForThisColumn != null);
+            }
+            else
+            {
+                UpdateColumnImage(column, false);
+            }
+        }
+
+        private void UpdateColumnImage(int column, bool filtered)
+        {
+            // Is the column sorted?
+            if (_lvwColumnSorter.SortColumn == column)
+            {
+                if ((_lvwColumnSorter.Order == SortOrder.Ascending) && (filtered)) SetImageOnColumnHeader(column, IMG_FLTR_ASC);
+                else if ((_lvwColumnSorter.Order == SortOrder.Descending) && (filtered)) SetImageOnColumnHeader(column, IMG_FLTR_DESC);
+                else if ((_lvwColumnSorter.Order == SortOrder.Ascending) && (!filtered)) SetImageOnColumnHeader(column, IMG_ASC);
+                else if ((_lvwColumnSorter.Order == SortOrder.Descending) && (!filtered)) SetImageOnColumnHeader(column, IMG_DESC);
+            }
+            else
+            {
+                if (filtered) SetImageOnColumnHeader(column, IMG_FLTR);
+                else SetImageOnColumnHeader(column, -1);
+
             }
         }
 

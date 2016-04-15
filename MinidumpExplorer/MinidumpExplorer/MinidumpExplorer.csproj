@@ -304,6 +304,13 @@
     <Content Include="Images\AppIcon\MiniDumpExplorer.ico" />
     <Content Include="Images\AppIcon\Saki-NuoveXT-2-Folder-document-open.ico" />
     <Content Include="Images\AppIcon\Visualpharm-Icons8-Metro-Style-Folders-Burn.ico" />
+    <Content Include="Images\Listview\asc.png" />
+    <Content Include="Images\Listview\desc.png" />
+    <Content Include="Images\Listview\FilteredObject_13400_16x_MD.png" />
+    <Content Include="Images\Listview\fltr.png" />
+    <Content Include="Images\Listview\fltr_asc.png" />
+    <Content Include="Images\Listview\fltr_desc.png" />
+    <Content Include="Images\Listview\SortAscending_275.png" />
     <Content Include="Images\Social\bird_blue_16.png" />
     <Content Include="Images\Social\bird_blue_32.png" />
     <Content Include="Images\Social\bird_blue_48.png" />
