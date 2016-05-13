@@ -122,7 +122,7 @@ namespace MinidumpExplorer
                     nodeText = "MemoryInfo";
                     MiniDumpMemoryInfoStream memoryInfo = this._miniDumpFile.ReadMemoryInfoList();
                     numberOfItems = memoryInfo.Entries.Length;
-                    viewToDisplay = new MemoryInfoView(memoryInfo);
+                    viewToDisplay = new MemoryInfoView(memoryInfo, _miniDumpFile);
                     break;
                 case "MiscInfo":
                     nodeText = "MiscInfo";
