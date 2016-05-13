@@ -10,6 +10,11 @@ namespace DbgHelp.MinidumpFiles
     {
         public static string FormatAsSizeString(UInt32 size)
         {
+            return FormatAsSizeString((ulong)size);
+        }
+
+        public static string FormatAsSizeString(ulong size)
+        {
             string[] sizes = { "B", "KB", "MB", "GB" };
             double len = size;
             int order = 0;

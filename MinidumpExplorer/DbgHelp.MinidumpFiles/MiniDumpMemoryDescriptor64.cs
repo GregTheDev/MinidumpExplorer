@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace DbgHelp.MinidumpFiles
 {
+    /// <summary>
+    /// Describes a range of memory.
+    /// </summary>
+    /// <remarks>
+    /// This class represents a MINIDUMP_MEMORY_DESCRIPTOR64 structure.
+    /// </remarks>
     public class MiniDumpMemoryDescriptor64
     {
         private MINIDUMP_MEMORY_DESCRIPTOR64 _memoryDescriptor;
@@ -16,27 +22,37 @@ namespace DbgHelp.MinidumpFiles
             _memoryDescriptor = memoryDescriptor;
         }
 
+        /// <summary>
+        /// The starting address of the memory range.
+        /// </summary>
         public UInt64 StartOfMemoryRange { get { return _memoryDescriptor.StartOfMemoryRange; } }
-        public string StartOfMemoryRangeFormatted { get { return String.Concat("0x", _memoryDescriptor.StartOfMemoryRange.ToString("x8")); } }
+        /// <summary>
+        /// The starting address of the memory range formatted as a hex string e.g. 0x00ABCDEF
+        /// </summary>
+        public string StartOfMemoryRangeFormatted { get { return Formatters.FormatAsMemoryAddress(_memoryDescriptor.StartOfMemoryRange); } }
+        /// <summary>
+        /// The ending address of the memory range.
+        /// </summary>
         public UInt64 EndOfMemoryRange { get { return _memoryDescriptor.StartOfMemoryRange + _memoryDescriptor.DataSize - 1; } }
-        public string EndOfMemoryRangeFormatted { get { return String.Concat("0x", EndOfMemoryRange.ToString("x8")); } }
+        /// <summary>
+        /// The ending address of the memory range formatted as a hex string e.g. 0x00ABCDEF
+        /// </summary>
+        public string EndOfMemoryRangeFormatted { get { return Formatters.FormatAsMemoryAddress(EndOfMemoryRange); } }
+        /// <summary>
+        /// The size of the memory range.
+        /// </summary>
         public UInt64 DataSize { get { return _memoryDescriptor.DataSize; } }
+        /// <summary>
+        /// The size of the memory range formatted as a hex string.
+        /// </summary>
         public string DataSizeFormatted { get { return String.Concat("0x", this.DataSize.ToString("x8")); } }
-        public string DataSizePretty
-        {
-            get
-            {
-                string[] sizes = { "B", "KB", "MB", "GB" };
-                double len = this.DataSize;
-                int order = 0;
-                while (len >= 1024 && order + 1 < sizes.Length)
-                {
-                    order++;
-                    len = len / 1024;
-                }
-
-                return String.Format("{0:0.#} {1}", len, sizes[order]);
-            }
-        }
+        /// <summary>
+        /// The size of the memory range formatted as human friednly string e.g. "4 KB"
+        /// </summary>
+        public string DataSizePretty { get { return Formatters.FormatAsSizeString(DataSize); } }
+        /// <summary>
+        /// The size of the underlying MINIDUMP_MEMORY_DESCRIPTOR64 structure.
+        /// </summary>
+        public static int DescriptorSize { get { return System.Runtime.InteropServices.Marshal.SizeOf(typeof(MINIDUMP_MEMORY_DESCRIPTOR64)); } }
     }
 }
