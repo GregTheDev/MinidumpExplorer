@@ -11,12 +11,16 @@ using DbgHelp.MinidumpFiles;
 using MinidumpExplorer.Utilities;
 using System.Collections;
 using MinidumpExplorer.Controls;
+using System.Runtime.InteropServices;
+using MinidumpExplorer.Dialogs;
 
 namespace MinidumpExplorer.Views
 {
     public partial class MemoryInfoView : BaseViewControl
     {
         private MiniDumpMemoryInfoStream _memoryInfoStream;
+        private MiniDumpFile _minidumpFile;
+
         private const int COL_BASE_ADDRESS = 0;
         private const int COL_ALLOCATION_BASE = 1;
         private const int COL_ALLOCATION_PROTECT = 2;
@@ -35,10 +39,11 @@ namespace MinidumpExplorer.Views
             listView1.SetFilteringForColumn(COL_TYPE, true);
         }
 
-        public MemoryInfoView(MiniDumpMemoryInfoStream memoryInfoStream)
+        public MemoryInfoView(MiniDumpMemoryInfoStream memoryInfoStream, MiniDumpFile minidumpFile)
             : this()
         {
             _memoryInfoStream = memoryInfoStream;
+            _minidumpFile = minidumpFile;
 
             if (_memoryInfoStream.NumberOfEntries == 0)
             {
@@ -51,6 +56,7 @@ namespace MinidumpExplorer.Views
                 foreach (MiniDumpMemoryInfo memoryInfo in _memoryInfoStream.Entries)
                 {
                     ListViewItem newItem = new ListViewItem(String.Format("0x{0:x8}", memoryInfo.BaseAddress));
+                    newItem.Tag = memoryInfo;
                     newItem.SubItems[0].Tag = memoryInfo.BaseAddress;
 
                     // If the state is MEM_FREE then AllocationProtect, RegionSize, Protect and Type
@@ -80,5 +86,74 @@ namespace MinidumpExplorer.Views
                 listView1.AddItemsForFiltering(listItems);
             }
         }
+
+        #region Event handlers
+
+        private void MemoryInfoView_DoubleClick(object sender, EventArgs e)
+        {
+            DisplaySelectedMemoryBlock();
+        }
+
+        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplaySelectedMemoryBlock();
+        }
+
+        private void listView1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char) Keys.Return)
+            {
+                DisplaySelectedMemoryBlock();
+
+                e.Handled = true;
+            }
+        }
+
+        #endregion
+
+        private void DisplaySelectedMemoryBlock()
+        {
+            MiniDumpMemoryInfo memoryBlock = (MiniDumpMemoryInfo)listView1.SelectedItems[0].Tag;
+
+            // First check if we have all of the process memory, if we don't then there's no need to proceed.
+            if ((this.Memory64Stream == null) || (this.Memory64Stream.MemoryRanges.Length <= 0))
+            {
+                MessageBox.Show("Memory information is only available when using a full-memory dump.", "Missing data", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            ulong startAddress = memoryBlock.BaseAddress;
+            ulong endAddress = memoryBlock.BaseAddress + memoryBlock.RegionSize - 1;
+            ulong offsetToReadFrom = MiniDumpHelper.FindInclusiveMemory64Block(this.Memory64Stream, startAddress, endAddress);
+
+            if (offsetToReadFrom == 0)
+            {
+                MessageBox.Show("Sorry, I couldn't locate the data for that memory region inside the minidump.", "Missing data", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            byte[] data = new byte[memoryBlock.RegionSize];
+
+            _minidumpFile.CopyMemoryFromOffset(offsetToReadFrom, data, (uint)memoryBlock.RegionSize);
+
+            HexViewerDialog hexViewerDialog = new HexViewerDialog(data);
+            hexViewerDialog.Text = $"Displaying {Formatters.FormatAsMemoryAddress(startAddress)} - {Formatters.FormatAsMemoryAddress(endAddress)} ({Formatters.FormatAsSizeString(memoryBlock.RegionSize)}, {memoryBlock.RegionSize} bytes)";
+
+            hexViewerDialog.Show();
+        }
+
+        private MiniDumpMemory64Stream _memory64Stream;
+
+        private MiniDumpMemory64Stream Memory64Stream
+        {
+            get
+            {
+                if (_memory64Stream == null)
+                    _memory64Stream = _minidumpFile.ReadMemory64List();
+
+                return _memory64Stream;
+            }
+        }
+
     }
 }

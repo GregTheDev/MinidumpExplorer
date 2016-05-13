@@ -364,8 +364,23 @@ namespace DbgHelp.MinidumpFiles
             {
                 _mappedFileView.ReleasePointer();
             }
+        }
 
-            return;
+        public unsafe void CopyMemoryFromOffset(ulong rva, byte[] destination, uint size)
+        {
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
+            if (destination.Length < size) throw new ArgumentException($"'{nameof(destination)}' must be at least {size} bytes long");
+
+            GCHandle dataHandle = GCHandle.Alloc(destination, GCHandleType.Pinned);
+
+            try
+            {
+                CopyMemoryFromOffset(rva, dataHandle.AddrOfPinnedObject(), size);
+            }
+            finally
+            {
+                dataHandle.Free();
+            }
         }
 
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData)
