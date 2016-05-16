@@ -15,7 +15,7 @@ namespace MinidumpExplorer.Controls
         private ListViewColumnSorter _lvwColumnSorter;
         private List<ListViewItem> _originalItems;
         private Dictionary<int, ContextMenuStrip> _filterMenus;
-        private ImageList _smallImages;
+        private ImageList _headerImages;
 
         private const int IMG_ASC = 0;
         private const int IMG_DESC = 1;
@@ -31,13 +31,14 @@ namespace MinidumpExplorer.Controls
 
             _filterMenus = new Dictionary<int, ContextMenuStrip>();
 
-            _smallImages = new ImageList();
-            _smallImages.Images.Add(Properties.Resources.asc);
-            _smallImages.Images.Add(Properties.Resources.desc);
-            _smallImages.Images.Add(Properties.Resources.fltr_asc);
-            _smallImages.Images.Add(Properties.Resources.fltr_desc);
-            _smallImages.Images.Add(Properties.Resources.fltr);
-            this.SmallImageList = _smallImages;
+            _headerImages = new ImageList();
+            _headerImages.Images.Add(Properties.Resources.asc);
+            _headerImages.Images.Add(Properties.Resources.desc);
+            _headerImages.Images.Add(Properties.Resources.fltr_asc);
+            _headerImages.Images.Add(Properties.Resources.fltr_desc);
+            _headerImages.Images.Add(Properties.Resources.fltr);
+
+            this.HeaderImages = _headerImages;
 
             this.ListViewItemSorter = _lvwColumnSorter;
             this.HeaderDropdown += DisplayColumnHeaderDropdown;
