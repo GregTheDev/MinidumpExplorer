@@ -21,6 +21,7 @@ namespace MinidumpExplorer.Controls
             public Control Control { get; set; }
         }
         public event EventHandler<HeaderDropdownArgs> HeaderDropdown;
+        public ImageList HeaderImages { get; set; }
 
         protected void SetHeaderDropdown(int column, bool enable)
         {
@@ -65,6 +66,7 @@ namespace MinidumpExplorer.Controls
             {
                 if (HeaderDropdowns[col]) EnableSplitButtonOnColumnHeader(col, true);
             }
+            SetHeaderImageList(this.HeaderImages);
         }
 
         public Rectangle GetHeaderRect(int column)
@@ -83,6 +85,12 @@ namespace MinidumpExplorer.Controls
             return new Rectangle(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
         }
 
+        public void SetHeaderImageList(ImageList headerImages)
+        {
+            IntPtr columnHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+            IntPtr result = SendMessage(columnHeader, HDM_SETIMAGELIST, (IntPtr)HDSIL_NORMAL, headerImages.Handle);
+        }
+
         protected void EnableSplitButtonOnColumnHeader(int column, bool enable)
         {
             HDITEM headerItem = new HDITEM();
@@ -99,22 +107,58 @@ namespace MinidumpExplorer.Controls
             IntPtr res = SendMessage(columnHeader, HDM_SETITEM, (IntPtr)column, ref headerItem);
         }
 
+        //protected void SetImageOnColumnHeader(int column, int imageIndex)
+        //{
+        //    HDITEM headerItem = new HDITEM();
+        //    headerItem.mask = HDITEM.Mask.Format | HDITEM.Mask.Image;
+
+        //    IntPtr columnHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+        //    SendMessage(columnHeader, HDM_GETITEM, (IntPtr)column, ref headerItem);
+
+        //    headerItem.iImage = (imageIndex == -1) ? I_IMAGENONE : imageIndex;
+
+        //    if (imageIndex >= 0)
+        //        headerItem.fmt |= HDITEM.Format.Image;
+        //    else
+        //        headerItem.fmt &= ~HDITEM.Format.Image;
+
+        //    IntPtr res = SendMessage(columnHeader, HDM_SETITEM, (IntPtr)column, ref headerItem);
+
+        //    if (imageIndex == -1)
+        //    {
+        //        headerItem.mask = HDITEM.Mask.Format;
+        //        headerItem.fmt &= ~HDITEM.Format.Image;
+        //        IntPtr lala = SendMessage(this.Handle, HDM_SETITEM, (IntPtr)column, ref headerItem);
+        //    }
+
+        //}
+
         protected void SetImageOnColumnHeader(int column, int imageIndex)
         {
-            HDITEM headerItem = new HDITEM();
-            headerItem.mask = HDITEM.Mask.Format | HDITEM.Mask.Image;
+            IntPtr hresult;
+            LVCOLUMN headerItem = new LVCOLUMN();
+            headerItem.mask = LVCF_FMT | LVCF_IMAGE; // We want format and image information
 
-            IntPtr columnHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
-            SendMessage(columnHeader, HDM_GETITEM, (IntPtr)column, ref headerItem);
+            hresult = SendMessage(this.Handle, LVM_GETCOLUMN, (IntPtr)column, ref headerItem);
 
-            headerItem.iImage = imageIndex;
+            if (hresult != TRUE) return;
 
-            if (imageIndex >= 0)
-                headerItem.fmt |= HDITEM.Format.Image;
-            else
-                headerItem.fmt &= ~HDITEM.Format.Image;
+            headerItem.iImage = (imageIndex == -1) ? I_IMAGENONE : imageIndex;
+            headerItem.fmt |= LVCFMT_IMAGE; // We want to change the image (includes clearing the image)
 
-            IntPtr res = SendMessage(columnHeader, HDM_SETITEM, (IntPtr)column, ref headerItem);
+            hresult = SendMessage(this.Handle, LVM_SETCOLUMN, (IntPtr)column, ref headerItem);
+
+            if (hresult != TRUE) return;
+
+            // If we were clearing the image, then remove the image flag from the format. This
+            // seems to be the only to clear the image AND remove the visual space allocate
+            // to it.
+            if (imageIndex == -1)
+            {
+                headerItem.mask = LVCF_FMT;
+                headerItem.fmt &= ~LVCFMT_IMAGE;
+                hresult = SendMessage(this.Handle, LVM_SETCOLUMN, (IntPtr)column, ref headerItem);
+            }
         }
 
         protected override void WndProc(ref Message m)
@@ -145,10 +189,14 @@ namespace MinidumpExplorer.Controls
         [DllImport("user32.dll")]
         private static extern IntPtr SetParent(IntPtr hWnd, IntPtr hParent);
 
+        private readonly IntPtr TRUE = new IntPtr(1);
+        private readonly IntPtr FALSe = new IntPtr(0);
         private const int LVM_FIRST = 0x1000;
         private const int LVM_GETCOLUMN = LVM_FIRST + 95;
         private const int LVM_SETCOLUMN = LVM_FIRST + 96;
         private const int LVCF_FMT = 1;
+        private const int LVCFMT_LEFT = 0x0000;
+        private const int LVCF_IMAGE = 0x0010;
         private const int LVCFMT_IMAGE = 2048; // 0x800
         private const int LVCFMT_SPLITBUTTON = 0x1000000;
         private const int WM_NOTIFY = 0x204e;
@@ -156,16 +204,20 @@ namespace MinidumpExplorer.Controls
         private const int LVM_GETHEADER = 0x1000 + 31;
         private const int HDM_FIRST = 0x1200;
         private const int HDM_GETITEMRECT = HDM_FIRST + 7;
-        private const int HDM_GETITEMDROPDOWNRECT = HDM_FIRST + 25;
+        private const int HDM_SETIMAGELIST = HDM_FIRST + 8;
         private const int HDM_GETITEM = HDM_FIRST + 11;
         private const int HDM_SETITEM = HDM_FIRST + 12;
+        private const int HDM_GETITEMDROPDOWNRECT = HDM_FIRST + 25;
         private const int HDF_SPLITBUTTON = 0x1000000;
         private const int BCSIF_GLYPH = 0x0001;
         private const int BCSIF_IMAGE = 0x0002;
         private const int BCSIF_STYLE = 0x0004;
         private const int BCSIF_SIZE = 0x0008;
+        private const int HDSIL_NORMAL = 0;
+        private const int HDSIL_STATE = 1;
+        private const int I_IMAGENONE = -2;
 
-                [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct LVCOLUMN
         {
             public uint mask;
