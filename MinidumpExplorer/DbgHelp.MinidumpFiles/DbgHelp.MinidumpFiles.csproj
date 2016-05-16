@@ -107,6 +107,7 @@
     <Compile Include="MiniDumpThreadInfo.cs" />
     <Compile Include="MiniDumpThread.cs" />
     <Compile Include="MiniDumpType.cs" />
+    <Compile Include="MiniDumpHeader.cs" />
     <Compile Include="MiniDumpUnloadedModule.cs" />
     <Compile Include="MiniDumpUnloadedModulesStream.cs" />
     <Compile Include="Native\dbghelp.cs" />
