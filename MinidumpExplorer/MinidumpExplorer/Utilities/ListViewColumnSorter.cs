@@ -8,37 +8,17 @@ using System.Windows.Forms;
 
 namespace MinidumpExplorer.Utilities
 {
-    /// <summary>
-    /// This class is an implementation of the 'IComparer' interface.
-    /// </summary>
     internal class ListViewColumnSorter : IComparer
     {
-        /// <summary>
-        /// Case insensitive comparer object
-        /// </summary>
-        //private CaseInsensitiveComparer ObjectCompare;
+        public int SortColumn { get; set; }
+        public SortOrder Order { get; set; }
 
-        /// <summary>
-        /// Class constructor.  Initializes various elements
-        /// </summary>
         public ListViewColumnSorter()
         {
-            // Initialize the column to '0'
             this.SortColumn = 0;
-
-            // Initialize the sort order to 'none'
             this.Order = SortOrder.None;
-
-            //// Initialize the CaseInsensitiveComparer object
-            //ObjectCompare = new CaseInsensitiveComparer();
         }
 
-        /// <summary>
-        /// This method is inherited from the IComparer interface.  It compares the two objects passed using a case insensitive comparison.
-        /// </summary>
-        /// <param name="x">First object to be compared</param>
-        /// <param name="y">Second object to be compared</param>
-        /// <returns>The result of the comparison. "0" if equal, negative if 'x' is less than 'y' and positive if 'x' is greater than 'y'</returns>
         public int Compare(object x, object y)
         {
             int compareResult;
@@ -57,10 +37,14 @@ namespace MinidumpExplorer.Utilities
                 compareResult = -1; // If x1 is null assume it's less than y1
             else if (y1 == null)
                 compareResult = 1; // If y1 is null assume it's less than x1
-
-            // Compare the two items
-            //compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);
-            compareResult = Comparer.Default.Compare(x1, y1);
+            else
+            {
+                // Compare enums based on their text description, not value
+                if (x1.GetType().IsEnum)
+                    compareResult = Comparer.Default.Compare(x1.ToString(), y1.ToString());
+                else
+                    compareResult = Comparer.Default.Compare(x1, y1);
+            }
 
             // Calculate correct return value based on object comparison
             if (this.Order == SortOrder.Ascending)
@@ -79,15 +63,5 @@ namespace MinidumpExplorer.Utilities
                 return 0;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the number of the column to which to apply the sorting operation (Defaults to '0').
-        /// </summary>
-        public int SortColumn { get; set; }
-
-        /// <summary>
-        /// Gets or sets the order of sorting to apply (for example, 'Ascending' or 'Descending').
-        /// </summary>
-        public SortOrder Order { get; set; }
-    }
+   }
 }
