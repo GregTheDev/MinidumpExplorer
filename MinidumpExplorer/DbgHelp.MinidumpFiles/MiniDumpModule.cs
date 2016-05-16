@@ -106,19 +106,6 @@ namespace DbgHelp.MinidumpFiles
         /// </summary>
         public uint TimeDateStampRaw { get { return _module.TimeDateStamp; } }
 
-        private UInt32 HiWord(UInt32 number)
-        {
-            if ((number & 0x80000000) == 0x80000000)
-                return (number >> 16);
-            else
-                return (number >> 16) & 0xffff;
-        }
-
-        private UInt32 LoWord(UInt32 number)
-        {
-            return number & 0xffff;
-        }
-
         /// <summary>
         /// The file's binary version number.
         /// </summary>
@@ -127,10 +114,10 @@ namespace DbgHelp.MinidumpFiles
             get
             {
                 return String.Format("{0}.{1}.{2}.{3}",
-                    HiWord(_module.VersionInfo.dwFileVersionMS),
-                    LoWord(_module.VersionInfo.dwFileVersionMS),
-                    HiWord(_module.VersionInfo.dwFileVersionLS),
-                    LoWord(_module.VersionInfo.dwFileVersionLS));
+                    windows.HiWord(_module.VersionInfo.dwFileVersionMS),
+                    windows.LoWord(_module.VersionInfo.dwFileVersionMS),
+                    windows.HiWord(_module.VersionInfo.dwFileVersionLS),
+                    windows.LoWord(_module.VersionInfo.dwFileVersionLS));
             }
         }
 
@@ -142,10 +129,10 @@ namespace DbgHelp.MinidumpFiles
             get
             {
                 return String.Format("{0}.{1}.{2}.{3}",
-                    HiWord(_module.VersionInfo.dwProductVersionMS),
-                    LoWord(_module.VersionInfo.dwProductVersionMS),
-                    HiWord(_module.VersionInfo.dwProductVersionLS),
-                    LoWord(_module.VersionInfo.dwProductVersionLS));
+                    windows.HiWord(_module.VersionInfo.dwProductVersionMS),
+                    windows.LoWord(_module.VersionInfo.dwProductVersionMS),
+                    windows.HiWord(_module.VersionInfo.dwProductVersionLS),
+                    windows.LoWord(_module.VersionInfo.dwProductVersionLS));
             }
         }
 

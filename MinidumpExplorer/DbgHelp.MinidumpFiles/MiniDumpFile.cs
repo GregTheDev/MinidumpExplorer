@@ -22,6 +22,8 @@ namespace DbgHelp.MinidumpFiles
         {
             this._minidumpMappedFile = minidumpMappedFile;
             this._mappedFileView = mappedFileView;
+
+            ReadHeader();
         }
 
         /// <summary>
@@ -58,6 +60,25 @@ namespace DbgHelp.MinidumpFiles
         public static bool Create(IntPtr hProcess, UInt32 ProcessId, SafeHandle hFile, MiniDumpType DumpType, IntPtr ExceptionParam, IntPtr UserStreamParam, IntPtr CallbackParam)
         {
             return NativeMethods.MiniDumpWriteDump(hProcess, ProcessId, hFile, DumpType, ExceptionParam, UserStreamParam, CallbackParam);
+        }
+
+        public MiniDumpHeader ReadHeader()
+        {
+            // Both SIGNATURE & VERSION are from minidumpapiset.h
+            const UInt32 MINIDUMP_SIGNATURE = 0x504d444d; // PMDM, P = 0x50, M = 0x4d, D = 0x44, M = 0x4d
+            const UInt32 MINIDUMP_VERSION = 42899;
+
+            using (var viewAccessor = _minidumpMappedFile.CreateViewAccessor(0, 0, MemoryMappedFileAccess.Read))
+            {
+                MINIDUMP_HEADER header;
+
+                viewAccessor.Read<MINIDUMP_HEADER>(0, out header);
+
+                if (header.Signature != MINIDUMP_SIGNATURE) return null;
+                if (windows.LoWord(header.Version) != MINIDUMP_VERSION) return null;
+
+                return new MiniDumpHeader(header, this);
+            }
         }
 
         public MiniDumpModule[] ReadModuleList()
@@ -496,7 +517,8 @@ namespace DbgHelp.MinidumpFiles
 
                 _mappedFileView.AcquirePointer(ref baseOfView);
 
-                IntPtr positionToReadFrom = new IntPtr(baseOfView + rva);
+                ulong positionToReadFrom = (ulong) baseOfView + rva;
+                //IntPtr positionToReadFrom = new IntPtr(baseOfView + rva);
 
                 T readStructure = default(T);
 

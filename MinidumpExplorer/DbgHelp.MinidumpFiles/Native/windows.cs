@@ -81,6 +81,21 @@ namespace DbgHelp.MinidumpFiles.Native
         public const ushort EXCEPTION_MAXIMUM_PARAMETERS = 15; // maximum number of exception parameters
 
         public const ushort MAX_PATH = 260;
+
+        public static UInt32 HiWord(UInt32 number)
+        {
+            if ((number & 0x80000000) == 0x80000000)
+                return (number >> 16);
+            else
+                return (number >> 16) & 0xffff;
+        }
+
+        public static UInt32 LoWord(UInt32 number)
+        {
+            return number & 0xffff;
+        }
+
+
     }
 
     // http://www.pinvoke.net/default.aspx/Enums/PageProtection.html

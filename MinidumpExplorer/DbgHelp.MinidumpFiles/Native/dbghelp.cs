@@ -729,7 +729,31 @@ typedef struct _MINIDUMP_HANDLE_OPERATION_LIST {
         public UInt32 Reserved;
     }
 
-
+    /*
+    typedef struct _MINIDUMP_HEADER {
+        ULONG32 Signature;
+        ULONG32 Version;
+        ULONG32 NumberOfStreams;
+        RVA StreamDirectoryRva;
+        ULONG32 CheckSum;
+        union {
+            ULONG32 Reserved;
+            ULONG32 TimeDateStamp;
+        };
+        ULONG64 Flags;
+    } MINIDUMP_HEADER, *PMINIDUMP_HEADER;
+    */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_HEADER
+    {
+        public UInt32 Signature;
+        public UInt32 Version;
+        public UInt32 NumberOfStreams;
+        public uint StreamDirectoryRva;
+        public UInt32 CheckSum;
+        public UInt32 TimeDateStamp;
+        public UInt64 Flags;
+    }
 
     public enum MINIDUMP_STREAM_TYPE : uint
     {
