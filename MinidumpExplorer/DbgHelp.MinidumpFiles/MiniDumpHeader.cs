@@ -10,10 +10,13 @@ namespace DbgHelp.MinidumpFiles
     {
         private MINIDUMP_HEADER _header;
         private MiniDumpFile _owner;
+        private MINIDUMP_DIRECTORY[] directoryEntries;
 
-        internal MiniDumpHeader(MINIDUMP_HEADER header, MiniDumpFile owner)
+        internal MiniDumpHeader(MINIDUMP_HEADER header, MINIDUMP_DIRECTORY[] directoryEntries, MiniDumpFile miniDumpFile)
         {
-            _header = header;
+            this._header = header;
+            this.directoryEntries = directoryEntries;
+            this._owner = miniDumpFile;
         }
 
         /// <summary>

@@ -27,7 +27,7 @@ namespace DbgHelp.MinidumpFiles.Native
     } */
     internal struct MINIDUMP_DIRECTORY
     {
-        public UInt32 StreamType;
+        public MINIDUMP_STREAM_TYPE StreamType; // UInt32
         public MINIDUMP_LOCATION_DESCRIPTOR Location;
     }
 
