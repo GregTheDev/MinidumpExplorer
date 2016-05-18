@@ -369,6 +369,20 @@ namespace DbgHelp.MinidumpFiles
             return new MiniDumpUnloadedModulesStream(unloadedModuleList, unloadedModules, this);
         }
 
+        public MiniDumpSystemMemoryInfo ReadSystemMemoryInfo()
+        {
+            MINIDUMP_SYSTEM_MEMORY_INFO_1 systemMemoryInfo;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_SYSTEM_MEMORY_INFO_1>(MINIDUMP_STREAM_TYPE.SystemMemoryInfoStream, out systemMemoryInfo, out streamPointer, out streamSize))
+            {
+                return null;
+            }
+
+            return new MiniDumpSystemMemoryInfo(systemMemoryInfo, this);
+        }
+
         public unsafe void CopyMemoryFromOffset(ulong rva, IntPtr destination, uint size)
         {
             try

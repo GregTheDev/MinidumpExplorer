@@ -755,6 +755,272 @@ typedef struct _MINIDUMP_HANDLE_OPERATION_LIST {
         public UInt64 Flags;
     }
 
+    /*
+    typedef struct _MINIDUMP_SYSTEM_MEMORY_INFO_1 {
+        USHORT Revision;
+        USHORT Flags;
+
+        MINIDUMP_SYSTEM_BASIC_INFORMATION BasicInfo;
+        MINIDUMP_SYSTEM_FILECACHE_INFORMATION FileCacheInfo;
+        MINIDUMP_SYSTEM_BASIC_PERFORMANCE_INFORMATION BasicPerfInfo;
+        MINIDUMP_SYSTEM_PERFORMANCE_INFORMATION PerfInfo;
+    } MINIDUMP_SYSTEM_MEMORY_INFO_1, *PMINIDUMP_SYSTEM_MEMORY_INFO_1;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_SYSTEM_MEMORY_INFO_1
+    {
+        public ushort Revision;
+        public ushort Flags;
+
+        public MINIDUMP_SYSTEM_BASIC_INFORMATION BasicInfo;
+        public MINIDUMP_SYSTEM_FILECACHE_INFORMATION FileCacheInfo;
+        public MINIDUMP_SYSTEM_BASIC_PERFORMANCE_INFORMATION BasicPerfInfo;
+        public MINIDUMP_SYSTEM_PERFORMANCE_INFORMATION PerfInfo;
+    }
+
+    /*
+    typedef struct _MINIDUMP_SYSTEM_BASIC_INFORMATION {
+        ULONG TimerResolution;
+        ULONG PageSize;
+        ULONG NumberOfPhysicalPages;
+        ULONG LowestPhysicalPageNumber;
+        ULONG HighestPhysicalPageNumber;
+        ULONG AllocationGranularity;
+        ULONG64 MinimumUserModeAddress;
+        ULONG64 MaximumUserModeAddress;
+        ULONG64 ActiveProcessorsAffinityMask;
+        ULONG NumberOfProcessors;
+    } MINIDUMP_SYSTEM_BASIC_INFORMATION, *PMINIDUMP_SYSTEM_BASIC_INFORMATION;
+    */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_SYSTEM_BASIC_INFORMATION
+    {
+        public UInt32 TimerResolution;
+        public UInt32 PageSize;
+        public UInt32 NumberOfPhysicalPages;
+        public UInt32 LowestPhysicalPageNumber;
+        public UInt32 HighestPhysicalPageNumber;
+        public UInt32 AllocationGranularity;
+        public UInt64 MinimumUserModeAddress;
+        public UInt64 MaximumUserModeAddress;
+        public UInt64 ActiveProcessorsAffinityMask;
+        public UInt32 NumberOfProcessors;
+    }
+
+    /*
+    typedef struct _MINIDUMP_SYSTEM_FILECACHE_INFORMATION {
+        ULONG64 CurrentSize;
+        ULONG64 PeakSize;
+        ULONG PageFaultCount;
+        ULONG64 MinimumWorkingSet;
+        ULONG64 MaximumWorkingSet;
+        ULONG64 CurrentSizeIncludingTransitionInPages;
+        ULONG64 PeakSizeIncludingTransitionInPages;
+        ULONG TransitionRePurposeCount;
+        ULONG Flags;
+    } MINIDUMP_SYSTEM_FILECACHE_INFORMATION, *PMINIDUMP_SYSTEM_FILECACHE_INFORMATION;
+    */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_SYSTEM_FILECACHE_INFORMATION
+    {
+        public UInt64 CurrentSize;
+        public UInt64 PeakSize;
+        public UInt32 PageFaultCount;
+        public UInt64 MinimumWorkingSet;
+        public UInt64 MaximumWorkingSet;
+        public UInt64 CurrentSizeIncludingTransitionInPages;
+        public UInt64 PeakSizeIncludingTransitionInPages;
+        public UInt32 TransitionRePurposeCount;
+        public UInt32 Flags;
+    }
+
+    /*
+    typedef struct _MINIDUMP_SYSTEM_BASIC_PERFORMANCE_INFORMATION {
+        ULONG64 AvailablePages;
+        ULONG64 CommittedPages;
+        ULONG64 CommitLimit;
+        ULONG64 PeakCommitment;
+    } MINIDUMP_SYSTEM_BASIC_PERFORMANCE_INFORMATION, *PMINIDUMP_SYSTEM_BASIC_PERFORMANCE_INFORMATION;
+    */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_SYSTEM_BASIC_PERFORMANCE_INFORMATION
+    {
+        public UInt64 AvailablePages;
+        public UInt64 CommittedPages;
+        public UInt64 CommitLimit;
+        public UInt64 PeakCommitment;
+    }
+
+    /*
+    typedef struct _MINIDUMP_SYSTEM_PERFORMANCE_INFORMATION {
+        ULONG64 IdleProcessTime;
+        ULONG64 IoReadTransferCount;
+        ULONG64 IoWriteTransferCount;
+        ULONG64 IoOtherTransferCount;
+        ULONG IoReadOperationCount;
+        ULONG IoWriteOperationCount;
+        ULONG IoOtherOperationCount;
+        ULONG AvailablePages;
+        ULONG CommittedPages;
+        ULONG CommitLimit;
+        ULONG PeakCommitment;
+        ULONG PageFaultCount;
+        ULONG CopyOnWriteCount;
+        ULONG TransitionCount;
+        ULONG CacheTransitionCount;
+        ULONG DemandZeroCount;
+        ULONG PageReadCount;
+        ULONG PageReadIoCount;
+        ULONG CacheReadCount;
+        ULONG CacheIoCount;
+        ULONG DirtyPagesWriteCount;
+        ULONG DirtyWriteIoCount;
+        ULONG MappedPagesWriteCount;
+        ULONG MappedWriteIoCount;
+        ULONG PagedPoolPages;
+        ULONG NonPagedPoolPages;
+        ULONG PagedPoolAllocs;
+        ULONG PagedPoolFrees;
+        ULONG NonPagedPoolAllocs;
+        ULONG NonPagedPoolFrees;
+        ULONG FreeSystemPtes;
+        ULONG ResidentSystemCodePage;
+        ULONG TotalSystemDriverPages;
+        ULONG TotalSystemCodePages;
+        ULONG NonPagedPoolLookasideHits;
+        ULONG PagedPoolLookasideHits;
+        ULONG AvailablePagedPoolPages;
+        ULONG ResidentSystemCachePage;
+        ULONG ResidentPagedPoolPage;
+        ULONG ResidentSystemDriverPage;
+        ULONG CcFastReadNoWait;
+        ULONG CcFastReadWait;
+        ULONG CcFastReadResourceMiss;
+        ULONG CcFastReadNotPossible;
+        ULONG CcFastMdlReadNoWait;
+        ULONG CcFastMdlReadWait;
+        ULONG CcFastMdlReadResourceMiss;
+        ULONG CcFastMdlReadNotPossible;
+        ULONG CcMapDataNoWait;
+        ULONG CcMapDataWait;
+        ULONG CcMapDataNoWaitMiss;
+        ULONG CcMapDataWaitMiss;
+        ULONG CcPinMappedDataCount;
+        ULONG CcPinReadNoWait;
+        ULONG CcPinReadWait;
+        ULONG CcPinReadNoWaitMiss;
+        ULONG CcPinReadWaitMiss;
+        ULONG CcCopyReadNoWait;
+        ULONG CcCopyReadWait;
+        ULONG CcCopyReadNoWaitMiss;
+        ULONG CcCopyReadWaitMiss;
+        ULONG CcMdlReadNoWait;
+        ULONG CcMdlReadWait;
+        ULONG CcMdlReadNoWaitMiss;
+        ULONG CcMdlReadWaitMiss;
+        ULONG CcReadAheadIos;
+        ULONG CcLazyWriteIos;
+        ULONG CcLazyWritePages;
+        ULONG CcDataFlushes;
+        ULONG CcDataPages;
+        ULONG ContextSwitches;
+        ULONG FirstLevelTbFills;
+        ULONG SecondLevelTbFills;
+        ULONG SystemCalls;
+
+        ULONG64 CcTotalDirtyPages;
+        ULONG64 CcDirtyPageThreshold;
+
+        LONG64 ResidentAvailablePages;
+        ULONG64 SharedCommittedPages;
+    } MINIDUMP_SYSTEM_PERFORMANCE_INFORMATION, *PMINIDUMP_SYSTEM_PERFORMANCE_INFORMATION;
+     */
+
+    [StructLayout(LayoutKind.Sequential, Pack =4)]
+    internal struct MINIDUMP_SYSTEM_PERFORMANCE_INFORMATION
+    {
+        public UInt64 IdleProcessTime;
+        public UInt64 IoReadTransferCount;
+        public UInt64 IoWriteTransferCount;
+        public UInt64 IoOtherTransferCount;
+        public UInt32 IoReadOperationCount;
+        public UInt32 IoWriteOperationCount;
+        public UInt32 IoOtherOperationCount;
+        public UInt32 AvailablePages;
+        public UInt32 CommittedPages;
+        public UInt32 CommitLimit;
+        public UInt32 PeakCommitment;
+        public UInt32 PageFaultCount;
+        public UInt32 CopyOnWriteCount;
+        public UInt32 TransitionCount;
+        public UInt32 CacheTransitionCount;
+        public UInt32 DemandZeroCount;
+        public UInt32 PageReadCount;
+        public UInt32 PageReadIoCount;
+        public UInt32 CacheReadCount;
+        public UInt32 CacheIoCount;
+        public UInt32 DirtyPagesWriteCount;
+        public UInt32 DirtyWriteIoCount;
+        public UInt32 MappedPagesWriteCount;
+        public UInt32 MappedWriteIoCount;
+        public UInt32 PagedPoolPages;
+        public UInt32 NonPagedPoolPages;
+        public UInt32 PagedPoolAllocs;
+        public UInt32 PagedPoolFrees;
+        public UInt32 NonPagedPoolAllocs;
+        public UInt32 NonPagedPoolFrees;
+        public UInt32 FreeSystemPtes;
+        public UInt32 ResidentSystemCodePage;
+        public UInt32 TotalSystemDriverPages;
+        public UInt32 TotalSystemCodePages;
+        public UInt32 NonPagedPoolLookasideHits;
+        public UInt32 PagedPoolLookasideHits;
+        public UInt32 AvailablePagedPoolPages;
+        public UInt32 ResidentSystemCachePage;
+        public UInt32 ResidentPagedPoolPage;
+        public UInt32 ResidentSystemDriverPage;
+        public UInt32 CcFastReadNoWait;
+        public UInt32 CcFastReadWait;
+        public UInt32 CcFastReadResourceMiss;
+        public UInt32 CcFastReadNotPossible;
+        public UInt32 CcFastMdlReadNoWait;
+        public UInt32 CcFastMdlReadWait;
+        public UInt32 CcFastMdlReadResourceMiss;
+        public UInt32 CcFastMdlReadNotPossible;
+        public UInt32 CcMapDataNoWait;
+        public UInt32 CcMapDataWait;
+        public UInt32 CcMapDataNoWaitMiss;
+        public UInt32 CcMapDataWaitMiss;
+        public UInt32 CcPinMappedDataCount;
+        public UInt32 CcPinReadNoWait;
+        public UInt32 CcPinReadWait;
+        public UInt32 CcPinReadNoWaitMiss;
+        public UInt32 CcPinReadWaitMiss;
+        public UInt32 CcCopyReadNoWait;
+        public UInt32 CcCopyReadWait;
+        public UInt32 CcCopyReadNoWaitMiss;
+        public UInt32 CcCopyReadWaitMiss;
+        public UInt32 CcMdlReadNoWait;
+        public UInt32 CcMdlReadWait;
+        public UInt32 CcMdlReadNoWaitMiss;
+        public UInt32 CcMdlReadWaitMiss;
+        public UInt32 CcReadAheadIos;
+        public UInt32 CcLazyWriteIos;
+        public UInt32 CcLazyWritePages;
+        public UInt32 CcDataFlushes;
+        public UInt32 CcDataPages;
+        public UInt32 ContextSwitches;
+        public UInt32 FirstLevelTbFills;
+        public UInt32 SecondLevelTbFills;
+        public UInt32 SystemCalls;
+
+        public UInt64 CcTotalDirtyPages;
+        public UInt64 CcDirtyPageThreshold;
+
+        public Int64 ResidentAvailablePages; //LONG64
+        public UInt64 SharedCommittedPages;
+    }
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,
@@ -776,6 +1042,12 @@ typedef struct _MINIDUMP_HANDLE_OPERATION_LIST {
         MemoryInfoListStream = 16,
         ThreadInfoListStream = 17,
         HandleOperationListStream = 18,
+
+        TokenStream = 19,
+        JavaScriptDataStream = 20,
+        SystemMemoryInfoStream = 21,
+        ProcessVmCountersStream = 22,
+
         LastReservedStream = 0xffff
     }
 

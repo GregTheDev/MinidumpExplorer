@@ -103,7 +103,12 @@
     <Compile Include="MiniDumpMiscInfo.cs" />
     <Compile Include="MiniDumpModule.cs" />
     <Compile Include="MiniDumpExceptionStream.cs" />
+    <Compile Include="MiniDumpSystemBasicInformation.cs" />
+    <Compile Include="MiniDumpSystemBasicPerformanceInformation.cs" />
+    <Compile Include="MiniDumpSystemFileCacheInformation.cs" />
     <Compile Include="MiniDumpSystemInfoStream.cs" />
+    <Compile Include="MiniDumpSystemMemoryInfo.cs" />
+    <Compile Include="MiniDumpSystemPerformanceInformation.cs" />
     <Compile Include="MiniDumpThreadInfo.cs" />
     <Compile Include="MiniDumpThread.cs" />
     <Compile Include="MiniDumpType.cs" />
