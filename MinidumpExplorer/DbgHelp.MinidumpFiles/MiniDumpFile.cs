@@ -77,7 +77,11 @@ namespace DbgHelp.MinidumpFiles
                 if (header.Signature != MINIDUMP_SIGNATURE) return null;
                 if (windows.LoWord(header.Version) != MINIDUMP_VERSION) return null;
 
-                return new MiniDumpHeader(header, this);
+                MINIDUMP_DIRECTORY[] directoryEntries = new MINIDUMP_DIRECTORY[header.NumberOfStreams];
+
+                _mappedFileView.ReadArray<MINIDUMP_DIRECTORY>(header.StreamDirectoryRva, directoryEntries, 0, (int) header.NumberOfStreams);
+
+                return new MiniDumpHeader(header, directoryEntries, this);
             }
         }
 
