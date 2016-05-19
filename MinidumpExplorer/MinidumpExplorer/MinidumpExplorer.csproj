@@ -178,11 +178,15 @@
     <Compile Include="Views\MiscInfoView.designer.cs">
       <DependentUpon>MiscInfoView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\SystemMemoryInfoView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Views\SystemMemoryInfoView.cs" />
     <Compile Include="Views\SystemMemoryInfoView.Designer.cs">
       <DependentUpon>SystemMemoryInfoView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SummaryView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SummaryView.Designer.cs">
+      <DependentUpon>SummaryView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\UnloadedModulesView.cs">
       <SubType>UserControl</SubType>
@@ -280,6 +284,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SystemMemoryInfoView.resx">
       <DependentUpon>SystemMemoryInfoView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SummaryView.resx">
+      <DependentUpon>SummaryView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\UnloadedModulesView.resx">
       <DependentUpon>UnloadedModulesView.cs</DependentUpon>
