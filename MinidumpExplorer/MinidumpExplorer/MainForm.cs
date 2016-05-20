@@ -82,6 +82,11 @@ namespace MinidumpExplorer
 
             switch ((string)e.Node.Tag)
             {
+                case "Summary":
+                    nodeText = string.Empty;
+                    MiniDumpHeader header = _miniDumpFile.ReadHeader();
+                    viewToDisplay = new SummaryView(header);
+                    break;
                 case "Handles":
                     nodeText = "Handles";
                     MiniDumpHandleDescriptor[] handleData = this._miniDumpFile.ReadHandleData();
@@ -157,7 +162,7 @@ namespace MinidumpExplorer
 
             if (viewToDisplay != null)
             {
-                e.Node.Text = nodeText + " (" + numberOfItems + (numberOfItems == 1 ? " item" : " items") + ")";
+                if (nodeText != string.Empty) e.Node.Text = nodeText + " (" + numberOfItems + (numberOfItems == 1 ? " item" : " items") + ")";
 
                 if (this.splitContainer1.Panel2.Controls.Count > 0) this.splitContainer1.Panel2.Controls.RemoveAt(0);
 

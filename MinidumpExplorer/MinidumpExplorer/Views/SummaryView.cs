@@ -32,6 +32,15 @@ namespace MinidumpExplorer.Views
             lblDateTime.Text = _header.TimeDateStamp.ToString();
             lblFlags.Text = _header.Flags.ToString();
 
+            foreach (MiniDumpDirectory directoryEntry in _header.DirectoryEntries.OrderBy(entry => entry.StreamType.ToString()))
+            {
+                ListViewItem newItem = new ListViewItem(directoryEntry.StreamType.ToString());
+                newItem.Tag = directoryEntry;
+                newItem.SubItems.Add(Formatters.FormatAsMemoryAddress(directoryEntry.Location.Rva));
+                newItem.SubItems.Add(directoryEntry.Location.DataSizePretty);
+
+                listView1.Items.Add(newItem);
+            }
         }
     }
 }
