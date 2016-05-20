@@ -1,5 +1,7 @@
 ﻿using DbgHelp.MinidumpFiles.Native;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace DbgHelp.MinidumpFiles
 {
@@ -10,13 +12,14 @@ namespace DbgHelp.MinidumpFiles
     {
         private MINIDUMP_HEADER _header;
         private MiniDumpFile _owner;
-        private MINIDUMP_DIRECTORY[] directoryEntries;
+        private List<MiniDumpDirectory> _directoryEntries;
 
         internal MiniDumpHeader(MINIDUMP_HEADER header, MINIDUMP_DIRECTORY[] directoryEntries, MiniDumpFile miniDumpFile)
         {
-            this._header = header;
-            this.directoryEntries = directoryEntries;
-            this._owner = miniDumpFile;
+            _header = header;
+            _owner = miniDumpFile;
+
+            _directoryEntries = new List<MiniDumpDirectory>(directoryEntries.Select(x => new MiniDumpDirectory(x)));
         }
 
         /// <summary>
@@ -43,5 +46,7 @@ namespace DbgHelp.MinidumpFiles
         /// One or more values from the <see cref="MiniDumpType"/> enumeration type.
         /// </summary>
         public MiniDumpType Flags { get { return (MiniDumpType) _header.Flags; } }
+
+        public IReadOnlyList<MiniDumpDirectory> DirectoryEntries { get { return _directoryEntries; } }
     }
 }
