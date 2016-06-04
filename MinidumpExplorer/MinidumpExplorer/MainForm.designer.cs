@@ -40,10 +40,11 @@
             System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("MiscInfo", 5, 5);
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
             System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("SystemInfo");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("ThreadInfo", 1, 1);
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("UnloadedModules", 2, 2);
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("SystemMemoryInfo", 3, 3);
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("ThreadInfo", 1, 1);
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("UnloadedModules", 2, 2);
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
@@ -54,7 +55,8 @@
             treeNode8,
             treeNode9,
             treeNode10,
-            treeNode11});
+            treeNode11,
+            treeNode12});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -141,27 +143,32 @@
             treeNode8.SelectedImageKey = "DialogID_6220_16x.png";
             treeNode8.Tag = "SystemInfo";
             treeNode8.Text = "SystemInfo";
-            treeNode9.ImageIndex = 1;
-            treeNode9.Name = "Node1";
-            treeNode9.SelectedImageIndex = 1;
-            treeNode9.Tag = "Threads";
-            treeNode9.Text = "Threads";
+            treeNode9.ImageIndex = 3;
+            treeNode9.Name = "Node0";
+            treeNode9.SelectedImageIndex = 3;
+            treeNode9.Tag = "SystemMemoryInfo";
+            treeNode9.Text = "SystemMemoryInfo";
             treeNode10.ImageIndex = 1;
-            treeNode10.Name = "Node0";
+            treeNode10.Name = "Node1";
             treeNode10.SelectedImageIndex = 1;
-            treeNode10.Tag = "ThreadInfo";
-            treeNode10.Text = "ThreadInfo";
-            treeNode11.ImageIndex = 2;
+            treeNode10.Tag = "Threads";
+            treeNode10.Text = "Threads";
+            treeNode11.ImageIndex = 1;
             treeNode11.Name = "Node0";
-            treeNode11.SelectedImageIndex = 2;
-            treeNode11.Tag = "UnloadedModules";
-            treeNode11.Text = "UnloadedModules";
-            treeNode12.ImageIndex = 0;
+            treeNode11.SelectedImageIndex = 1;
+            treeNode11.Tag = "ThreadInfo";
+            treeNode11.Text = "ThreadInfo";
+            treeNode12.ImageIndex = 2;
             treeNode12.Name = "Node0";
-            treeNode12.Tag = "Summary";
-            treeNode12.Text = "<No minidump loaded>";
+            treeNode12.SelectedImageIndex = 2;
+            treeNode12.Tag = "UnloadedModules";
+            treeNode12.Text = "UnloadedModules";
+            treeNode13.ImageIndex = 0;
+            treeNode13.Name = "Node0";
+            treeNode13.Tag = "Summary";
+            treeNode13.Text = "<No minidump loaded>";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode12});
+            treeNode13});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(238, 705);
@@ -228,7 +235,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.captureMinidumpToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // captureMinidumpToolStripMenuItem

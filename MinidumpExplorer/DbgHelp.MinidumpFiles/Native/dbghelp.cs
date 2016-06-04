@@ -936,6 +936,8 @@ typedef struct _MINIDUMP_HANDLE_OPERATION_LIST {
     } MINIDUMP_SYSTEM_PERFORMANCE_INFORMATION, *PMINIDUMP_SYSTEM_PERFORMANCE_INFORMATION;
      */
 
+    // Unofficial field descriptions
+    // http://masm32.com/board/index.php?topic=3402.0
     [StructLayout(LayoutKind.Sequential, Pack =4)]
     internal struct MINIDUMP_SYSTEM_PERFORMANCE_INFORMATION
     {
