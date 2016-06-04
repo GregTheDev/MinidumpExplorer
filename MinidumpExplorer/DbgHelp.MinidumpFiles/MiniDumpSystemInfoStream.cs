@@ -36,7 +36,7 @@ namespace DbgHelp.MinidumpFiles
         /// If the value is <see cref="ProcessorArchitecture.PROCESSOR_ARCHITECTURE_INTEL"/> then ProcessorLevel contains the system's architecture-dependent processor level.
         /// </remarks>
         public MiniDumpProcessorArchitecture ProcessorArchitecture { get { return (MiniDumpProcessorArchitecture)_systemInfo.ProcessorArchitecture; } }
-        
+
         /// <summary>
         /// The system's architecture-dependent processor level. This should be used only for display purposes.
         /// </summary>
@@ -100,67 +100,67 @@ namespace DbgHelp.MinidumpFiles
         /// A string that describes the latest Service Pack installed on the system. If no Service Pack has been installed, the string is empty.
         /// </summary>
         public string CSDVersion { get { return _owner.ReadString(_systemInfo.CSDVersionRva); } }
-        
+
         /// <summary>
         /// The bit flags that identify the product suites available on the system. See <see cref="MiniDumpSuite"/>
         /// </summary>
         public ushort SuiteMask { get { return _systemInfo.SuiteMask; } }
-        
+
         /// <summary>
         /// Microsoft BackOffice components are installed.
         /// </summary>
         public bool HasSuiteBackOffice { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_BACKOFFICE) > 0; } }
-        
+
         /// <summary>
         /// Windows Server 2003, Web Edition is installed.
         /// </summary>
         public bool HasSuiteBlade { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_BLADE) > 0; } }
-        
+
         /// <summary>
         /// Windows Server 2003, Compute Cluster Edition is installed.
         /// </summary>
         public bool HasSuiteComputeServer { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_COMPUTE_SERVER) > 0; } }
-        
+
         /// <summary>
         /// Windows Server 2008 R2 Datacenter, Windows Server 2008 Datacenter, or Windows Server 2003, Datacenter Edition is installed.
         /// </summary>
         public bool HasSuiteDataCenter { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_DATACENTER) > 0; } }
-        
+
         /// <summary>
         /// Windows Server 2008 R2 Enterprise, Windows Server 2008 Enterprise, or Windows Server 2003, Enterprise Edition is installed.
         /// </summary>
         public bool HasSuiteEnterprise { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_ENTERPRISE) > 0; } }
-        
+
         /// <summary>
         /// Windows Embedded is installed.
         /// </summary>
         public bool HasSuiteEmbeddedNt { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_EMBEDDEDNT) > 0; } }
-        
+
         /// <summary>
         /// Windows XP Home Edition is installed.
         /// </summary>
         public bool HasSuitePersonal { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_PERSONAL) > 0; } }
-        
+
         /// <summary>
         /// Remote Desktop is supported, but only one interactive session is supported. This value is set unless the system is running in application server mode.
         /// </summary>
         public bool HasSuiteSingleUserTerminalServices { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_SINGLEUSERTS) > 0; } }
-        
+
         /// <summary>
         /// Microsoft Small Business Server was once installed on the system, but may have been upgraded to another version of Windows.
         /// </summary>
         public bool HasSuiteSmallBusiness { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_SMALLBUSINESS) > 0; } }
-        
+
         /// <summary>
         /// Microsoft Small Business Server is installed with the restrictive client license in force.
         /// </summary>
         public bool HasSuiteSmallBusinessRestricted { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_SMALLBUSINESS_RESTRICTED) > 0; } }
-        
+
         /// <summary>
         /// Windows Storage Server is installed.
         /// </summary>
         public bool HasSuiteStorageServer { get { return (_systemInfo.SuiteMask & windows.VER_SUITE_STORAGE_SERVER) > 0; } }
-        
+
         /// <summary>
         /// Terminal Services is installed. This value is always set.
         /// </summary>
@@ -194,6 +194,44 @@ namespace DbgHelp.MinidumpFiles
                     throw new InvalidOperationException("CpuInfoOther is not supported for x86 computers.");
 
                 return _otherCpuInfo;
+            }
+        }
+
+        public string OperatingSystemDescription
+        {
+            get
+            {
+                if (MajorVersion == 10 && MinorVersion == 0 && ProductType == MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows 10";
+                else if (MajorVersion == 10 && MinorVersion == 0 && ProductType != MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows Server 2016 Technical Preview";
+                else if (MajorVersion == 6 && MinorVersion == 3 && ProductType == MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows 8.1";
+                else if (MajorVersion == 6 && MinorVersion == 3 && ProductType != MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows Server 2012 R2";
+                else if (MajorVersion == 6 && MinorVersion == 2 && ProductType == MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows 8";
+                else if (MajorVersion == 6 && MinorVersion == 2 && ProductType != MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows Server 2012";
+                else if (MajorVersion == 6 && MinorVersion == 1 && ProductType == MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows 7";
+                else if (MajorVersion == 6 && MinorVersion == 1 && ProductType != MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows Server 2008 R2";
+                else if (MajorVersion == 6 && MinorVersion == 0 && ProductType == MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows Vista";
+                else if (MajorVersion == 6 && MinorVersion == 0 && ProductType != MiniDumpProductType.VER_NT_WORKSTATION)
+                    return "Windows Server 2008";
+                // Can't accurately report on Windows Server 2003/R2
+                //else if (MajorVersion == 5 && MinorVersion == 2 && ProductType == MiniDumpProductType.VER_NT_WORKSTATION)
+                //    return "Windows Vista";
+                //else if (MajorVersion == 5 && MinorVersion == 2 && ProductType != MiniDumpProductType.VER_NT_WORKSTATION)
+                //    return "Windows Server 2008";
+                else if (MajorVersion == 5 && MinorVersion == 1)
+                    return "Windows XP";
+                else if (MajorVersion == 5 && MinorVersion == 0)
+                    return "Windows 2000";
+
+                return String.Empty;
             }
         }
     }
@@ -249,17 +287,17 @@ namespace DbgHelp.MinidumpFiles
         /// CPUID subfunction 0 (the CPU's manufacturer ID string – a twelve-character ASCII string).
         /// </summary>
         public string VendorId { get { return this._vendorId; } }
-        
+
         /// <summary>
         /// CPUID subfunction 1. Value of EAX.
         /// </summary>
         public uint VersionInformation { get { return _cpuInfo.VersionInformation; } }
-        
+
         /// <summary>
         /// CPUID subfunction 1. Value of EDX.
         /// </summary>
         public uint FeatureInformation { get { return _cpuInfo.FeatureInformation; } }
-        
+
         /// <summary>
         /// CPUID subfunction 80000001. Value of EBX. This member is supported only if the vendor is "AuthenticAMD".
         /// </summary>
@@ -294,11 +332,11 @@ namespace DbgHelp.MinidumpFiles
         /// <summary>
         /// x86
         /// </summary>
-        PROCESSOR_ARCHITECTURE_INTEL  = 0,
+        PROCESSOR_ARCHITECTURE_INTEL = 0,
         /// <summary>
         /// Intel Itanium
         /// </summary>
-        PROCESSOR_ARCHITECTURE_IA64  = 6,
+        PROCESSOR_ARCHITECTURE_IA64 = 6,
         /// <summary>
         /// x64 (AMD or Intel)
         /// </summary>
