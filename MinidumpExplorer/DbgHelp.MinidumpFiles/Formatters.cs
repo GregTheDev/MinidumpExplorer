@@ -32,5 +32,15 @@ namespace DbgHelp.MinidumpFiles
         {
             return String.Concat("0x", address.ToString("x8"));
         }
+
+        public static string FormatAsHex(ushort value)
+        {
+            return String.Concat("0x", value.ToString("x8"));
+        }
+
+        public static string FormatAsHex(ulong value)
+        {
+            return String.Concat("0x", value.ToString("x8"));
+        }
     }
 }

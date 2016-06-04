@@ -158,6 +158,12 @@ namespace MinidumpExplorer
                     numberOfItems = (int)unloadedModulesStream.NumberOfEntries;
                     viewToDisplay = new UnloadedModulesView(unloadedModulesStream);
                     break;
+                case "SystemMemoryInfo":
+                    nodeText = "SystemMemoryInfo";
+                    MiniDumpSystemMemoryInfo systemMemoryInfo = this._miniDumpFile.ReadSystemMemoryInfo();
+                    numberOfItems = 1;
+                    viewToDisplay = new SystemMemoryInfoView(systemMemoryInfo);
+                    break;
             }
 
             if (viewToDisplay != null)
