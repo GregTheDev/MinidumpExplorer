@@ -191,7 +191,14 @@ namespace MinidumpExplorer
             ResetTree();
             CloseExistingSession();
 
-            _miniDumpFile = MiniDumpFile.OpenExisting(filePath);
+            try
+            {
+                _miniDumpFile = MiniDumpFile.OpenExisting(filePath);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"An error occured while attempting to load your minidump:\r\n\r\n\"{e.Message.TrimEnd(null)}\"", "Error Loading Minidump", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             this.treeView1.Nodes[0].Text = Path.GetFileName(filePath);
             this.treeView1.Nodes[0].ToolTipText = filePath;
