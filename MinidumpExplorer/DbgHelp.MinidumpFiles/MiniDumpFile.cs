@@ -33,26 +33,41 @@ namespace DbgHelp.MinidumpFiles
         /// <returns></returns>
         public static MiniDumpFile OpenExisting(string path)
         {
+            MemoryMappedFile minidumpMappedFile = null;
+            SafeMemoryMappedViewHandle mappedFileView = null;
+
             // MemoryMappedFile will close the FileStream when it gets Disposed.
             FileStream fileStream = File.Open(path, System.IO.FileMode.Open, FileAccess.Read, FileShare.Read);
 
-            MemoryMappedFile minidumpMappedFile = MemoryMappedFile.CreateFromFile(fileStream, Path.GetFileName(path), 0, MemoryMappedFileAccess.Read, null, HandleInheritability.None, false);
-
-            SafeMemoryMappedViewHandle mappedFileView = NativeMethods.MapViewOfFile(minidumpMappedFile.SafeMemoryMappedFileHandle, NativeMethods.FILE_MAP_READ, 0, 0, IntPtr.Zero);
-
-            if (mappedFileView.IsInvalid)
+            try
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                minidumpMappedFile = MemoryMappedFile.CreateFromFile(fileStream, Path.GetFileName(path), 0, MemoryMappedFileAccess.Read, null, HandleInheritability.None, false);
+
+                mappedFileView = NativeMethods.MapViewOfFile(minidumpMappedFile.SafeMemoryMappedFileHandle, NativeMethods.FILE_MAP_READ, 0, 0, IntPtr.Zero);
+
+                if (mappedFileView.IsInvalid)
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                }
+
+                MEMORY_BASIC_INFORMATION memoryInformation = default(MEMORY_BASIC_INFORMATION);
+
+                if (NativeMethods.VirtualQuery(mappedFileView, ref memoryInformation, (IntPtr)Marshal.SizeOf(memoryInformation)) == IntPtr.Zero)
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                }
+
+                mappedFileView.Initialize((ulong)memoryInformation.RegionSize);
             }
-
-            MEMORY_BASIC_INFORMATION memoryInformation = default(MEMORY_BASIC_INFORMATION);
-
-            if (NativeMethods.VirtualQuery(mappedFileView, ref memoryInformation, (IntPtr)Marshal.SizeOf(memoryInformation)) == IntPtr.Zero)
+            catch
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
+                // Cleanup whatever didn't work and rethrow
+                if ((minidumpMappedFile != null) && (!mappedFileView.IsInvalid)) minidumpMappedFile.Dispose();
+                if ((mappedFileView != null) && (!mappedFileView.IsInvalid)) mappedFileView.Dispose();
+                if (minidumpMappedFile == null) fileStream?.Close();
 
-            mappedFileView.Initialize((ulong)memoryInformation.RegionSize);
+                throw;
+            }
 
             return new MiniDumpFile(minidumpMappedFile, mappedFileView);
         }
