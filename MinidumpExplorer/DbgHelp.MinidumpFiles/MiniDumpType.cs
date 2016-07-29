@@ -9,6 +9,7 @@ namespace DbgHelp.MinidumpFiles
     /// <summary>
     /// Identifies the type of information that will be written to the minidump file by the MiniDumpWriteDump function.
     /// </summary>
+    [Flags]
     public enum MiniDumpType
     {
         /// <summary>
@@ -116,6 +117,9 @@ namespace DbgHelp.MinidumpFiles
         /// </summary>
         /// <remarks>Prior to DbgHelp 6.1:  This value is not supported.</remarks>
         MiniDumpFilterTriage = 0x00100000,
+
+        MiniDumpWithAvxXStateContext = 0x00200000,
+        MiniDumpValidTypeFlags = 0x003fffff
 
     }
 }
