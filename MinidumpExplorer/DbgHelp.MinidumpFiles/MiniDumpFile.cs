@@ -22,8 +22,6 @@ namespace DbgHelp.MinidumpFiles
         {
             this._minidumpMappedFile = minidumpMappedFile;
             this._mappedFileView = mappedFileView;
-
-            ReadHeader();
         }
 
         /// <summary>
@@ -83,7 +81,7 @@ namespace DbgHelp.MinidumpFiles
             const UInt32 MINIDUMP_SIGNATURE = 0x504d444d; // PMDM, P = 0x50, M = 0x4d, D = 0x44, M = 0x4d
             const UInt32 MINIDUMP_VERSION = 42899;
 
-            using (var viewAccessor = _minidumpMappedFile.CreateViewAccessor(0, 0, MemoryMappedFileAccess.Read))
+            using (var viewAccessor = _minidumpMappedFile.CreateViewAccessor(0, Marshal.SizeOf(typeof(MINIDUMP_HEADER)), MemoryMappedFileAccess.Read))
             {
                 MINIDUMP_HEADER header;
 
