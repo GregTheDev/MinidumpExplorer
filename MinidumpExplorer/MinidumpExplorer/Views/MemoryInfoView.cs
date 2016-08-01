@@ -124,7 +124,7 @@ namespace MinidumpExplorer.Views
 
             ulong startAddress = memoryBlock.BaseAddress;
             ulong endAddress = memoryBlock.BaseAddress + memoryBlock.RegionSize - 1;
-            ulong offsetToReadFrom = MiniDumpHelper.FindInclusiveMemory64Block(this.Memory64Stream, startAddress, endAddress);
+            ulong offsetToReadFrom = MiniDumpHelper.FindMemory64Block(this.Memory64Stream, startAddress, endAddress);
 
             if (offsetToReadFrom == 0)
             {
