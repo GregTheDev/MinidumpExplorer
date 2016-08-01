@@ -18,35 +18,38 @@ namespace MinidumpExplorer.Utilities
         /// <returns>The offset (relative to the start of the minidump) to start reading from if a descriptor was found, 0 otherwise.</returns>
         /// <remarks>
         /// This function searches for memory descriptors that contain the entire range of memory being searched for. If
-        /// the range being searched for spans more than one descriptor then 0 will be returned.
+        /// the range being searched for spans more than one descriptor <see cref="System.Diagnostics.Debug.Fail(string)"/> will run 
+        /// and execution will halt. If a matching range is not found then 0 will be returned.
         /// </remarks>
-        public static ulong FindInclusiveMemory64Block(MiniDumpMemory64Stream memory64Stream, ulong startAddress, ulong endAddress)
+        public static ulong FindMemory64Block(MiniDumpMemory64Stream memory64Stream, ulong startAddress, ulong endAddress)
         {
             ulong offsetToReadFrom = memory64Stream.BaseRva;
-            ulong descriptorSize = (ulong)MiniDumpMemoryDescriptor64.DescriptorSize;
             bool matchFound = false;
 
             foreach (var memoryDescriptor in memory64Stream.MemoryRanges)
             {
-                if ((startAddress >= memoryDescriptor.StartOfMemoryRange) && (endAddress <= memoryDescriptor.EndOfMemoryRange))
+                // This method only caters for full blocks of memory at the moment, thus any matching block will be an exact match
+                // to the startAddress/endAddress passed in.
+                if ((startAddress == memoryDescriptor.StartOfMemoryRange) && (endAddress == memoryDescriptor.EndOfMemoryRange))
                 {
                     // This can be used later for memory ranges that span more than one descriptor.
-                    //if (endOfSearchedForBlock > memoryDescriptor.EndOfMemoryRange)
-                    //{
-                    //    System.Diagnostics.Debug.Fail($"Found descriptor for {memoryDescriptor.DataSize} bytes starting at {memoryDescriptor.StartOfMemoryRange}, but needed {selectedMemoryBlock.RegionSize} bytes.");
-                    //}
+                    if (endAddress > memoryDescriptor.EndOfMemoryRange)
+                    {
+                        System.Diagnostics.Debug.Fail($"Found descriptor for {memoryDescriptor.DataSize} bytes starting at {memoryDescriptor.StartOfMemoryRange}, but needed {endAddress - startAddress} bytes.");
+                    }
 
-                    offsetToReadFrom += (startAddress - memoryDescriptor.StartOfMemoryRange);
+                    // This method only caters for full blocks of memory at the moment, so no need to read within a region.
+                    //offsetToReadFrom += (startAddress - memoryDescriptor.StartOfMemoryRange);
 
                     matchFound = true;
                     break;
                 }
 
-                offsetToReadFrom += descriptorSize;
+                offsetToReadFrom +=  memoryDescriptor.DataSize;
             }
 
             if (matchFound)
-                return offsetToReadFrom;
+                return  offsetToReadFrom;
             else
                 return 0;
         }
