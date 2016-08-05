@@ -14,25 +14,27 @@ namespace MinidumpExplorer.Views
 {
     public partial class SummaryView : BaseViewControl
     {
-        private MiniDumpHeader _header;
+        private MiniDumpFile _miniDumpFile;
 
         public SummaryView()
         {
             InitializeComponent();
         }
 
-        public SummaryView(MiniDumpHeader header)
+        public SummaryView(MiniDumpFile miniDumpFile)
             : this()
         {
-            _header = header;
+            _miniDumpFile = miniDumpFile;
 
-            if (_header == null) return;
+            MiniDumpHeader header = _miniDumpFile.ReadHeader();
 
-            lblNumberOfStreams.Text = _header.NumberOfStreams.ToString();
-            lblDateTime.Text = _header.TimeDateStamp.ToString();
-            lblFlags.Text = _header.Flags.ToString();
+            if (header == null) return;
 
-            foreach (MiniDumpDirectory directoryEntry in _header.DirectoryEntries.OrderBy(entry => entry.StreamType.ToString()))
+            lblNumberOfStreams.Text = header.NumberOfStreams.ToString();
+            lblDateTime.Text = header.TimeDateStamp.ToString();
+            lblFlags.Text = header.Flags.ToString();
+
+            foreach (MiniDumpDirectory directoryEntry in header.DirectoryEntries.OrderBy(entry => entry.StreamType.ToString()))
             {
                 ListViewItem newItem = new ListViewItem(directoryEntry.StreamType.ToString());
                 newItem.Tag = directoryEntry;
@@ -40,6 +42,13 @@ namespace MinidumpExplorer.Views
                 newItem.SubItems.Add(directoryEntry.Location.DataSizePretty);
 
                 listView1.Items.Add(newItem);
+            }
+
+            MiniDumpModule[] modules = _miniDumpFile.ReadModuleList();
+
+            if (modules.Length > 1)
+            {
+                this.lblMainModule.Text = modules[0].PathAndFileName;
             }
         }
     }
