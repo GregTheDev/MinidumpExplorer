@@ -84,8 +84,7 @@ namespace MinidumpExplorer
             {
                 case "Summary":
                     nodeText = string.Empty;
-                    MiniDumpHeader header = _miniDumpFile.ReadHeader();
-                    viewToDisplay = new SummaryView(header);
+                    viewToDisplay = new SummaryView(_miniDumpFile);
                     break;
                 case "Handles":
                     nodeText = "Handles";
@@ -194,15 +193,15 @@ namespace MinidumpExplorer
             try
             {
                 _miniDumpFile = MiniDumpFile.OpenExisting(filePath);
+
+                this.treeView1.Nodes[0].Text = Path.GetFileName(filePath);
+                this.treeView1.Nodes[0].ToolTipText = filePath;
+                this.treeView1.SelectedNode = treeView1.Nodes[0];
             }
             catch (Exception e)
             {
                 MessageBox.Show($"An error occured while attempting to load your minidump:\r\n\r\n\"{e.Message.TrimEnd(null)}\"", "Error Loading Minidump", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            this.treeView1.Nodes[0].Text = Path.GetFileName(filePath);
-            this.treeView1.Nodes[0].ToolTipText = filePath;
-            this.treeView1.SelectedNode = treeView1.Nodes[0];
         }
 
         private void CloseExistingSession()
