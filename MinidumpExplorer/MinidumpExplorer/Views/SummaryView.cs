@@ -26,13 +26,15 @@ namespace MinidumpExplorer.Views
         {
             _miniDumpFile = miniDumpFile;
 
+            #region Header data
+
             MiniDumpHeader header = _miniDumpFile.ReadHeader();
 
             if (header == null) return;
 
-            lblNumberOfStreams.Text = header.NumberOfStreams.ToString();
-            lblDateTime.Text = header.TimeDateStamp.ToString();
-            lblFlags.Text = header.Flags.ToString();
+            txtDateTime.Text = header.TimeDateStamp.ToString();
+            txtFlags.Text = header.Flags.ToString();
+            lblAvailableStreamsHeading.Text = $"Available Streams ({header.DirectoryEntries.Count} items)";
 
             foreach (MiniDumpDirectory directoryEntry in header.DirectoryEntries.OrderBy(entry => entry.StreamType.ToString()))
             {
@@ -43,13 +45,28 @@ namespace MinidumpExplorer.Views
 
                 listView1.Items.Add(newItem);
             }
+            #endregion
 
+            #region Module stream
             MiniDumpModule[] modules = _miniDumpFile.ReadModuleList();
 
             if (modules.Length > 1)
             {
-                this.lblMainModule.Text = modules[0].PathAndFileName;
+                this.txtMainModule.Text = modules[0].PathAndFileName;
             }
+            #endregion
+
+            #region SystemInfo stream
+            MiniDumpSystemInfoStream systemInfoStream = _miniDumpFile.ReadSystemInfo();
+
+            if (systemInfoStream != null)
+            {
+                this.txtOperatingSystem.Text = systemInfoStream.OperatingSystemDescription;
+
+                if (!string.IsNullOrEmpty(systemInfoStream.CSDVersion))
+                    this.txtOperatingSystem.Text += $" ({systemInfoStream.CSDVersion})";
+            }
+            #endregion
         }
     }
 }
