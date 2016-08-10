@@ -76,105 +76,7 @@ namespace MinidumpExplorer
             if (_miniDumpFile == null)
                 return;
 
-            UserControl viewToDisplay = null;
-            int numberOfItems = 0;
-            string nodeText = String.Empty; // Quick fix for duplicated item counts in node text
-
-            switch ((string)e.Node.Tag)
-            {
-                case "Summary":
-                    nodeText = string.Empty;
-                    viewToDisplay = new SummaryView(_miniDumpFile);
-                    break;
-                case "Handles":
-                    nodeText = "Handles";
-                    MiniDumpHandleDescriptor[] handleData = this._miniDumpFile.ReadHandleData();
-                    numberOfItems = handleData.Length;
-                    viewToDisplay = new HandleDataView(handleData);
-                    break;
-                case "Modules":
-                    nodeText = "Modules";
-                    MiniDumpModule[] moduleData = this._miniDumpFile.ReadModuleList();
-                    numberOfItems = moduleData.Length;
-                    viewToDisplay = new ModulesView(moduleData);
-                    break;
-                case "Threads":
-                    nodeText = "Threads";
-                    MiniDumpThread[] threadData = this._miniDumpFile.ReadThreadList();
-                    numberOfItems = threadData.Length;
-                    viewToDisplay = new ThreadListView(threadData);
-                    break;
-                case "ThreadInfo":
-                    nodeText = "ThreadInfo";
-                    MiniDumpThreadInfo[] threadInfoData = this._miniDumpFile.ReadThreadInfoList();
-                    numberOfItems = threadInfoData.Length;
-                    viewToDisplay = new ThreadInfoListView(threadInfoData);
-                    break;
-                case "Memory":
-                    nodeText = "Memory";
-                    MiniDumpMemoryDescriptor[] memoryData = this._miniDumpFile.ReadMemoryList();
-                    numberOfItems = memoryData.Length;
-                    viewToDisplay = new MemoryListView(memoryData);
-                    break;
-                case "Memory64":
-                    nodeText = "Memory64";
-                    MiniDumpMemory64Stream memory64Data = this._miniDumpFile.ReadMemory64List();
-                    numberOfItems = memory64Data.MemoryRanges.Length;
-                    viewToDisplay = new MemoryList64View(memory64Data.MemoryRanges);
-                    break;
-                case "MemoryInfo":
-                    nodeText = "MemoryInfo";
-                    MiniDumpMemoryInfoStream memoryInfo = this._miniDumpFile.ReadMemoryInfoList();
-                    numberOfItems = memoryInfo.Entries.Length;
-                    viewToDisplay = new MemoryInfoView(memoryInfo, _miniDumpFile);
-                    break;
-                case "MiscInfo":
-                    nodeText = "MiscInfo";
-                    MiniDumpMiscInfo miscInfo = this._miniDumpFile.ReadMiscInfo();
-                    numberOfItems = 1;
-                    viewToDisplay = new MiscInfoView(miscInfo);
-                    break;
-                case "SystemInfo":
-                    nodeText = "SystemInfo";
-                    MiniDumpSystemInfoStream systemInfo = this._miniDumpFile.ReadSystemInfo();
-                    numberOfItems = 1;
-                    viewToDisplay = new SystemInfoView(systemInfo);
-                    break;
-                case "Exception":
-                    nodeText = "Exception";
-                    MiniDumpExceptionStream exceptionStream = this._miniDumpFile.ReadExceptionStream();
-
-                    if (exceptionStream == null)
-                        numberOfItems = 0;
-                    else
-                        numberOfItems = 1;
-
-                    viewToDisplay = new ExceptionStreamView(exceptionStream);
-                    break;
-                case "UnloadedModules":
-                    nodeText = "UnloadedModules";
-                    MiniDumpUnloadedModulesStream unloadedModulesStream = this._miniDumpFile.ReadUnloadedModuleList();
-                    numberOfItems = (int)unloadedModulesStream.NumberOfEntries;
-                    viewToDisplay = new UnloadedModulesView(unloadedModulesStream);
-                    break;
-                case "SystemMemoryInfo":
-                    nodeText = "SystemMemoryInfo";
-                    MiniDumpSystemMemoryInfo systemMemoryInfo = this._miniDumpFile.ReadSystemMemoryInfo();
-                    numberOfItems = 1;
-                    viewToDisplay = new SystemMemoryInfoView(systemMemoryInfo);
-                    break;
-            }
-
-            if (viewToDisplay != null)
-            {
-                if (nodeText != string.Empty) e.Node.Text = nodeText + " (" + numberOfItems + (numberOfItems == 1 ? " item" : " items") + ")";
-
-                if (this.splitContainer1.Panel2.Controls.Count > 0) this.splitContainer1.Panel2.Controls.RemoveAt(0);
-
-                viewToDisplay.Dock = DockStyle.Fill;
-
-                this.splitContainer1.Panel2.Controls.Add(viewToDisplay);
-            }
+            CmdDisplayStream((string)e.Node.Tag);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -197,6 +99,8 @@ namespace MinidumpExplorer
                 this.treeView1.Nodes[0].Text = Path.GetFileName(filePath);
                 this.treeView1.Nodes[0].ToolTipText = filePath;
                 this.treeView1.SelectedNode = treeView1.Nodes[0];
+
+                CmdDisplayStream("Summary");
             }
             catch (Exception e)
             {
@@ -270,6 +174,106 @@ namespace MinidumpExplorer
             string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
             OpenNewSession(s[0]);
+        }
+
+        private void CmdDisplayStream(string streamName)
+        {
+            UserControl viewToDisplay = null;
+            int numberOfItems = 0;
+            string nodeText = String.Empty; // Quick fix for duplicated item counts in node text
+
+            switch (streamName)
+            {
+                case "Summary":
+                    nodeText = string.Empty;
+                    viewToDisplay = new SummaryView(_miniDumpFile);
+                    break;
+                case "Handles":
+                    nodeText = "Handles";
+                    MiniDumpHandleDescriptor[] handleData = this._miniDumpFile.ReadHandleData();
+                    numberOfItems = handleData.Length;
+                    viewToDisplay = new HandleDataView(handleData);
+                    break;
+                case "Modules":
+                    nodeText = "Modules";
+                    MiniDumpModule[] moduleData = this._miniDumpFile.ReadModuleList();
+                    numberOfItems = moduleData.Length;
+                    viewToDisplay = new ModulesView(moduleData);
+                    break;
+                case "Threads":
+                    nodeText = "Threads";
+                    MiniDumpThread[] threadData = this._miniDumpFile.ReadThreadList();
+                    numberOfItems = threadData.Length;
+                    viewToDisplay = new ThreadListView(threadData);
+                    break;
+                case "ThreadInfo":
+                    nodeText = "ThreadInfo";
+                    MiniDumpThreadInfo[] threadInfoData = this._miniDumpFile.ReadThreadInfoList();
+                    numberOfItems = threadInfoData.Length;
+                    viewToDisplay = new ThreadInfoListView(threadInfoData);
+                    break;
+                case "Memory":
+                    nodeText = "Memory";
+                    MiniDumpMemoryDescriptor[] memoryData = this._miniDumpFile.ReadMemoryList();
+                    numberOfItems = memoryData.Length;
+                    viewToDisplay = new MemoryListView(memoryData);
+                    break;
+                case "Memory64":
+                    nodeText = "Memory64";
+                    MiniDumpMemory64Stream memory64Data = this._miniDumpFile.ReadMemory64List();
+                    numberOfItems = memory64Data.MemoryRanges.Length;
+                    viewToDisplay = new MemoryList64View(memory64Data.MemoryRanges);
+                    break;
+                case "MemoryInfo":
+                    nodeText = "MemoryInfo";
+                    MiniDumpMemoryInfoStream memoryInfo = this._miniDumpFile.ReadMemoryInfoList();
+                    numberOfItems = memoryInfo.Entries.Length;
+                    viewToDisplay = new MemoryInfoView(memoryInfo, _miniDumpFile);
+                    break;
+                case "MiscInfo":
+                    nodeText = "MiscInfo";
+                    MiniDumpMiscInfo miscInfo = this._miniDumpFile.ReadMiscInfo();
+                    numberOfItems = 1;
+                    viewToDisplay = new MiscInfoView(miscInfo);
+                    break;
+                case "SystemInfo":
+                    nodeText = "SystemInfo";
+                    MiniDumpSystemInfoStream systemInfo = this._miniDumpFile.ReadSystemInfo();
+                    numberOfItems = 1;
+                    viewToDisplay = new SystemInfoView(systemInfo);
+                    break;
+                case "Exception":
+                    nodeText = "Exception";
+                    MiniDumpExceptionStream exceptionStream = this._miniDumpFile.ReadExceptionStream();
+
+                    numberOfItems = (exceptionStream == null) ? 0 : 1;
+
+                    viewToDisplay = new ExceptionStreamView(exceptionStream);
+                    break;
+                case "UnloadedModules":
+                    nodeText = "UnloadedModules";
+                    MiniDumpUnloadedModulesStream unloadedModulesStream = this._miniDumpFile.ReadUnloadedModuleList();
+                    numberOfItems = (int)unloadedModulesStream.NumberOfEntries;
+                    viewToDisplay = new UnloadedModulesView(unloadedModulesStream);
+                    break;
+                case "SystemMemoryInfo":
+                    nodeText = "SystemMemoryInfo";
+                    MiniDumpSystemMemoryInfo systemMemoryInfo = this._miniDumpFile.ReadSystemMemoryInfo();
+                    numberOfItems = 1;
+                    viewToDisplay = new SystemMemoryInfoView(systemMemoryInfo);
+                    break;
+            }
+
+            if (viewToDisplay != null)
+            {
+                if (nodeText != string.Empty) treeView1.SelectedNode.Text = nodeText + " (" + numberOfItems + (numberOfItems == 1 ? " item" : " items") + ")";
+
+                if (this.splitContainer1.Panel2.Controls.Count > 0) this.splitContainer1.Panel2.Controls.RemoveAt(0);
+
+                viewToDisplay.Dock = DockStyle.Fill;
+
+                this.splitContainer1.Panel2.Controls.Add(viewToDisplay);
+            }
         }
     }
 }
