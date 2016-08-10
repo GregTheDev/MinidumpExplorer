@@ -214,7 +214,7 @@ namespace DbgHelp.MinidumpFiles
         }
 
         /// <summary>
-        /// Reads the MINIDUMP_STREAM_TYPE.SystemInfoStream.
+        /// Reads the MINIDUMP_STREAM_TYPE.SystemInfoStream stream.
         /// </summary>
         /// <returns><see cref="MiniDumpSystemInfoStream"/> containing general system information or null if stream data is not present.</returns>
         public MiniDumpSystemInfoStream ReadSystemInfo()
@@ -232,7 +232,7 @@ namespace DbgHelp.MinidumpFiles
         }
 
         /// <summary>
-        /// Reads the MINIDUMP_STREAM_TYPE.ThreadInfoListStream.
+        /// Reads the MINIDUMP_STREAM_TYPE.ThreadInfoListStream stream.
         /// </summary>
         /// <returns><see cref="MiniDumpThreadInfo"/>[] containing thread state information or empty array if stream data is not present.</returns>
         public MiniDumpThreadInfo[] ReadThreadInfoList()
@@ -260,7 +260,7 @@ namespace DbgHelp.MinidumpFiles
         }
 
         /// <summary>
-        /// Reads the MINIDUMP_STREAM_TYPE.ExceptionStream.
+        /// Reads the MINIDUMP_STREAM_TYPE.ExceptionStream stream.
         /// </summary>
         /// <returns><see cref="MiniDumpExceptionStream"/> containing exception information or null if stream data is not present.</returns>
         public MiniDumpExceptionStream ReadExceptionStream()
@@ -298,7 +298,7 @@ namespace DbgHelp.MinidumpFiles
         }
 
         /// <summary>
-        /// Reads the MINIDUMP_STREAM_TYPE.MiscInfoStream stream.
+        /// Reads the MINIDUMP_STREAM_TYPE.MiscInfoStream stream stream.
         /// </summary>
         /// <returns><see cref="MiniDumpMiscInfo"/> containing miscellaneous information or null if stream data is not present.</returns>
         public MiniDumpMiscInfo ReadMiscInfo()
