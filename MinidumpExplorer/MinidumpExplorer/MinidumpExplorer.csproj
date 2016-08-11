@@ -178,6 +178,12 @@
     <Compile Include="Views\MiscInfoView.designer.cs">
       <DependentUpon>MiscInfoView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SummaryView2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SummaryView2.Designer.cs">
+      <DependentUpon>SummaryView2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SummaryView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -284,6 +290,9 @@
     <EmbeddedResource Include="Views\MiscInfoView.resx">
       <DependentUpon>MiscInfoView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\SummaryView2.resx">
+      <DependentUpon>SummaryView2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\SummaryView.resx">
       <DependentUpon>SummaryView.cs</DependentUpon>
     </EmbeddedResource>
@@ -345,6 +354,7 @@
     <Content Include="Images\Listview\fltr_desc.png" />
     <Content Include="Images\Listview\SortAscending_275.png" />
     <Content Include="Images\Misc\GenericVSEditor_9905.ico" />
+    <None Include="Images\Misc\processes_5760.png" />
     <Content Include="Images\Social\bird_blue_16.png" />
     <Content Include="Images\Social\bird_blue_32.png" />
     <Content Include="Images\Social\bird_blue_48.png" />

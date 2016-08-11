@@ -63,6 +63,16 @@ namespace MinidumpExplorer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ActiveDocumentHost_6234 {
+            get {
+                object obj = ResourceManager.GetObject("ActiveDocumentHost_6234", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap asc {
             get {
                 object obj = ResourceManager.GetObject("asc", resourceCulture);
@@ -136,6 +146,16 @@ namespace MinidumpExplorer.Properties {
         internal static System.Drawing.Bitmap Open_6529 {
             get {
                 object obj = ResourceManager.GetObject("Open_6529", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap processes_5760 {
+            get {
+                object obj = ResourceManager.GetObject("processes_5760", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
