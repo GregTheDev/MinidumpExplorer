@@ -192,7 +192,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::MinidumpExplorer.Properties.Resources.processes_5760;
+            this.pictureBox2.Image = global::MinidumpExplorer.Properties.Resources.burning_folder_16x16;
             this.pictureBox2.Location = new System.Drawing.Point(3, 111);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(16, 16);

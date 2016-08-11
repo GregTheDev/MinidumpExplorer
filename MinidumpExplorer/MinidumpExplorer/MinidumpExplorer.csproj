@@ -343,6 +343,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\AppIcon\Awicons-Vista-Artistic-Folder-search.ico" />
+    <None Include="Images\AppIcon\burning folder 16x16.png" />
     <Content Include="Images\AppIcon\MiniDumpExplorer.ico" />
     <Content Include="Images\AppIcon\Saki-NuoveXT-2-Folder-document-open.ico" />
     <Content Include="Images\AppIcon\Visualpharm-Icons8-Metro-Style-Folders-Burn.ico" />

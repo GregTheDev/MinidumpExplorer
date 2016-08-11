@@ -68,5 +68,10 @@ namespace MinidumpExplorer.Views
             }
             #endregion
         }
+
+        private void lblSeperator2_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, lblSeperator2.DisplayRectangle, Color.White, ButtonBorderStyle.Solid);
+        }
     }
 }
