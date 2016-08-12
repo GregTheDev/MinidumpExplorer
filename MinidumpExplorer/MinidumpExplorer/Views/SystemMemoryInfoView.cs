@@ -14,6 +14,7 @@ namespace MinidumpExplorer.Views
     {
         private MiniDumpSystemMemoryInfo _systemMemoryInfo;
 
+        private const int LVG_NO_GROUP = 0;
         private const int LVG_SYSTEM_MEMORY_INFO = 0;
         private const int LVG_SYSTEM_BASIC_INFO = 1;
         private const int LVG_SYSTEM_FILE_CACHE_INFO = 2;
@@ -32,7 +33,8 @@ namespace MinidumpExplorer.Views
 
             if (_systemMemoryInfo ==  null)
             {
-                AddGroupedNode("Stream not found", _systemMemoryInfo.Revision, LVG_SYSTEM_MEMORY_INFO);
+                AddGroupedNode("Stream not found", String.Empty, LVG_NO_GROUP);
+                return;
             }
 
             AddGroupedNode("Revision", _systemMemoryInfo.Revision, LVG_SYSTEM_MEMORY_INFO);
