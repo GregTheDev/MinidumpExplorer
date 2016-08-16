@@ -12,16 +12,16 @@ using MinidumpExplorer.Dialogs;
 
 namespace MinidumpExplorer.Views
 {
-    public partial class SummaryView2 : BaseViewControl
+    public partial class SummaryView : BaseViewControl
     {
         private MiniDumpFile _miniDumpFile;
 
-        public SummaryView2()
+        public SummaryView()
         {
             InitializeComponent();
         }
 
-        public SummaryView2(MiniDumpFile miniDumpFile)
+        public SummaryView(MiniDumpFile miniDumpFile)
             : this()
         {
             _miniDumpFile = miniDumpFile;

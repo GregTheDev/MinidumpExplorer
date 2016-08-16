@@ -186,7 +186,7 @@ namespace MinidumpExplorer
             {
                 case "Summary":
                     nodeText = string.Empty;
-                    viewToDisplay = new SummaryView2(_miniDumpFile);
+                    viewToDisplay = new SummaryView(_miniDumpFile);
                     break;
                 case "Handles":
                     nodeText = "Handles";

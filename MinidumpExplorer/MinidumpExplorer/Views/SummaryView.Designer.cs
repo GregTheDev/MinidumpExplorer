@@ -1,6 +1,6 @@
 ﻿namespace MinidumpExplorer.Views
 {
-    partial class SummaryView2
+    partial class SummaryView
     {
         /// <summary> 
         /// Required designer variable.
@@ -214,10 +214,10 @@
             // 
             this.lblSeperator1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblSeperator1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblSeperator1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblSeperator1.Location = new System.Drawing.Point(31, 37);
             this.lblSeperator1.Name = "lblSeperator1";
-            this.lblSeperator1.Size = new System.Drawing.Size(857, 1);
+            this.lblSeperator1.Size = new System.Drawing.Size(857, 2);
             this.lblSeperator1.TabIndex = 22;
             this.lblSeperator1.Text = "label7";
             // 
@@ -225,10 +225,10 @@
             // 
             this.lblSeperator2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblSeperator2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblSeperator2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblSeperator2.Location = new System.Drawing.Point(31, 129);
             this.lblSeperator2.Name = "lblSeperator2";
-            this.lblSeperator2.Size = new System.Drawing.Size(857, 1);
+            this.lblSeperator2.Size = new System.Drawing.Size(857, 2);
             this.lblSeperator2.TabIndex = 23;
             // 
             // SummaryView2
