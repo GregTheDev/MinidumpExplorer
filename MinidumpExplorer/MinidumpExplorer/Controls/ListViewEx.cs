@@ -13,6 +13,13 @@ namespace MinidumpExplorer.Controls
     // Adapted from http://stackoverflow.com/questions/7705381/adding-filter-boxes-to-the-column-headers-of-a-listview-in-c-sharp-and-winforms
     class ListViewEx : ListView
     {
+        public enum SortImage
+        {
+            None = 0x0,
+            Descending = 0x200,
+            Ascending = 0x400
+        }
+
         private List<bool> HeaderDropdowns = new List<bool>();
 
         public class HeaderDropdownArgs : EventArgs
@@ -21,12 +28,28 @@ namespace MinidumpExplorer.Controls
             public Control Control { get; set; }
         }
         public event EventHandler<HeaderDropdownArgs> HeaderDropdown;
-        public ImageList HeaderImages { get; set; }
+
+        public void DisplaySortImageOnColumn(int column, SortImage image)
+        {
+            HDITEM.Format format = GetColumnFormat(column);
+
+            // Reset any existing sort images
+            format &= ~HDITEM.Format.SortDown;
+            format &= ~HDITEM.Format.SortUp;
+
+            // Set new image (if any)
+            if (image == SortImage.Ascending)
+                format |= HDITEM.Format.SortUp;
+            else if (image == SortImage.Descending)
+                format |= HDITEM.Format.SortDown;
+
+            SetColumnFormat(column, format);
+        }
 
         protected void SetHeaderDropdown(int column, bool enable)
         {
             if (column < 0 || column >= this.Columns.Count)
-                throw new ArgumentOutOfRangeException("column");
+                throw new ArgumentOutOfRangeException(nameof(column));
 
             while (HeaderDropdowns.Count < this.Columns.Count)
                 HeaderDropdowns.Add(false);
@@ -66,10 +89,9 @@ namespace MinidumpExplorer.Controls
             {
                 if (HeaderDropdowns[col]) EnableSplitButtonOnColumnHeader(col, true);
             }
-            SetHeaderImageList(this.HeaderImages);
         }
 
-        public Rectangle GetHeaderRect(int column)
+        protected Rectangle GetHeaderRect(int column)
         {
             IntPtr hHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
             RECT rc;
@@ -77,18 +99,12 @@ namespace MinidumpExplorer.Controls
             return new Rectangle(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
         }
 
-        public Rectangle GetSplitButtonRect(int column)
+        protected Rectangle GetSplitButtonRect(int column)
         {
             IntPtr hHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
             RECT rc;
             SendMessage(hHeader, HDM_GETITEMDROPDOWNRECT, (IntPtr)column, out rc);
             return new Rectangle(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
-        }
-
-        public void SetHeaderImageList(ImageList headerImages)
-        {
-            IntPtr columnHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
-            IntPtr result = SendMessage(columnHeader, HDM_SETIMAGELIST, (IntPtr)HDSIL_NORMAL, headerImages.Handle);
         }
 
         protected void EnableSplitButtonOnColumnHeader(int column, bool enable)
@@ -107,58 +123,35 @@ namespace MinidumpExplorer.Controls
             IntPtr res = SendMessage(columnHeader, HDM_SETITEM, (IntPtr)column, ref headerItem);
         }
 
-        //protected void SetImageOnColumnHeader(int column, int imageIndex)
-        //{
-        //    HDITEM headerItem = new HDITEM();
-        //    headerItem.mask = HDITEM.Mask.Format | HDITEM.Mask.Image;
-
-        //    IntPtr columnHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
-        //    SendMessage(columnHeader, HDM_GETITEM, (IntPtr)column, ref headerItem);
-
-        //    headerItem.iImage = (imageIndex == -1) ? I_IMAGENONE : imageIndex;
-
-        //    if (imageIndex >= 0)
-        //        headerItem.fmt |= HDITEM.Format.Image;
-        //    else
-        //        headerItem.fmt &= ~HDITEM.Format.Image;
-
-        //    IntPtr res = SendMessage(columnHeader, HDM_SETITEM, (IntPtr)column, ref headerItem);
-
-        //    if (imageIndex == -1)
-        //    {
-        //        headerItem.mask = HDITEM.Mask.Format;
-        //        headerItem.fmt &= ~HDITEM.Format.Image;
-        //        IntPtr lala = SendMessage(this.Handle, HDM_SETITEM, (IntPtr)column, ref headerItem);
-        //    }
-
-        //}
-
-        protected void SetImageOnColumnHeader(int column, int imageIndex)
+        private HDITEM.Format GetColumnFormat(int column)
         {
             IntPtr hresult;
-            LVCOLUMN headerItem = new LVCOLUMN();
-            headerItem.mask = LVCF_FMT | LVCF_IMAGE; // We want format and image information
+            IntPtr columnHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
 
-            hresult = SendMessage(this.Handle, LVM_GETCOLUMN, (IntPtr)column, ref headerItem);
+            HDITEM item = new HDITEM();
+            item.mask = HDITEM.Mask.Format;
 
-            if (hresult != TRUE) return;
+            hresult = SendMessage(columnHeader, HDM_GETITEM, (IntPtr)column, ref item);
+            if (hresult != TRUE)
+                throw new Win32Exception();
+            else
+                return item.fmt;
+        }
 
-            headerItem.iImage = (imageIndex == -1) ? I_IMAGENONE : imageIndex;
-            headerItem.fmt |= LVCFMT_IMAGE; // We want to change the image (includes clearing the image)
+        private void SetColumnFormat(int column, HDITEM.Format format)
+        {
+            IntPtr hresult;
+            IntPtr columnHeader = SendMessage(this.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
 
-            hresult = SendMessage(this.Handle, LVM_SETCOLUMN, (IntPtr)column, ref headerItem);
+            HDITEM item = new HDITEM();
+            item.mask = HDITEM.Mask.Format;
+            item.fmt = format;
 
-            if (hresult != TRUE) return;
+            //hresult = SendMessage(columnHeader, HDM_GETITEM, (IntPtr) column, ref item);
+            //if (hresult != TRUE) return;
 
-            // If we were clearing the image, then remove the image flag from the format. This
-            // seems to be the only to clear the image AND remove the visual space allocate
-            // to it.
-            if (imageIndex == -1)
-            {
-                headerItem.mask = LVCF_FMT;
-                headerItem.fmt &= ~LVCFMT_IMAGE;
-                hresult = SendMessage(this.Handle, LVM_SETCOLUMN, (IntPtr)column, ref headerItem);
-            }
+            //item.fmt |= format;
+            hresult = SendMessage(columnHeader, HDM_SETITEM, (IntPtr)column, ref item);
         }
 
         protected override void WndProc(ref Message m)
@@ -190,7 +183,7 @@ namespace MinidumpExplorer.Controls
         private static extern IntPtr SetParent(IntPtr hWnd, IntPtr hParent);
 
         private readonly IntPtr TRUE = new IntPtr(1);
-        private readonly IntPtr FALSe = new IntPtr(0);
+        private readonly IntPtr FALSE = new IntPtr(0);
         private const int LVM_FIRST = 0x1000;
         private const int LVM_GETCOLUMN = LVM_FIRST + 95;
         private const int LVM_SETCOLUMN = LVM_FIRST + 96;
@@ -199,9 +192,13 @@ namespace MinidumpExplorer.Controls
         private const int LVCF_IMAGE = 0x0010;
         private const int LVCFMT_IMAGE = 2048; // 0x800
         private const int LVCFMT_SPLITBUTTON = 0x1000000;
+        private const int LVCFMT_COL_HAS_IMAGES = 0x8000;
         private const int WM_NOTIFY = 0x204e;
         private const int LVN_COLUMNDROPDOWN = -100 - 64;
         private const int LVM_GETHEADER = 0x1000 + 31;
+        private const int HDI_FORMAT = 0x0004;
+        private const int HDI_IMAGE = 0x0020;
+        private const int HDI_ORDER = 0x0080;
         private const int HDM_FIRST = 0x1200;
         private const int HDM_GETITEMRECT = HDM_FIRST + 7;
         private const int HDM_SETIMAGELIST = HDM_FIRST + 8;
@@ -291,15 +288,27 @@ namespace MinidumpExplorer.Controls
             {
                 Format = 0x4,       // HDI_FORMAT
                 Image = 0x0020,     // HDI_IMAGE
+                Order = 0x0080  // HDI_ORDER 
             };
 
             [Flags]
             public enum Format
             {
-                None = 0x0,
+                Left = 0x0000,          // HDF_LEFT
+                Right = 0x0001,         // HDF_RIGHT
+                Center = 0x0002,        // HDF_CENTER
+                JustifyMask = 0x0003,   // HDF_JUSTIFYMASK
+                RtlReading = 0x0004,    // HDF_RTLREADING
+                Bitmap = 0x2000,        // HDF_BITMAP
+                String = 0x4000,        // HDF_STRING
+                OwnderDraw = 0x8000,    // HDF_OWNERDRAW
+                Image = 0x0800,         // HDF_IMAGE
+                BitmapOnRight = 0x1000, // HDF_BITMAP_ON_RIGHT
                 SortDown = 0x200,       // HDF_SORTDOWN
                 SortUp = 0x400,         // HDF_SORTUP
-                Image = 0x0800,         // HDF_IMAGE
+                Checkbox = 0x0040,      // HDF_CHECKBOX
+                Checked = 0x0080,       // HDF_CHECKED
+                FixedWidth = 0x0100,    // HDF_FIXEDWIDTH
                 SplitButton = 0x1000000 // HDF_SPLITBUTTON
             };
         };
