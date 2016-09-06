@@ -15,13 +15,6 @@ namespace MinidumpExplorer.Controls
         private ListViewColumnSorter _lvwColumnSorter;
         private List<ListViewItem> _originalItems;
         private Dictionary<int, ContextMenuStrip> _filterMenus;
-        private ImageList _headerImages;
-
-        private const int IMG_ASC = 0;
-        private const int IMG_DESC = 1;
-        private const int IMG_FLTR_ASC = 2;
-        private const int IMG_FLTR_DESC = 3;
-        private const int IMG_FLTR = 4;
 
         public MinidumpListView()
             : base ()
@@ -30,15 +23,6 @@ namespace MinidumpExplorer.Controls
             _lvwColumnSorter.Order = SortOrder.Ascending;
 
             _filterMenus = new Dictionary<int, ContextMenuStrip>();
-
-            _headerImages = new ImageList();
-            _headerImages.Images.Add(Properties.Resources.asc);
-            _headerImages.Images.Add(Properties.Resources.desc);
-            _headerImages.Images.Add(Properties.Resources.fltr_asc);
-            _headerImages.Images.Add(Properties.Resources.fltr_desc);
-            _headerImages.Images.Add(Properties.Resources.fltr);
-
-            this.HeaderImages = _headerImages;
 
             this.ListViewItemSorter = _lvwColumnSorter;
             this.HeaderDropdown += DisplayColumnHeaderDropdown;
@@ -93,13 +77,13 @@ namespace MinidumpExplorer.Controls
                 _lvwColumnSorter.Order = SortOrder.Ascending;
 
                 // Remove previous sort icon
-                UpdateColumnImage(originalColumn);
+                DisplaySortImageOnColumn(originalColumn, SortImage.None);
             }
 
             // Perform the sort with these new sort options.
             this.Sort();
             //this.SetSortIcon(e.Column, _lvwColumnSorter.Order);
-            UpdateColumnImage(e.Column);
+            DisplaySortImageOnColumn(e.Column, (_lvwColumnSorter.Order == SortOrder.Ascending) ? SortImage.Ascending : SortImage.Descending);
 
             base.OnColumnClick(e);
         }
@@ -147,14 +131,14 @@ namespace MinidumpExplorer.Controls
                 {
                     //this.Columns[fitlerOption.Key].ImageIndex = -1;
                     //SetImageOnColumnHeader(filterOption.Key, false);
-                    UpdateColumnImage(filterOption.Key, false);
+                    //UpdateColumnImage(filterOption.Key, false);
 
                     continue;
                 }
 
                 //this.Columns[fitlerOption.Key].ImageIndex = 0;
                 //SetImageOnColumnHeader(filterOption.Key, true);
-                UpdateColumnImage(filterOption.Key, true);
+                //UpdateColumnImage(filterOption.Key, true);
 
                 if (items == null)
                     items = _originalItems.Where(item => Array.IndexOf(selectedFiltersForThisColumn, item.SubItems[filterOption.Key].Text) >= 0);
@@ -175,37 +159,42 @@ namespace MinidumpExplorer.Controls
             }
         }
 
-        private void UpdateColumnImage(int column)
-        {
-            if (_filterMenus.ContainsKey(column))
-            {
-                var firstFilterForThisColumn = _filterMenus[column].Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Text).FirstOrDefault();
+        //private void UpdateColumnImage(int column)
+        //{
+        //    if (_filterMenus.ContainsKey(column))
+        //    {
+        //        var firstFilterForThisColumn = _filterMenus[column].Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Text).FirstOrDefault();
 
-                UpdateColumnImage(column, firstFilterForThisColumn != null);
-            }
-            else
-            {
-                UpdateColumnImage(column, false);
-            }
-        }
+        //        UpdateColumnImage(column, firstFilterForThisColumn != null);
+        //    }
+        //    else
+        //    {
+        //        UpdateColumnImage(column, false);
+        //    }
+        //}
 
-        private void UpdateColumnImage(int column, bool filtered)
-        {
-            // Is the column sorted?
-            if (_lvwColumnSorter.SortColumn == column)
-            {
-                if ((_lvwColumnSorter.Order == SortOrder.Ascending) && (filtered)) SetImageOnColumnHeader(column, IMG_FLTR_ASC);
-                else if ((_lvwColumnSorter.Order == SortOrder.Descending) && (filtered)) SetImageOnColumnHeader(column, IMG_FLTR_DESC);
-                else if ((_lvwColumnSorter.Order == SortOrder.Ascending) && (!filtered)) SetImageOnColumnHeader(column, IMG_ASC);
-                else if ((_lvwColumnSorter.Order == SortOrder.Descending) && (!filtered)) SetImageOnColumnHeader(column, IMG_DESC);
-            }
-            else
-            {
-                if (filtered) SetImageOnColumnHeader(column, IMG_FLTR);
-                else SetImageOnColumnHeader(column, -1);
+        //private void UpdateColumnImage(int column, bool filtered)
+        //{
+        //    // Is the column sorted?
+        //    if (_lvwColumnSorter.SortColumn == column)
+        //    {
+        //        if ((_lvwColumnSorter.Order == SortOrder.Ascending) && (filtered)) DisplaySortImageOnColumn(column, SortImage.Ascending);
+        //        else if ((_lvwColumnSorter.Order == SortOrder.Descending) && (filtered)) DisplaySortImageOnColumn(column, SortImage.Descending);
+        //        else if ((_lvwColumnSorter.Order == SortOrder.Ascending) && (!filtered)) DisplaySortImageOnColumn(column, SortImage.Ascending);
+        //        else if ((_lvwColumnSorter.Order == SortOrder.Descending) && (!filtered)) DisplaySortImageOnColumn(column, SortImage.Descending);
+        //    }
+        //    else
+        //    {
+        //        // Gave up on trying to display a filter image. ListView is just a total nightmare. You can't display the built in
+        //        // sort images *AND* a header image. It's either or. The only way to get around it is to ownerdraw the whole header,
+        //        // which will probably never match the default operating system version.
 
-            }
-        }
+
+        //        //if (filtered) SetImageOnColumnHeader(column, IMG_FLTR);
+        //        //else SetImageOnColumnHeader(column, -1);
+
+        //    }
+        //}
 
         private void DisplayColumnHeaderDropdown(object sender, ListViewEx.HeaderDropdownArgs e)
         {
