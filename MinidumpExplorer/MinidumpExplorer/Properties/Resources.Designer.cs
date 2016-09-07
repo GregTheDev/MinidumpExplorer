@@ -73,16 +73,6 @@ namespace MinidumpExplorer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap asc {
-            get {
-                object obj = ResourceManager.GetObject("asc", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap bird_blue_32 {
             get {
                 object obj = ResourceManager.GetObject("bird_blue_32", resourceCulture);
@@ -96,46 +86,6 @@ namespace MinidumpExplorer.Properties {
         internal static System.Drawing.Bitmap burning_folder_16x16 {
             get {
                 object obj = ResourceManager.GetObject("burning folder 16x16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap desc {
-            get {
-                object obj = ResourceManager.GetObject("desc", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap fltr {
-            get {
-                object obj = ResourceManager.GetObject("fltr", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap fltr_asc {
-            get {
-                object obj = ResourceManager.GetObject("fltr_asc", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap fltr_desc {
-            get {
-                object obj = ResourceManager.GetObject("fltr_desc", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
