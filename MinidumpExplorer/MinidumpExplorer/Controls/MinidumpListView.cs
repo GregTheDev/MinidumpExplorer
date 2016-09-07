@@ -101,6 +101,7 @@ namespace MinidumpExplorer.Controls
                 foreach (var item in distinctValues)
                 {
                     ToolStripCheckBoxMenuItem newItem = new ToolStripCheckBoxMenuItem(String.IsNullOrEmpty(item) ? "(blank)" : item);
+                    newItem.Tag = item;
                     newItem.Click += FilterMenuItem_Click;
                     filterMenu.Items.Add(newItem);
                 }
@@ -125,7 +126,7 @@ namespace MinidumpExplorer.Controls
 
             foreach (var filterOption in _filterMenus)
             {
-                var selectedFiltersForThisColumn = filterOption.Value.Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Text).ToArray();
+                var selectedFiltersForThisColumn = filterOption.Value.Items.Cast<ToolStripCheckBoxMenuItem>().Where(item => item.Checked).Select(item => item.Tag).ToArray();
 
                 if (selectedFiltersForThisColumn.Length == 0)
                 {
