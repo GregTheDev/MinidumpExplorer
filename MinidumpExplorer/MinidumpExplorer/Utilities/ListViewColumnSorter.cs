@@ -10,13 +10,22 @@ namespace MinidumpExplorer.Utilities
 {
     internal class ListViewColumnSorter : IComparer
     {
-        public int SortColumn { get; set; }
+        public int SortColumnIndex { get; set; }
         public SortOrder Order { get; set; }
+
+        private Dictionary<int, Func<ListViewItem, object>> _columnSortDataExpressions;
 
         public ListViewColumnSorter()
         {
-            this.SortColumn = 0;
+            _columnSortDataExpressions = new Dictionary<int, Func<ListViewItem, object>>();
+
+            this.SortColumnIndex = 0;
             this.Order = SortOrder.None;
+        }
+
+        public void SortColumn(int i, Func<ListViewItem, object> dataFunction)
+        {
+            _columnSortDataExpressions[i] = dataFunction;
         }
 
         public int Compare(object x, object y)
@@ -28,9 +37,18 @@ namespace MinidumpExplorer.Utilities
             listviewX = (ListViewItem)x;
             listviewY = (ListViewItem)y;
 
-            object x1 = listviewX.SubItems[this.SortColumn].Tag;
-            object y1 = listviewY.SubItems[this.SortColumn].Tag;
+            // Default to sorting on the text...
+            object x1 = listviewX.SubItems[this.SortColumnIndex].Text;
+            object y1 = listviewY.SubItems[this.SortColumnIndex].Text;
 
+            // ... unless we have an expression to get data for the column
+            if (_columnSortDataExpressions.ContainsKey(this.SortColumnIndex))
+            {
+                x1 = _columnSortDataExpressions[this.SortColumnIndex].Invoke(listviewX);
+                y1 = _columnSortDataExpressions[this.SortColumnIndex].Invoke(listviewY);
+            }
+
+            // Now sort
             if ((x1 == null) && (y1 == null))
                 compareResult = 0;
             else if (x1 == null)
@@ -38,13 +56,7 @@ namespace MinidumpExplorer.Utilities
             else if (y1 == null)
                 compareResult = 1; // If y1 is null assume it's less than x1
             else
-            {
-                // Compare enums based on their text description, not value
-                if (x1.GetType().IsEnum)
-                    compareResult = Comparer.Default.Compare(x1.ToString(), y1.ToString());
-                else
-                    compareResult = Comparer.Default.Compare(x1, y1);
-            }
+                compareResult = Comparer.Default.Compare(x1, y1);
 
             // Calculate correct return value based on object comparison
             if (this.Order == SortOrder.Ascending)

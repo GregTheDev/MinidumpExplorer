@@ -12,19 +12,19 @@ namespace MinidumpExplorer.Controls
 {
     class MinidumpListView : ListViewEx
     {
-        private ListViewColumnSorter _lvwColumnSorter;
+        public ListViewColumnSorter ColumnSorter { get { return this.ListViewItemSorter as ListViewColumnSorter; } private set { this.ListViewItemSorter = value; } }
         private List<ListViewItem> _originalItems;
         private Dictionary<int, ContextMenuStrip> _filterMenus;
 
         public MinidumpListView()
             : base ()
         {
-            _lvwColumnSorter = new ListViewColumnSorter();
-            _lvwColumnSorter.Order = SortOrder.Ascending;
+            ColumnSorter = new ListViewColumnSorter();
+            ColumnSorter.Order = SortOrder.Ascending;
 
             _filterMenus = new Dictionary<int, ContextMenuStrip>();
 
-            this.ListViewItemSorter = _lvwColumnSorter;
+            this.ListViewItemSorter = ColumnSorter;
             this.HeaderDropdown += DisplayColumnHeaderDropdown;
         }
 
@@ -56,25 +56,25 @@ namespace MinidumpExplorer.Controls
         protected override void OnColumnClick(ColumnClickEventArgs e)
         {
             // Determine if clicked column is already the column that is being sorted.
-            if (e.Column == _lvwColumnSorter.SortColumn)
+            if (e.Column == ColumnSorter.SortColumnIndex)
             {
                 // Reverse the current sort direction for this column.
-                if (_lvwColumnSorter.Order == SortOrder.Ascending)
+                if (ColumnSorter.Order == SortOrder.Ascending)
                 {
-                    _lvwColumnSorter.Order = SortOrder.Descending;
+                    ColumnSorter.Order = SortOrder.Descending;
                 }
                 else
                 {
-                    _lvwColumnSorter.Order = SortOrder.Ascending;
+                    ColumnSorter.Order = SortOrder.Ascending;
                 }
             }
             else
             {
-                int originalColumn = _lvwColumnSorter.SortColumn;
+                int originalColumn = ColumnSorter.SortColumnIndex;
 
                 // Set the column number that is to be sorted; default to ascending.
-                _lvwColumnSorter.SortColumn = e.Column;
-                _lvwColumnSorter.Order = SortOrder.Ascending;
+                ColumnSorter.SortColumnIndex = e.Column;
+                ColumnSorter.Order = SortOrder.Ascending;
 
                 // Remove previous sort icon
                 DisplaySortImageOnColumn(originalColumn, SortImage.None);
@@ -83,7 +83,7 @@ namespace MinidumpExplorer.Controls
             // Perform the sort with these new sort options.
             this.Sort();
             //this.SetSortIcon(e.Column, _lvwColumnSorter.Order);
-            DisplaySortImageOnColumn(e.Column, (_lvwColumnSorter.Order == SortOrder.Ascending) ? SortImage.Ascending : SortImage.Descending);
+            DisplaySortImageOnColumn(e.Column, (ColumnSorter.Order == SortOrder.Ascending) ? SortImage.Ascending : SortImage.Descending);
 
             base.OnColumnClick(e);
         }
