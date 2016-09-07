@@ -37,6 +37,14 @@ namespace MinidumpExplorer.Views
             listView1.SetFilteringForColumn(COL_STATE, true);
             listView1.SetFilteringForColumn(COL_PROTECT, true);
             listView1.SetFilteringForColumn(COL_TYPE, true);
+
+            listView1.ColumnSorter.SortColumn(COL_BASE_ADDRESS, listItem => (listItem.Tag as MiniDumpMemoryInfo).BaseAddress);
+            listView1.ColumnSorter.SortColumn(COL_ALLOCATION_BASE, listItem => (listItem.Tag as MiniDumpMemoryInfo).AllocationBase);
+            listView1.ColumnSorter.SortColumn(COL_ALLOCATION_PROTECT, listItem => (listItem.Tag as MiniDumpMemoryInfo).AllocationProtect.ToString());
+            listView1.ColumnSorter.SortColumn(COL_REGION_SIZE, listItem => (listItem.Tag as MiniDumpMemoryInfo).RegionSize);
+            listView1.ColumnSorter.SortColumn(COL_STATE, listItem => (listItem.Tag as MiniDumpMemoryInfo).State.ToString());
+            listView1.ColumnSorter.SortColumn(COL_PROTECT, listItem => (listItem.Tag as MiniDumpMemoryInfo).Protect.ToString());
+            listView1.ColumnSorter.SortColumn(COL_TYPE, listItem => (listItem.Tag as MiniDumpMemoryInfo).Type.ToString());
         }
 
         public MemoryInfoView(MiniDumpMemoryInfoStream memoryInfoStream, MiniDumpFile minidumpFile)
@@ -55,29 +63,27 @@ namespace MinidumpExplorer.Views
 
                 foreach (MiniDumpMemoryInfo memoryInfo in _memoryInfoStream.Entries)
                 {
-                    ListViewItem newItem = new ListViewItem(String.Format("0x{0:x8}", memoryInfo.BaseAddress));
+                    ListViewItem newItem = new ListViewItem(Formatters.FormatAsMemoryAddress(memoryInfo.BaseAddress));
                     newItem.Tag = memoryInfo;
-                    newItem.SubItems[0].Tag = memoryInfo.BaseAddress;
 
-                    // If the state is MEM_FREE then AllocationProtect, RegionSize, Protect and Type
-                    // are undefined.
+                    // If the state is MEM_FREE then AllocationProtect, RegionSize, Protect and Type are undefined.
                     if (memoryInfo.State == MemoryState.MEM_FREE)
                     {
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, "", null));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, "", null));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, memoryInfo.RegionSizePretty, memoryInfo.RegionSize));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, memoryInfo.State.ToString(), memoryInfo.State));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, "", null));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, "", null));
+                        newItem.SubItems.Add("");
+                        newItem.SubItems.Add("");
+                        newItem.SubItems.Add(memoryInfo.RegionSizePretty);
+                        newItem.SubItems.Add(memoryInfo.State.ToString());
+                        newItem.SubItems.Add("");
+                        newItem.SubItems.Add("");
                     }
                     else
                     {
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, String.Format("0x{0:x8}", memoryInfo.AllocationBase), memoryInfo.AllocationBase));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, memoryInfo.AllocationProtect.ToString(), memoryInfo.AllocationProtect));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, memoryInfo.RegionSizePretty, memoryInfo.RegionSize));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, memoryInfo.State.ToString(), memoryInfo.State));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, memoryInfo.Protect.ToString(), memoryInfo.Protect));
-                        newItem.SubItems.Add(new ListViewSubItemEx(newItem, memoryInfo.Type.ToString(), memoryInfo.Type));
+                        newItem.SubItems.Add(Formatters.FormatAsMemoryAddress(memoryInfo.AllocationBase));
+                        newItem.SubItems.Add(memoryInfo.AllocationProtect.ToString());
+                        newItem.SubItems.Add(memoryInfo.RegionSizePretty);
+                        newItem.SubItems.Add(memoryInfo.State.ToString());
+                        newItem.SubItems.Add(memoryInfo.Protect.ToString());
+                        newItem.SubItems.Add(memoryInfo.Type.ToString());
                     }
 
                     listItems.Add(newItem);
