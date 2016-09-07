@@ -69,12 +69,12 @@ namespace MinidumpExplorer.Views
                     // If the state is MEM_FREE then AllocationProtect, RegionSize, Protect and Type are undefined.
                     if (memoryInfo.State == MemoryState.MEM_FREE)
                     {
-                        newItem.SubItems.Add("");
-                        newItem.SubItems.Add("");
+                        newItem.SubItems.Add(string.Empty);
+                        newItem.SubItems.Add(string.Empty);
                         newItem.SubItems.Add(memoryInfo.RegionSizePretty);
                         newItem.SubItems.Add(memoryInfo.State.ToString());
-                        newItem.SubItems.Add("");
-                        newItem.SubItems.Add("");
+                        newItem.SubItems.Add(string.Empty);
+                        newItem.SubItems.Add(string.Empty);
                     }
                     else
                     {
@@ -82,7 +82,8 @@ namespace MinidumpExplorer.Views
                         newItem.SubItems.Add(memoryInfo.AllocationProtect.ToString());
                         newItem.SubItems.Add(memoryInfo.RegionSizePretty);
                         newItem.SubItems.Add(memoryInfo.State.ToString());
-                        newItem.SubItems.Add(memoryInfo.Protect.ToString());
+                        // Some regions don't have any Protection information
+                        newItem.SubItems.Add(((int) memoryInfo.Protect == 0) ? string.Empty : memoryInfo.Protect.ToString());
                         newItem.SubItems.Add(memoryInfo.Type.ToString());
                     }
 
