@@ -604,6 +604,9 @@ namespace DbgHelp.MinidumpFiles
             }
 
             // Free any unmanaged objects here. 
+
+            // All Done
+            disposed = true;
         }
     }
 }
