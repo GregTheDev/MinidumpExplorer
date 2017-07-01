@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="ReleasesFeedUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://minidumps.svn.codeplex.com/svn/MinidumpExplorer/MinidumpExplorer/releases.xml</Value>
+      <Value Profile="(Default)">https://raw.githubusercontent.com/GregTheDev/MinidumpExplorer/v0.6/MinidumpExplorer/MinidumpExplorer/releases.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>
