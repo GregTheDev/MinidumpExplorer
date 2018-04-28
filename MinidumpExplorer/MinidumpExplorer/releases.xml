@@ -2,12 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title type="text">Minidump Explorer</title>
     <id>https://minidumps.codeplex.com/releases</id>
-    <updated>2017-07-01T00:00:00Z</updated>
+    <updated>2018-04-28T00:00:00Z</updated>
     <author>
       <name>Greg Nagel</name>
     </author>
-  
-    <!-- V 0.6 -->
+
+  <!-- V 0.7 -->
+  <entry>
+    <id>https://github.com/GregTheDev/MinidumpExplorer/releases/tag/v0.7</id>
+    <title type="text">0.7.0.0</title>
+    <updated>2017-07-01T00:00:00Z</updated>
+    <link href="https://github.com/GregTheDev/MinidumpExplorer/releases/tag/v0.7" />
+    <category term="Stable" />
+    <content type="text">
+    </content>
+  </entry>
+
+  <!-- V 0.6 -->
     <entry>     
       <id>https://github.com/GregTheDev/MinidumpExplorer/releases/tag/v0.6</id>
       <title type="text">0.6.0.0</title>
