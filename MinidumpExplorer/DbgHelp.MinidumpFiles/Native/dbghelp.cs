@@ -1023,6 +1023,32 @@ typedef struct _MINIDUMP_HANDLE_OPERATION_LIST {
         public UInt64 SharedCommittedPages;
     }
 
+
+    /*
+    typedef struct _MINIDUMP_THREAD_NAME_LIST {
+        ULONG NumberOfThreadNames;
+        MINIDUMP_THREAD_NAME ThreadNames[0]; // Variable size buffer
+    } MINIDUMP_THREAD_NAME_LIST, *PMINIDUMP_THREAD_NAME_LIST;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_THREAD_NAME_LIST
+    {
+        public uint NumberOfThreadNames;
+    }
+
+    /*
+    typedef struct _MINIDUMP_THREAD_NAME {
+        ULONG ThreadId;
+        RVA64 RvaOfThreadName;
+    } MINIDUMP_THREAD_NAME, *PMINIDUMP_THREAD_NAME;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct MINIDUMP_THREAD_NAME
+    {
+        public uint ThreadId;
+        public uint RvaOfThreadName;
+    }
+
     public enum MINIDUMP_STREAM_TYPE : uint
     {
         UnusedStream = 0,
@@ -1049,6 +1075,8 @@ typedef struct _MINIDUMP_HANDLE_OPERATION_LIST {
         JavaScriptDataStream = 20,
         SystemMemoryInfoStream = 21,
         ProcessVmCountersStream = 22,
+
+        ThreadNamesStream = 24,
 
         LastReservedStream = 0xffff
     }
