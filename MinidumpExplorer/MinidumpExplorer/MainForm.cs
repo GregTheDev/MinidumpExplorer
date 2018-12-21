@@ -212,6 +212,12 @@ namespace MinidumpExplorer
                     numberOfItems = threadInfoData.Length;
                     viewToDisplay = new ThreadInfoListView(threadInfoData);
                     break;
+                case "ThreadNames":
+                    nodeText = "ThreadNames";
+                    MiniDumpThreadNamesStream threadNamesStream = this._miniDumpFile.ReadThreadNamesStream();
+                    numberOfItems = threadNamesStream.Entries.Count;
+                    viewToDisplay = new ThreadNamesView(threadNamesStream);
+                    break;
                 case "Memory":
                     nodeText = "Memory";
                     MiniDumpMemoryDescriptor[] memoryData = this._miniDumpFile.ReadMemoryList();
