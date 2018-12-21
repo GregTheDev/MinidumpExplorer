@@ -47,6 +47,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -190,6 +191,12 @@
     <Compile Include="Views\SystemMemoryInfoView.Designer.cs">
       <DependentUpon>SystemMemoryInfoView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ThreadNamesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ThreadNamesView.Designer.cs">
+      <DependentUpon>ThreadNamesView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\UnloadedModulesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -290,6 +297,9 @@
     <EmbeddedResource Include="Views\SystemMemoryInfoView.resx">
       <DependentUpon>SystemMemoryInfoView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ThreadNamesView.resx">
+      <DependentUpon>ThreadNamesView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\UnloadedModulesView.resx">
       <DependentUpon>UnloadedModulesView.cs</DependentUpon>
     </EmbeddedResource>
@@ -317,7 +327,9 @@
     <EmbeddedResource Include="Views\ThreadListView.resx">
       <DependentUpon>ThreadListView.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.manifest" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

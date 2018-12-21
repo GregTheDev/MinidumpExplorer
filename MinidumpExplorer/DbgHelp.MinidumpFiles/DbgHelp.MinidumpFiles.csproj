@@ -46,6 +46,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -113,6 +114,8 @@
     <Compile Include="MiniDumpSystemPerformanceInformation.cs" />
     <Compile Include="MiniDumpThreadInfo.cs" />
     <Compile Include="MiniDumpThread.cs" />
+    <Compile Include="MiniDumpThreadName.cs" />
+    <Compile Include="MiniDumpThreadNamesStream.cs" />
     <Compile Include="MiniDumpType.cs" />
     <Compile Include="MiniDumpHeader.cs" />
     <Compile Include="MiniDumpUnloadedModule.cs" />

@@ -400,6 +400,26 @@ namespace DbgHelp.MinidumpFiles
             return new MiniDumpSystemMemoryInfo(systemMemoryInfo, this);
         }
 
+        public MiniDumpThreadNamesStream ReadThreadNamesStream()
+        {
+            MINIDUMP_THREAD_NAME_LIST threadNameStream;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_THREAD_NAME_LIST>(MINIDUMP_STREAM_TYPE.ThreadNamesStream, out threadNameStream, out streamPointer, out streamSize))
+            {
+                return new MiniDumpThreadNamesStream(); // Return empty result
+            }
+
+            // Advance the stream pointer past the header
+            streamPointer += Marshal.SizeOf(threadNameStream.NumberOfThreadNames);
+
+            // Now read the information
+            MINIDUMP_THREAD_NAME[] threadNames = ReadArray<MINIDUMP_THREAD_NAME>(streamPointer, (int)threadNameStream.NumberOfThreadNames);
+
+            return new MiniDumpThreadNamesStream(threadNameStream, threadNames, this);
+        }
+
         public unsafe void CopyMemoryFromOffset(ulong rva, IntPtr destination, uint size)
         {
             try
