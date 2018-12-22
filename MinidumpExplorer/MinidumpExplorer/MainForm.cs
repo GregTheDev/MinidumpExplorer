@@ -268,6 +268,12 @@ namespace MinidumpExplorer
                     numberOfItems = 1;
                     viewToDisplay = new SystemMemoryInfoView(systemMemoryInfo);
                     break;
+                case "CommentW":
+                    nodeText = "CommentW";
+                    MiniDumpCommentStreamW commentWStream = this._miniDumpFile.ReadCommentStreamW();
+                    numberOfItems = 1;
+                    viewToDisplay = new CommentStreamWView(commentWStream);
+                    break;
             }
 
             if (viewToDisplay != null)
