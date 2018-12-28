@@ -49,7 +49,7 @@
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(311, 216);
+            this.okButton.Location = new System.Drawing.Point(346, 237);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(87, 27);
             this.okButton.TabIndex = 24;
@@ -86,7 +86,7 @@
             this.labelVersion.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
             this.labelVersion.MaximumSize = new System.Drawing.Size(0, 20);
             this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(46, 15);
+            this.labelVersion.Size = new System.Drawing.Size(45, 15);
             this.labelVersion.TabIndex = 26;
             this.labelVersion.Text = "Version";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -109,10 +109,10 @@
             this.linkLabel1.Location = new System.Drawing.Point(157, 159);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(185, 15);
+            this.linkLabel1.Size = new System.Drawing.Size(282, 15);
             this.linkLabel1.TabIndex = 29;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "http://minidumps.codeplex.com/";
+            this.linkLabel1.Text = "https://github.com/GregTheDev/MinidumpExplorer";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // panel1
@@ -172,7 +172,7 @@
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(419, 256);
+            this.ClientSize = new System.Drawing.Size(454, 277);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.linkLabel1);
