@@ -679,6 +679,99 @@ typedef struct _MINIDUMP_THREAD_INFO_LIST {
     }
 
     /*
+    typedef struct _XSTATE_CONFIG_FEATURE_MSC_INFO
+    {
+        ULONG32 SizeOfInfo;
+        ULONG32 ContextSize;
+        ULONG64 EnabledFeatures; 	           
+        XSTATE_FEATURE Features[MAXIMUM_XSTATE_FEATURES];
+    } XSTATE_CONFIG_FEATURE_MSC_INFO, *PXSTATE_CONFIG_FEATURE_MSC_INFO;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
+    internal struct XSTATE_CONFIG_FEATURE_MSC_INFO
+    {
+        UInt32 SizeOfInfo;
+        UInt32 ContextSize;
+        UInt64 EnabledFeatures;
+        XSTATE_FEATURE Features[MAXIMUM_XSTATE_FEATURES];
+    }
+
+    /*
+    typedef struct _MINIDUMP_MISC_INFO_5 {
+        ULONG32 SizeOfInfo;
+        ULONG32 Flags1;
+        ULONG32 ProcessId;
+        ULONG32 ProcessCreateTime;
+        ULONG32 ProcessUserTime;
+        ULONG32 ProcessKernelTime;
+        ULONG32 ProcessorMaxMhz;
+        ULONG32 ProcessorCurrentMhz;
+        ULONG32 ProcessorMhzLimit;
+        ULONG32 ProcessorMaxIdleState;
+        ULONG32 ProcessorCurrentIdleState;
+        ULONG32 ProcessIntegrityLevel;
+        ULONG32 ProcessExecuteFlags;
+        ULONG32 ProtectedProcess;
+        ULONG32 TimeZoneId;
+        TIME_ZONE_INFORMATION TimeZone;
+        WCHAR   BuildString[MAX_PATH];
+        WCHAR   DbgBldStr[40];
+        XSTATE_CONFIG_FEATURE_MSC_INFO XStateData;    
+        ULONG32 ProcessCookie;
+    } MINIDUMP_MISC_INFO_5, *PMINIDUMP_MISC_INFO_5;
+     */
+    [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
+    internal struct MINIDUMP_MISC_INFO_5
+    {
+        public UInt32 SizeOfInfo;
+        public UInt32 Flags1;
+        public UInt32 ProcessId;
+        public UInt32 ProcessCreateTime;
+        public UInt32 ProcessUserTime;
+        public UInt32 ProcessKernelTime;
+        public UInt32 ProcessorMaxMhz;
+        public UInt32 ProcessorCurrentMhz;
+        public UInt32 ProcessorMhzLimit;
+        public UInt32 ProcessorMaxIdleState;
+        public UInt32 ProcessorCurrentIdleState;
+        public UInt32 ProcessIntegrityLevel;
+        public UInt32 ProcessExecuteFlags;
+        public UInt32 ProtectedProcess;
+        public UInt32 TimeZoneId;
+        public TIME_ZONE_INFORMATION TimeZone;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = windows.MAX_PATH)]
+        public string BuildString; // WCHAR   BuildString[MAX_PATH];
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
+        public string DbgBldStr; // WCHAR   DbgBldStr[40];
+
+        public static explicit operator MINIDUMP_MISC_INFO_4(MINIDUMP_MISC_INFO_5 miscInfo5)
+        {
+            return new MINIDUMP_MISC_INFO_4()
+            {
+                SizeOfInfo = miscInfo5.SizeOfInfo,
+                Flags1 = miscInfo5.Flags1,
+                ProcessId = miscInfo5.ProcessId,
+                ProcessCreateTime = miscInfo5.ProcessCreateTime,
+                ProcessUserTime = miscInfo5.ProcessUserTime,
+                ProcessKernelTime = miscInfo5.ProcessUserTime,
+                ProcessorMaxMhz = miscInfo5.ProcessorMaxMhz,
+                ProcessorCurrentMhz = miscInfo5.ProcessorCurrentMhz,
+                ProcessorMhzLimit = miscInfo5.ProcessorMhzLimit,
+                ProcessorMaxIdleState = miscInfo5.ProcessorMaxIdleState,
+                ProcessorCurrentIdleState = miscInfo5.ProcessorCurrentIdleState,
+                ProcessIntegrityLevel = miscInfo5.ProcessIntegrityLevel,
+                ProcessExecuteFlags = miscInfo5.ProcessExecuteFlags,
+                ProtectedProcess = miscInfo5.ProtectedProcess,
+                TimeZoneId = miscInfo5.TimeZoneId,
+                TimeZone = miscInfo5.TimeZone,
+                BuildString = miscInfo5.BuildString,
+                DbgBldStr = miscInfo5.DbgBldStr
+            };
+        }
+    }
+
+
+    /*
 typedef struct _MINIDUMP_UNLOADED_MODULE_LIST {
     ULONG32 SizeOfHeader;
     ULONG32 SizeOfEntry;
