@@ -271,7 +271,7 @@ namespace MinidumpExplorer
                 case "CommentW":
                     nodeText = "CommentW";
                     MiniDumpCommentStreamW commentWStream = this._miniDumpFile.ReadCommentStreamW();
-                    numberOfItems = 1;
+                    numberOfItems = string.IsNullOrEmpty(commentWStream.Comment) ? 0 : 1;
                     viewToDisplay = new CommentStreamWView(commentWStream);
                     break;
             }
