@@ -400,6 +400,45 @@ namespace DbgHelp.MinidumpFiles
             return new MiniDumpSystemMemoryInfo(systemMemoryInfo, this);
         }
 
+        public MiniDumpThreadNamesStream ReadThreadNamesStream()
+        {
+            MINIDUMP_THREAD_NAME_LIST threadNameStream;
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream<MINIDUMP_THREAD_NAME_LIST>(MINIDUMP_STREAM_TYPE.ThreadNamesStream, out threadNameStream, out streamPointer, out streamSize))
+            {
+                return new MiniDumpThreadNamesStream(); // Return empty result
+            }
+
+            // Advance the stream pointer past the header
+            streamPointer += Marshal.SizeOf(threadNameStream.NumberOfThreadNames);
+
+            // Now read the information
+            MINIDUMP_THREAD_NAME[] threadNames = ReadArray<MINIDUMP_THREAD_NAME>(streamPointer, (int)threadNameStream.NumberOfThreadNames);
+
+            return new MiniDumpThreadNamesStream(threadNameStream, threadNames, this);
+        }
+
+        /// <summary>
+        /// Reads the MINIDUMP_STREAM_TYPE.CommentStreamW stream.
+        /// </summary>
+        /// <returns><see cref="MiniDumpCommentStreamW"/> containing the comment for the minidump. If stream data is not present then <see cref="MiniDumpCommentStreamW"/> is returned with a null Comment property.</returns>
+        public MiniDumpCommentStreamW ReadCommentStreamW()
+        {
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream(MINIDUMP_STREAM_TYPE.CommentStreamW, out streamPointer, out streamSize))
+            {
+                return new MiniDumpCommentStreamW(); // Return empty result
+            }
+
+            string comment = Marshal.PtrToStringAuto(streamPointer, (int)streamSize);
+
+            return new MiniDumpCommentStreamW(comment);
+        }
+
         public unsafe void CopyMemoryFromOffset(ulong rva, IntPtr destination, uint size)
         {
             try
@@ -445,8 +484,21 @@ namespace DbgHelp.MinidumpFiles
 
         protected unsafe bool ReadStream<T>(MINIDUMP_STREAM_TYPE streamToRead, out T streamData, out IntPtr streamPointer, out uint streamSize)
         {
-            MINIDUMP_DIRECTORY directory = new MINIDUMP_DIRECTORY();
             streamData = default(T);
+
+            if (ReadStream(streamToRead, out streamPointer, out streamSize))
+            {
+                streamData = (T)Marshal.PtrToStructure(streamPointer, typeof(T));
+
+                return true;
+            }
+
+            return false;
+        }
+
+        protected unsafe bool ReadStream(MINIDUMP_STREAM_TYPE streamToRead, out IntPtr streamPointer, out uint streamSize)
+        {
+            MINIDUMP_DIRECTORY directory = new MINIDUMP_DIRECTORY();
             streamPointer = IntPtr.Zero;
             streamSize = 0;
 
@@ -469,9 +521,6 @@ namespace DbgHelp.MinidumpFiles
                     else
                         throw new Win32Exception(lastError);
                 }
-
-                streamData = (T)Marshal.PtrToStructure(streamPointer, typeof(T));
-
             }
             finally
             {

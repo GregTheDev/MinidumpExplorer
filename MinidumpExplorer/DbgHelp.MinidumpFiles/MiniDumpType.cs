@@ -119,7 +119,8 @@ namespace DbgHelp.MinidumpFiles
         MiniDumpFilterTriage = 0x00100000,
 
         MiniDumpWithAvxXStateContext = 0x00200000,
-        MiniDumpValidTypeFlags = 0x003fffff
+        MiniDumpWithIptTrace = 0x00400000,
+        MiniDumpValidTypeFlags = 0x007fffff
 
     }
 }

@@ -9,12 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MinidumpExplorer</RootNamespace>
     <AssemblyName>MinidumpExplorer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,6 +48,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -172,6 +174,12 @@
     <Compile Include="Views\MemoryInfoView.designer.cs">
       <DependentUpon>MemoryInfoView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\CommentStreamWView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\CommentStreamWView.designer.cs">
+      <DependentUpon>CommentStreamWView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MiscInfoView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -189,6 +197,12 @@
     </Compile>
     <Compile Include="Views\SystemMemoryInfoView.Designer.cs">
       <DependentUpon>SystemMemoryInfoView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ThreadNamesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ThreadNamesView.Designer.cs">
+      <DependentUpon>ThreadNamesView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\UnloadedModulesView.cs">
       <SubType>UserControl</SubType>
@@ -281,6 +295,9 @@
     <EmbeddedResource Include="Views\MemoryInfoView.resx">
       <DependentUpon>MemoryInfoView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\CommentStreamWView.resx">
+      <DependentUpon>CommentStreamWView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\MiscInfoView.resx">
       <DependentUpon>MiscInfoView.cs</DependentUpon>
     </EmbeddedResource>
@@ -289,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SystemMemoryInfoView.resx">
       <DependentUpon>SystemMemoryInfoView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ThreadNamesView.resx">
+      <DependentUpon>ThreadNamesView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\UnloadedModulesView.resx">
       <DependentUpon>UnloadedModulesView.cs</DependentUpon>
@@ -317,7 +337,9 @@
     <EmbeddedResource Include="Views\ThreadListView.resx">
       <DependentUpon>ThreadListView.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.manifest" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -330,7 +352,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\AppIcon\Awicons-Vista-Artistic-Folder-search.ico" />

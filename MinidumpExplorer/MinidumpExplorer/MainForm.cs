@@ -212,6 +212,12 @@ namespace MinidumpExplorer
                     numberOfItems = threadInfoData.Length;
                     viewToDisplay = new ThreadInfoListView(threadInfoData);
                     break;
+                case "ThreadNames":
+                    nodeText = "ThreadNames";
+                    MiniDumpThreadNamesStream threadNamesStream = this._miniDumpFile.ReadThreadNamesStream();
+                    numberOfItems = threadNamesStream.Entries.Count;
+                    viewToDisplay = new ThreadNamesView(threadNamesStream);
+                    break;
                 case "Memory":
                     nodeText = "Memory";
                     MiniDumpMemoryDescriptor[] memoryData = this._miniDumpFile.ReadMemoryList();
@@ -261,6 +267,12 @@ namespace MinidumpExplorer
                     MiniDumpSystemMemoryInfo systemMemoryInfo = this._miniDumpFile.ReadSystemMemoryInfo();
                     numberOfItems = 1;
                     viewToDisplay = new SystemMemoryInfoView(systemMemoryInfo);
+                    break;
+                case "CommentW":
+                    nodeText = "CommentW";
+                    MiniDumpCommentStreamW commentWStream = this._miniDumpFile.ReadCommentStreamW();
+                    numberOfItems = string.IsNullOrEmpty(commentWStream.Comment) ? 0 : 1;
+                    viewToDisplay = new CommentStreamWView(commentWStream);
                     break;
             }
 

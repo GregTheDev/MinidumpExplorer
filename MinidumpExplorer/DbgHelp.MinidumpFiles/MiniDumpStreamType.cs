@@ -33,6 +33,8 @@ namespace DbgHelp.MinidumpFiles
         SystemMemoryInfoStream = 21,
         ProcessVmCountersStream = 22,
 
+        ThreadNamesStream = 24,
+
         LastReservedStream = 0xffff
     }
 }
