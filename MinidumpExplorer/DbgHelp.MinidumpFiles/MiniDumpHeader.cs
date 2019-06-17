@@ -1,7 +1,8 @@
-﻿using DbgHelp.MinidumpFiles.Native;
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
+using DbgHelp.MinidumpFiles.Native;
 
 namespace DbgHelp.MinidumpFiles
 {

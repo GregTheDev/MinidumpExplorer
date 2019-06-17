@@ -1,5 +1,4 @@
-﻿using Be.Windows.Forms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -7,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using Be.Windows.Forms;
 
 namespace MinidumpExplorer.Dialogs
 {
