@@ -10,24 +10,24 @@ using DbgHelp.MinidumpFiles;
 
 namespace MinidumpExplorer.Views
 {
-    public partial class CommentStreamWView : BaseViewControl
+    public partial class CommentStreamAView : BaseViewControl
     {
-        private MiniDumpCommentStreamW _commentWStream;
+        private MiniDumpCommentStreamA _commentAStream;
 
-        public CommentStreamWView()
+        public CommentStreamAView()
         {
             InitializeComponent();
         }
 
-        public CommentStreamWView(MiniDumpCommentStreamW commentWStream)
+        public CommentStreamAView(MiniDumpCommentStreamA commentAStream)
             : this()
         {
-            _commentWStream = commentWStream;
+            _commentAStream = commentAStream;
 
-            if (commentWStream.Comment == null)
+            if (commentAStream.Comment == null)
                 AddInfoNode("No data found for stream");
             else
-                AddInfoNode(commentWStream.Comment);
+                AddInfoNode(_commentAStream.Comment);
         }
 
         private void AddInfoNode(string value)
