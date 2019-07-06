@@ -1,6 +1,6 @@
 ﻿namespace MinidumpExplorer.Views
 {
-    partial class CommentStreamWView
+    partial class CommentStreamAView
     {
         /// <summary> 
         /// Required designer variable.
@@ -42,15 +42,15 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox1.Size = new System.Drawing.Size(805, 432);
-            this.textBox1.TabIndex = 1;
+            this.textBox1.TabIndex = 0;
             this.textBox1.WordWrap = false;
             // 
-            // CommentStreamWView
+            // CommentStreamAView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBox1);
-            this.Name = "CommentStreamWView";
+            this.Name = "CommentStreamAView";
             this.Size = new System.Drawing.Size(805, 432);
             this.ResumeLayout(false);
             this.PerformLayout();

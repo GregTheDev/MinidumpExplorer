@@ -32,35 +32,37 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("CommentW", 5, 5);
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Exception", 6, 6);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Handles", 4, 4);
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Memory", 3, 3);
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Memory64", 3, 3);
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("MemoryInfo", 3, 3);
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("MiscInfo", 5, 5);
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("SystemInfo");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("SystemMemoryInfo", 3, 3);
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("ThreadInfo", 1, 1);
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("ThreadNames", 1, 1);
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("UnloadedModules", 2, 2);
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5,
-            treeNode6,
-            treeNode7,
-            treeNode8,
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12,
-            treeNode13,
-            treeNode14});
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("CommentA");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("CommentW", 5, 5);
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Exception", 6, 6);
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Handles", 4, 4);
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Memory", 3, 3);
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Memory64", 3, 3);
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("MemoryInfo", 3, 3);
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("MiscInfo", 5, 5);
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Modules", 2, 2);
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("SystemInfo");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("SystemMemoryInfo", 3, 3);
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Threads", 1, 1);
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("ThreadInfo", 1, 1);
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("ThreadNames", 1, 1);
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("UnloadedModules", 2, 2);
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("<No minidump loaded>", new System.Windows.Forms.TreeNode[] {
+            treeNode17,
+            treeNode18,
+            treeNode19,
+            treeNode20,
+            treeNode21,
+            treeNode22,
+            treeNode23,
+            treeNode24,
+            treeNode25,
+            treeNode26,
+            treeNode27,
+            treeNode28,
+            treeNode29,
+            treeNode30,
+            treeNode31});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -107,82 +109,86 @@
             this.treeView1.ImageList = this.treeViewImageList;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.ImageIndex = 5;
-            treeNode1.Name = "Node0";
-            treeNode1.SelectedImageIndex = 5;
-            treeNode1.Tag = "CommentW";
-            treeNode1.Text = "CommentW";
-            treeNode2.ImageIndex = 6;
-            treeNode2.Name = "Node0";
-            treeNode2.SelectedImageIndex = 6;
-            treeNode2.Tag = "Exception";
-            treeNode2.Text = "Exception";
-            treeNode3.ImageIndex = 4;
-            treeNode3.Name = "Node0";
-            treeNode3.SelectedImageIndex = 4;
-            treeNode3.Tag = "Handles";
-            treeNode3.Text = "Handles";
-            treeNode4.ImageIndex = 3;
-            treeNode4.Name = "Node0";
-            treeNode4.SelectedImageIndex = 3;
-            treeNode4.Tag = "Memory";
-            treeNode4.Text = "Memory";
-            treeNode5.ImageIndex = 3;
-            treeNode5.Name = "Node0";
-            treeNode5.SelectedImageIndex = 3;
-            treeNode5.Tag = "Memory64";
-            treeNode5.Text = "Memory64";
-            treeNode6.ImageIndex = 3;
-            treeNode6.Name = "Node0";
-            treeNode6.SelectedImageIndex = 3;
-            treeNode6.Tag = "MemoryInfo";
-            treeNode6.Text = "MemoryInfo";
-            treeNode7.ImageIndex = 5;
-            treeNode7.Name = "Node0";
-            treeNode7.SelectedImageIndex = 5;
-            treeNode7.Tag = "MiscInfo";
-            treeNode7.Text = "MiscInfo";
-            treeNode8.ImageIndex = 2;
-            treeNode8.Name = "Node2";
-            treeNode8.SelectedImageIndex = 2;
-            treeNode8.Tag = "Modules";
-            treeNode8.Text = "Modules";
-            treeNode9.ImageIndex = 5;
-            treeNode9.Name = "Node0";
-            treeNode9.SelectedImageKey = "DialogID_6220_16x.png";
-            treeNode9.Tag = "SystemInfo";
-            treeNode9.Text = "SystemInfo";
-            treeNode10.ImageIndex = 3;
-            treeNode10.Name = "Node0";
-            treeNode10.SelectedImageIndex = 3;
-            treeNode10.Tag = "SystemMemoryInfo";
-            treeNode10.Text = "SystemMemoryInfo";
-            treeNode11.ImageIndex = 1;
-            treeNode11.Name = "Node1";
-            treeNode11.SelectedImageIndex = 1;
-            treeNode11.Tag = "Threads";
-            treeNode11.Text = "Threads";
-            treeNode12.ImageIndex = 1;
-            treeNode12.Name = "Node0";
-            treeNode12.SelectedImageIndex = 1;
-            treeNode12.Tag = "ThreadInfo";
-            treeNode12.Text = "ThreadInfo";
-            treeNode13.ImageIndex = 1;
-            treeNode13.Name = "Node0";
-            treeNode13.SelectedImageIndex = 1;
-            treeNode13.Tag = "ThreadNames";
-            treeNode13.Text = "ThreadNames";
-            treeNode14.ImageIndex = 2;
-            treeNode14.Name = "Node0";
-            treeNode14.SelectedImageIndex = 2;
-            treeNode14.Tag = "UnloadedModules";
-            treeNode14.Text = "UnloadedModules";
-            treeNode15.ImageIndex = 0;
-            treeNode15.Name = "Node0";
-            treeNode15.Tag = "Summary";
-            treeNode15.Text = "<No minidump loaded>";
+            treeNode17.ImageIndex = 5;
+            treeNode17.Name = "Node0";
+            treeNode17.Tag = "CommentA";
+            treeNode17.Text = "CommentA";
+            treeNode18.ImageIndex = 5;
+            treeNode18.Name = "Node0";
+            treeNode18.SelectedImageIndex = 5;
+            treeNode18.Tag = "CommentW";
+            treeNode18.Text = "CommentW";
+            treeNode19.ImageIndex = 6;
+            treeNode19.Name = "Node0";
+            treeNode19.SelectedImageIndex = 6;
+            treeNode19.Tag = "Exception";
+            treeNode19.Text = "Exception";
+            treeNode20.ImageIndex = 4;
+            treeNode20.Name = "Node0";
+            treeNode20.SelectedImageIndex = 4;
+            treeNode20.Tag = "Handles";
+            treeNode20.Text = "Handles";
+            treeNode21.ImageIndex = 3;
+            treeNode21.Name = "Node0";
+            treeNode21.SelectedImageIndex = 3;
+            treeNode21.Tag = "Memory";
+            treeNode21.Text = "Memory";
+            treeNode22.ImageIndex = 3;
+            treeNode22.Name = "Node0";
+            treeNode22.SelectedImageIndex = 3;
+            treeNode22.Tag = "Memory64";
+            treeNode22.Text = "Memory64";
+            treeNode23.ImageIndex = 3;
+            treeNode23.Name = "Node0";
+            treeNode23.SelectedImageIndex = 3;
+            treeNode23.Tag = "MemoryInfo";
+            treeNode23.Text = "MemoryInfo";
+            treeNode24.ImageIndex = 5;
+            treeNode24.Name = "Node0";
+            treeNode24.SelectedImageIndex = 5;
+            treeNode24.Tag = "MiscInfo";
+            treeNode24.Text = "MiscInfo";
+            treeNode25.ImageIndex = 2;
+            treeNode25.Name = "Node2";
+            treeNode25.SelectedImageIndex = 2;
+            treeNode25.Tag = "Modules";
+            treeNode25.Text = "Modules";
+            treeNode26.ImageIndex = 5;
+            treeNode26.Name = "Node0";
+            treeNode26.SelectedImageKey = "DialogID_6220_16x.png";
+            treeNode26.Tag = "SystemInfo";
+            treeNode26.Text = "SystemInfo";
+            treeNode27.ImageIndex = 3;
+            treeNode27.Name = "Node0";
+            treeNode27.SelectedImageIndex = 3;
+            treeNode27.Tag = "SystemMemoryInfo";
+            treeNode27.Text = "SystemMemoryInfo";
+            treeNode28.ImageIndex = 1;
+            treeNode28.Name = "Node1";
+            treeNode28.SelectedImageIndex = 1;
+            treeNode28.Tag = "Threads";
+            treeNode28.Text = "Threads";
+            treeNode29.ImageIndex = 1;
+            treeNode29.Name = "Node0";
+            treeNode29.SelectedImageIndex = 1;
+            treeNode29.Tag = "ThreadInfo";
+            treeNode29.Text = "ThreadInfo";
+            treeNode30.ImageIndex = 1;
+            treeNode30.Name = "Node0";
+            treeNode30.SelectedImageIndex = 1;
+            treeNode30.Tag = "ThreadNames";
+            treeNode30.Text = "ThreadNames";
+            treeNode31.ImageIndex = 2;
+            treeNode31.Name = "Node0";
+            treeNode31.SelectedImageIndex = 2;
+            treeNode31.Tag = "UnloadedModules";
+            treeNode31.Text = "UnloadedModules";
+            treeNode32.ImageIndex = 0;
+            treeNode32.Name = "Node0";
+            treeNode32.Tag = "Summary";
+            treeNode32.Text = "<No minidump loaded>";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode15});
+            treeNode32});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(238, 705);
@@ -228,7 +234,8 @@
             // 
             this.openToolStripMenuItem.Image = global::MinidumpExplorer.Properties.Resources.Open_6529;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 

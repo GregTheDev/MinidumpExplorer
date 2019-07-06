@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Formatters.cs" />
+    <Compile Include="MiniDumpCommentStreamA.cs" />
     <Compile Include="MiniDumpCommentStreamW.cs" />
     <Compile Include="MiniDumpDirectory.cs" />
     <Compile Include="MiniDumpMemoryInfo.cs" />

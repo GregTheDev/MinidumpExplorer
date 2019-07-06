@@ -104,7 +104,7 @@ namespace MinidumpExplorer
             }
             catch (Exception e)
             {
-                MessageBox.Show($"An error occured while attempting to load your minidump:\r\n\r\n\"{e.Message.TrimEnd(null)}\"", "Error Loading Minidump", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred while attempting to load your minidump:\r\n\r\n\"{e.Message.TrimEnd(null)}\"", "Error Loading Minidump", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -273,6 +273,12 @@ namespace MinidumpExplorer
                     MiniDumpCommentStreamW commentWStream = this._miniDumpFile.ReadCommentStreamW();
                     numberOfItems = string.IsNullOrEmpty(commentWStream.Comment) ? 0 : 1;
                     viewToDisplay = new CommentStreamWView(commentWStream);
+                    break;
+                case "CommentA":
+                    nodeText = "CommentA";
+                    MiniDumpCommentStreamA commentAStream = this._miniDumpFile.ReadCommentStreamA();
+                    numberOfItems = string.IsNullOrEmpty(commentAStream.Comment) ? 0 : 1;
+                    viewToDisplay = new CommentStreamAView(commentAStream);
                     break;
             }
 

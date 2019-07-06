@@ -12,11 +12,11 @@ Follow [https://gregsplaceontheweb.wordpress.com](https://gregsplaceontheweb.wor
 * Capture a customizable minidump of any running process
 * View stream data contained within a minidump
 
-## Stream availability (as at 18 December 2018)
+## Stream availability
 | Stream | Progress |
 | ----- | ----- |
 | CommentStreamA | Not planned * |
-| CommentStreamW | Planned for v0.7 |
+| CommentStreamW | Released (v0.8) |
 | ExceptionStream | Released (v0.3) |
 | FunctionTableStream | Not planned * |
 | HandleDataStream | Released (v0.2) |
@@ -31,7 +31,7 @@ Follow [https://gregsplaceontheweb.wordpress.com](https://gregsplaceontheweb.wor
 | ThreadExListStream | Pending |
 | ThreadInfoListStream | Released (v0.3) |
 | ThreadListStream | Released (v0.2) |
-| ThreadNamesList | Planned for v0.7 |
+| ThreadNamesList | Released (v0.8) |
 | UnloadedModuleListStream | Released (v0.4) |
 
 *The following streams will not be added for now due to lack of available test data: CommentStreamA, FunctionTableStream and HandleOperationListStream. If any body has crash dumps containing any of these streams please tweet "greg_nagel".

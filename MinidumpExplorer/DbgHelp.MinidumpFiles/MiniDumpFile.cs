@@ -421,6 +421,25 @@ namespace DbgHelp.MinidumpFiles
         }
 
         /// <summary>
+        /// Reads the MINIDUMP_STREAM_TYPE.CommentStreamA stream.
+        /// </summary>
+        /// <returns><see cref="MiniDumpCommentStreamA"/> containing the comment for the minidump. If stream data is not present then <see cref="MiniDumpCommentStreamA"/> is returned with a null Comment property.</returns>
+        public MiniDumpCommentStreamA ReadCommentStreamA()
+        {
+            IntPtr streamPointer;
+            uint streamSize;
+
+            if (!this.ReadStream(MINIDUMP_STREAM_TYPE.CommentStreamA, out streamPointer, out streamSize))
+            {
+                return new MiniDumpCommentStreamA(); // Return empty result
+            }
+
+            string comment = Marshal.PtrToStringAnsi(streamPointer, (int)streamSize);
+
+            return new MiniDumpCommentStreamA(comment);
+        }
+
+        /// <summary>
         /// Reads the MINIDUMP_STREAM_TYPE.CommentStreamW stream.
         /// </summary>
         /// <returns><see cref="MiniDumpCommentStreamW"/> containing the comment for the minidump. If stream data is not present then <see cref="MiniDumpCommentStreamW"/> is returned with a null Comment property.</returns>
@@ -508,7 +527,7 @@ namespace DbgHelp.MinidumpFiles
                 _mappedFileView.AcquirePointer(ref baseOfView);
 
                 if (baseOfView == null)
-                    throw new Exception("Unable to aquire pointer to memory mapped view");
+                    throw new Exception("Unable to acquire pointer to memory mapped view");
 
                 if (!NativeMethods.MiniDumpReadDumpStream((IntPtr)baseOfView, streamToRead, ref directory, ref streamPointer, ref streamSize))
                 {

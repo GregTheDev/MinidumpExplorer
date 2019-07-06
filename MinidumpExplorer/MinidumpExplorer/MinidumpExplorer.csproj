@@ -168,6 +168,12 @@
     <Compile Include="Views\BaseViewControl.Designer.cs">
       <DependentUpon>BaseViewControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\CommentStreamAView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\CommentStreamAView.designer.cs">
+      <DependentUpon>CommentStreamAView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MemoryInfoView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -291,6 +297,9 @@
     </Compile>
     <EmbeddedResource Include="Views\BaseViewControl.resx">
       <DependentUpon>BaseViewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CommentStreamAView.resx">
+      <DependentUpon>CommentStreamAView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MemoryInfoView.resx">
       <DependentUpon>MemoryInfoView.cs</DependentUpon>
