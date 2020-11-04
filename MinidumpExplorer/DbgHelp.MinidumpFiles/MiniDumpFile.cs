@@ -583,7 +583,7 @@ namespace DbgHelp.MinidumpFiles
         /// </summary>
         /// <param name="rva">Offset of the string from the beginning of the stream (RVA).</param>
         /// <returns>The string at the offset (RVA) specified.</returns>
-        protected internal unsafe string ReadString(uint rva)
+        protected internal unsafe string ReadString(ulong rva)
         {
             try
             {
@@ -593,7 +593,7 @@ namespace DbgHelp.MinidumpFiles
 
                 IntPtr positionToReadFrom = new IntPtr(baseOfView + rva);
 
-                // First 32bits is the legnth field, which is the number of bytes, not number of chars. Divide it by 2 to get number of chars (WCHAR is 2 bytes - unicode)
+                // First 32bits is the length field, which is the number of bytes, not number of chars. Divide it by 2 to get number of chars (WCHAR is 2 bytes - unicode)
                 int len = Marshal.ReadInt32(positionToReadFrom) / 2;
 
                 // "advance" the pointer 4 bytes (to jump over the "Length" field);

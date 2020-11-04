@@ -1033,7 +1033,7 @@ typedef struct _MINIDUMP_HANDLE_OPERATION_LIST {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     internal struct MINIDUMP_THREAD_NAME_LIST
     {
-        public uint NumberOfThreadNames;
+        public UInt32 NumberOfThreadNames;
     }
 
     /*
@@ -1045,8 +1045,8 @@ typedef struct _MINIDUMP_HANDLE_OPERATION_LIST {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     internal struct MINIDUMP_THREAD_NAME
     {
-        public uint ThreadId;
-        public uint RvaOfThreadName;
+        public UInt32 ThreadId;
+        public UInt64 RvaOfThreadName;
     }
 
     public enum MINIDUMP_STREAM_TYPE : uint
