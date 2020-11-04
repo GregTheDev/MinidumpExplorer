@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -278,6 +279,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -386,13 +388,33 @@
       <Project>{d77a335b-8028-41c0-b29e-cb5900d69800}</Project>
       <Name>DbgHelp.MinidumpFiles</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DbgHelp.Symbols\DbgHelp.Symbols.csproj">
+      <Project>{31b83776-3bf2-44e8-b470-774d6aa3de60}</Project>
+      <Name>DbgHelp.Symbols</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <ItemGroup>
+    <DbgHelp_x64_Files Include="..\lib\x64\dbghelp.dll;..\lib\x64\symsrv.dll">
+      <InProject>false</InProject>
+    </DbgHelp_x64_Files>
+    <DbgHelp_x86_Files Include="..\lib\x86\dbghelp.dll;..\lib\x86\symsrv.dll">
+      <InProject>false</InProject>
+    </DbgHelp_x86_Files>
+  </ItemGroup>
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="@(DbgHelp_x64_Files)" DestinationFolder="$(OutDir)" Condition="'$(Platform)' == 'x64'">
+    </Copy>
+    <Copy SourceFiles="@(DbgHelp_x86_Files)" DestinationFolder="$(OutDir)" Condition="'$(Platform)' == 'x86'">
+    </Copy>
+  </Target>
 </Project>
