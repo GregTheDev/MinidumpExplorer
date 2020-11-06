@@ -80,6 +80,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.updatesCheckWorker = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -309,6 +310,11 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // updatesCheckWorker
+            // 
+            this.updatesCheckWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.updatesCheckWorker_DoWork);
+            this.updatesCheckWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.updatesCheckWorker_RunWorkerCompleted);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -356,6 +362,7 @@
         private System.Windows.Forms.ToolStripMenuItem captureMinidumpToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.ComponentModel.BackgroundWorker updatesCheckWorker;
     }
 }
 

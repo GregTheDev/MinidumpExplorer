@@ -11,7 +11,7 @@ namespace MinidumpExplorer.Utilities
 {
     internal class UpdateChecker
     {
-        public string CheckForUpdates(string feedUrl)
+        public static string CheckForUpdates(string feedUrl)
         {
             try
             {
@@ -20,22 +20,24 @@ namespace MinidumpExplorer.Utilities
                 XmlReaderSettings readerSettings = new XmlReaderSettings();
                 readerSettings.DtdProcessing = DtdProcessing.Parse;
 
-                XmlReader reader = XmlReader.Create(feedUrl, readerSettings);
-                if (!formatter.CanRead(reader)) return null;
+                using (XmlReader reader = XmlReader.Create(feedUrl, readerSettings))
+                {
+                    if (!formatter.CanRead(reader)) return null;
 
-                formatter.ReadFrom(reader);
+                    formatter.ReadFrom(reader);
 
-                var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                    var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
-                var update = (from i in formatter.Feed.Items
-                              where new Version(i.Title.Text) > currentVersion
-                              orderby i.LastUpdatedTime descending
-                              select i).FirstOrDefault();
+                    var update = (from i in formatter.Feed.Items
+                                  where new Version(i.Title.Text) > currentVersion
+                                  orderby i.LastUpdatedTime descending
+                                  select i).FirstOrDefault();
 
-                if (update != null)
-                    return update.Links.Single().Uri.ToString();
-                else
-                    return null;
+                    if (update != null)
+                        return update.Links.Single().Uri.ToString();
+                    else
+                        return null;
+                }
             }
             catch (Exception ex)
             {

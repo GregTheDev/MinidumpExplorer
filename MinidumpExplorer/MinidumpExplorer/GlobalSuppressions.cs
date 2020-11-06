@@ -10,3 +10,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>", Scope = "type", Target = "MinidumpExplorer.Dialogs.MinidumpCaptureDialog")]
 [assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>", Scope = "type", Target = "MinidumpExplorer.Dialogs.MinidumpCaptureDialog")]
 [assembly: SuppressMessage("Usage", "CA2213:Disposable fields should be disposed", Justification = "<Pending>", Scope = "type", Target = "MinidumpExplorer.Dialogs.MinidumpCaptureDialog")]
+[assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "type", Target = "MinidumpExplorer.Utilities.UpdateChecker")]

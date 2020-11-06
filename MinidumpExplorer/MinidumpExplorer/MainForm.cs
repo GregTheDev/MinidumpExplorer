@@ -33,20 +33,15 @@ namespace MinidumpExplorer
 
         private void UpdateCheck()
         {
-            BackgroundWorker updateWorker = new BackgroundWorker();
-            updateWorker.DoWork += UpdateWorker_DoWork;
-            updateWorker.RunWorkerCompleted += UpdateWorker_RunWorkerCompleted;
-            updateWorker.RunWorkerAsync(Properties.Settings.Default.ReleasesFeedUrl);
+            updatesCheckWorker.RunWorkerAsync(Properties.Settings.Default.ReleasesFeedUrl);
         }
 
-        private void UpdateWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void updatesCheckWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            UpdateChecker updateChecker = new UpdateChecker();
-
-            e.Result = updateChecker.CheckForUpdates((string)e.Argument);
+            e.Result = UpdateChecker.CheckForUpdates((string)e.Argument);
         }
 
-        private void UpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void updatesCheckWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Result != null)
             {
@@ -161,7 +156,7 @@ namespace MinidumpExplorer
                 else
                 {
                     string fileExtension = System.IO.Path.GetExtension(s[0]);
-                    string matchingExtension = ALLOWED_DROP_EXTENSIONS.Where(x => String.Compare(x, fileExtension, true) == 0).FirstOrDefault();
+                    string matchingExtension = ALLOWED_DROP_EXTENSIONS.Where(x => String.Compare(x, fileExtension, StringComparison.InvariantCultureIgnoreCase) == 0).FirstOrDefault();
 
                     if (matchingExtension != null)
                         e.Effect = DragDropEffects.All;
