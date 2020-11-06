@@ -87,6 +87,7 @@ namespace MinidumpExplorer
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         private void OpenNewSession(string filePath)
         {
             ResetTree();
@@ -131,6 +132,7 @@ namespace MinidumpExplorer
             MinidumpCaptureDialog captureDialog = new MinidumpCaptureDialog();
 
             captureDialog.ShowDialog();
+            captureDialog.Dispose();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -141,7 +143,9 @@ namespace MinidumpExplorer
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutDialog aboutDialog = new AboutDialog();
+
             aboutDialog.ShowDialog();
+            aboutDialog.Dispose();
         }
 
         private void MainForm_DragEnter(object sender, DragEventArgs e)
@@ -284,7 +288,7 @@ namespace MinidumpExplorer
 
             if (viewToDisplay != null)
             {
-                if (nodeText != string.Empty) treeView1.SelectedNode.Text = nodeText + " (" + numberOfItems + (numberOfItems == 1 ? " item" : " items") + ")";
+                if (!string.IsNullOrEmpty(nodeText)) treeView1.SelectedNode.Text = nodeText + " (" + numberOfItems + (numberOfItems == 1 ? " item" : " items") + ")";
 
                 if (this.splitContainer1.Panel2.Controls.Count > 0) this.splitContainer1.Panel2.Controls.RemoveAt(0);
 

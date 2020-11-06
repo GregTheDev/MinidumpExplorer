@@ -134,7 +134,7 @@ namespace MinidumpExplorer.Dialogs
                 return;
             }
 
-            if (this.txtSaveLocation.Text == "")
+            if (string.IsNullOrEmpty(this.txtSaveLocation.Text))
             {
                 MessageBox.Show("Please enter a file name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
