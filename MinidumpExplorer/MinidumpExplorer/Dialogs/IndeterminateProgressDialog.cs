@@ -16,7 +16,5 @@ namespace MinidumpExplorer.Dialogs
         {
             InitializeComponent();
         }
-
-        public string Title { get { return this.Title; } set { this.Title = value; } }
     }
 }
