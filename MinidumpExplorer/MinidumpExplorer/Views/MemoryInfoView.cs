@@ -13,6 +13,7 @@ using System.Collections;
 using MinidumpExplorer.Controls;
 using System.Runtime.InteropServices;
 using MinidumpExplorer.Dialogs;
+using System.IO;
 
 namespace MinidumpExplorer.Views
 {
@@ -116,17 +117,52 @@ namespace MinidumpExplorer.Views
             }
         }
 
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveSelectedMemoryBlock();
+        }
+
         #endregion
 
         private void DisplaySelectedMemoryBlock()
         {
-            MiniDumpMemoryInfo memoryBlock = (MiniDumpMemoryInfo)listView1.SelectedItems[0].Tag;
+            MiniDumpMemoryInfo selectedMemoryBlock = (MiniDumpMemoryInfo)listView1.SelectedItems[0].Tag;
 
+            byte[] data = ReadMemoryBlock(selectedMemoryBlock);
+
+            if (data.Length <= 0) return;
+
+            ulong startAddress = selectedMemoryBlock.BaseAddress;
+            ulong endAddress = selectedMemoryBlock.BaseAddress + selectedMemoryBlock.RegionSize - 1;
+
+            HexViewerDialog hexViewerDialog = new HexViewerDialog(data);
+            hexViewerDialog.Text = $"Displaying {Formatters.FormatAsMemoryAddress(startAddress)} - {Formatters.FormatAsMemoryAddress(endAddress)} ({Formatters.FormatAsSizeString(selectedMemoryBlock.RegionSize)}, {selectedMemoryBlock.RegionSize} bytes)";
+
+            hexViewerDialog.Show();
+        }
+
+        private void SaveSelectedMemoryBlock()
+        {
+            MiniDumpMemoryInfo selectedMemoryBlock = (MiniDumpMemoryInfo)listView1.SelectedItems[0].Tag;
+
+            byte[] data = ReadMemoryBlock(selectedMemoryBlock);
+
+            if (data.Length <= 0) return;
+
+            saveFileDialog1.FileName = Formatters.FormatAsMemoryAddress(selectedMemoryBlock.BaseAddress);
+
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
+
+            File.WriteAllBytes(saveFileDialog1.FileName, data);
+        }
+
+        private byte[] ReadMemoryBlock(MiniDumpMemoryInfo memoryBlock)
+        {
             // First check if we have all of the process memory, if we don't then there's no need to proceed.
             if ((this.Memory64Stream == null) || (this.Memory64Stream.MemoryRanges.Length <= 0))
             {
                 MessageBox.Show("Memory information is only available when using a full-memory dump.", "Missing data", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                return new byte[0];
             }
 
             ulong startAddress = memoryBlock.BaseAddress;
@@ -136,17 +172,14 @@ namespace MinidumpExplorer.Views
             if (offsetToReadFrom == 0)
             {
                 MessageBox.Show("Sorry, I couldn't locate the data for that memory region inside the minidump.", "Missing data", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                return new byte[0];
             }
 
             byte[] data = new byte[memoryBlock.RegionSize];
 
             _minidumpFile.CopyMemoryFromOffset(offsetToReadFrom, data, (uint)memoryBlock.RegionSize);
 
-            HexViewerDialog hexViewerDialog = new HexViewerDialog(data);
-            hexViewerDialog.Text = $"Displaying {Formatters.FormatAsMemoryAddress(startAddress)} - {Formatters.FormatAsMemoryAddress(endAddress)} ({Formatters.FormatAsSizeString(memoryBlock.RegionSize)}, {memoryBlock.RegionSize} bytes)";
-
-            hexViewerDialog.Show();
+            return data;
         }
 
         private MiniDumpMemory64Stream _memory64Stream;
@@ -161,6 +194,5 @@ namespace MinidumpExplorer.Views
                 return _memory64Stream;
             }
         }
-
     }
 }
